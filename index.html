@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>모여봐요 우리의 숲 🌿</title>
+<title>모여봐요 폐급의!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모여봐요 폐급의 숲 🌿</title>
 
 <!--
   ✏️ 폰트 바꾸고 싶으면 아래 줄을 교체하세요
@@ -297,9 +302,9 @@ main{
 <body>
 
 <div id="loadingScreen">
-  <div class="loading-logo">🌿 모여봐요 우리의 숲</div>
+  <div class="loading-logo">🌿 모여봐요 폐급의 숲</div>
   <div class="loading-spinner"></div>
-  <div class="loading-text">숲을 불러오는 중...</div>
+  <div class="loading-text">여자 보는 중...</div>
 </div>
 
 <div id="notice-bar">
@@ -312,8 +317,8 @@ main{
   <div class="logo">
     <div class="logo-top">모여봐요</div>
     <div class="logo-blocks">
-      <div class="logo-block lb-pink">우</div>
-      <div class="logo-block lb-blue">리</div>
+      <div class="logo-block lb-pink">폐</div>
+      <div class="logo-block lb-blue">급</div>
       <div class="logo-block lb-yellow">의</div>
       <div class="logo-block lb-green">숲</div>
     </div>
@@ -336,18 +341,15 @@ main{
 <main>
   <div id="tab-gallery" class="tab-content active">
     <div class="sec-header">
-      <div class="sec-title">🌸 갤러리</div>
-      <div class="speech-bubble">사진을 올리고 댓글을 남겨봐요!</div>
+      <div class="sec-title">갤러리</div>
+      <div class="speech-bubble">스크린샷 업로드하는 곳</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addPhotoModal')" style="margin-left:auto">📷 사진 올리기</button>
-    </div>
-    <div id="fbBanner"><strong>⚠️ Firebase 연결 전입니다</strong>지금은 새로고침하면 데이터가 사라져요. Firebase 설정을 완료하면 친구들과 실시간 공유가 돼요!</div>
-    <div class="gallery-grid" id="galleryGrid"></div>
-  </div>
+   
 
   <div id="tab-player" class="tab-content">
     <div class="sec-header">
-      <div class="sec-title">🎵 플레이어</div>
-      <div class="speech-bubble">유튜브 영상을 공유해봐요!</div>
+      <div class="sec-title">플레이어</div>
+      <div class="speech-bubble">연락 상대 줄 디깅거리</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addVideoModal')" style="margin-left:auto">▶ 영상 추가</button>
     </div>
     <div class="video-list" id="videoList"></div>
@@ -355,8 +357,8 @@ main{
 
   <div id="tab-chat" class="tab-content">
     <div class="sec-header">
-      <div class="sec-title">🍃 대화방</div>
-      <div class="speech-bubble">친구들과 이야기해요!</div>
+      <div class="sec-title">대화방</div>
+      <div class="speech-bubble">꺼드럭 존</div>
     </div>
     <div class="chat-wrap">
       <div class="chat-top">
@@ -476,15 +478,16 @@ main{
   ⚠️ 지금은 샘플값 → 로컬 모드로 동작
      실제 값을 넣으면 바로 친구들과 실시간 공유 시작!
 ============================================================ */
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey:            "여기에_붙여넣기",
-  authDomain:        "여기에_붙여넣기",
-  projectId:         "여기에_붙여넣기",
-  storageBucket:     "여기에_붙여넣기",
-  messagingSenderId: "여기에_붙여넣기",
-  appId:             "여기에_붙여넣기",
+  apiKey: "AIzaSyAS2ELdjl2WbItetyJ7UEmUSUSSaJlVWQo",
+  authDomain: "saggingchild.firebaseapp.com",
+  projectId: "saggingchild",
+  storageBucket: "saggingchild.firebasestorage.app",
+  messagingSenderId: "840442981769",
+  appId: "1:840442981769:web:83e4f79e8be21a6dd28558",
+  measurementId: "G-8TMMCS6CHX"
 };
-
 /* ============================================================
   나머지 코드는 건드리지 않아도 돼요!
 ============================================================ */
