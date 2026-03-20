@@ -524,10 +524,10 @@ async function saveProfile(){
   profile.name = document.getElementById('profileName').value||'닉네임';
   profile.status = document.getElementById('profileStatusInput').value||'상태 메시지';
   saveProfileLocal();
-  // Firestore에 프로필 저장 (닉네임 기반 키)
   if(FB){
-    try{ await db.collection('profiles').doc(profile.name).set({name:profile.name,status:profile.status,pic:profile.pic||null}); }catch(e){}
+    try{ await db.collection('profiles').doc(profile.name).set({name:profile.name,status:profile.status,pic:profile.pic||null}); }catch(e){ console.warn('프로필 저장 실패:', e.message); }
   }
+  picCache[profile.name] = profile.pic||null;
   updateHeader();
   closeModal('profileModal');
   showToast('프로필이 저장됐어요 🐾');
@@ -734,10 +734,9 @@ async function deleteVideo(id){
 }
 
 // ── 채팅 ──────────────────────────────────────────────────
-async function appendMsg(m){
+function appendMsg(m, pic){
   const msgs=document.getElementById('chatMsgs');
   const mine=m.name===profile.name;
-  const pic=mine?profile.pic:(m.pic||await getPic(m.name));
   const av=pic?`<img src="${pic}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:'🐾';
   const d=document.createElement('div');
   d.className='msg'+(mine?' mine':'');
@@ -746,21 +745,40 @@ async function appendMsg(m){
   msgs.scrollTop=msgs.scrollHeight;
 }
 
+async function renderMsgs(msgs){
+  const el=document.getElementById('chatMsgs');
+  el.innerHTML='';
+  for(const m of msgs){
+    const mine=m.name===profile.name;
+    const pic=mine?profile.pic:(m.pic||await getPic(m.name));
+    appendMsg(m, pic);
+  }
+}
+
 function subscribeChat(){
-  if(!FB){ local.msgs.forEach(m=>appendMsg(m)); return; }
-  db.collection('messages').orderBy('ts','asc').onSnapshot(snap=>{
-    document.getElementById('chatMsgs').innerHTML='';
-    snap.docs.forEach(d=>appendMsg({id:d.id,...d.data()}));
+  if(!FB){
+    renderMsgs(local.msgs);
+    return;
+  }
+  db.collection('messages').orderBy('ts','asc').onSnapshot(async snap=>{
+    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    await renderMsgs(msgs);
   });
 }
 
 async function sendMsg(){
   const inp=document.getElementById('chatInput');
   const text=inp.value.trim(); if(!text) return;
-  const m={name:profile.name,text,pic:profile.pic||null,ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
-  if(FB) await db.collection('messages').add(m);
-  else{ local.msgs.push(m); appendMsg(m); }
   inp.value='';
+  // 사진은 용량 문제로 저장하지 않고 닉네임으로만 표시
+  const m={name:profile.name, text, pic:null, ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+  if(FB){
+    try{ await db.collection('messages').add(m); }
+    catch(e){ showToast('메시지 전송 실패 😢'); console.error(e); }
+  } else {
+    local.msgs.push(m);
+    appendMsg(m, profile.pic);
+  }
 }
 
 // ── BOOT ──────────────────────────────────────────────────
