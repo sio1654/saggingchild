@@ -106,10 +106,14 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .tag-badge{display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;padding:2px 9px;border-radius:20px;white-space:nowrap}
 .tag-free{background:#e8f5e9;color:#2e7d32;border:1.5px solid #5aad6b}
 .tag-notice{background:#e0f0ff;color:#1a4f8c;border:1.5px solid #5b9bd5}
-.tag-question{background:#f3e5f5;color:#6a1b9a;border:1.5px solid #9c4dcc}
-.tag-secret{background:#fce4ec;color:#880e4f;border:1.5px solid #e8637a}
-.tag-monologue{background:#e8f4fd;color:#1a4f8c;border:1.5px solid #5b9bd5}
+
+
+.tag-monologue{background:#eeeafd;color:#4527a0;border:1.5px solid #7c5cbf}
 .tag-compliment{background:#fce4f4;color:#7b1a5a;border:1.5px solid #d45a9c}
+.tag-party{background:#fff3e0;color:#7a4400;border:1.5px solid #f09020}
+.tag-suggestion{background:#fce4ec;color:#880e4f;border:1.5px solid #e8637a}
+.tag-party{background:#fff3e0;color:#7a4400;border:1.5px solid #f09020}
+.tag-suggestion{background:#fce4ec;color:#880e4f;border:1.5px solid #e8637a}
 .pin-badge{background:#fff0b3;color:#7a5500;border:1.5px solid #e8b800;font-family:var(--font-display);font-size:11px;padding:2px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:2px}
 
 /* 글쓰기 말머리 + 중요 */
@@ -382,12 +386,12 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     <div class="filter-row">
       <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
       <button class="filter-btn" onclick="setFilter('pin',this)">📌 중요</button>
-      <button class="filter-btn" onclick="setFilter('free',this)">📢 공지</button>
-      <button class="filter-btn" onclick="setFilter('notice',this)">🗨️ 자유</button>
+      <button class="filter-btn" onclick="setFilter('notice',this)">📢 공지</button>
+      <button class="filter-btn" onclick="setFilter('free',this)">🗨️ 자유</button>
       <button class="filter-btn" onclick="setFilter('monologue',this)">💭 독백</button>
       <button class="filter-btn" onclick="setFilter('compliment',this)">💗 댓글 미팅</button>
-      <button class="filter-btn" onclick="setFilter('question',this)">🚬 파티 구함</button>
-      <button class="filter-btn" onclick="setFilter('secret',this)">🔒 건의</button>
+      <button class="filter-btn" onclick="setFilter('party',this)">🚬 파티 구함</button>
+      <button class="filter-btn" onclick="setFilter('suggestion',this)">🔒 건의</button>
     </div>
     <div class="board-list" id="boardList"></div>
   </div>
@@ -468,12 +472,12 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     <div class="form-group">
       <label class="form-label">🏷️ 말머리</label>
       <div class="write-tag-row" id="writeTagRow">
-        <button class="tag-btn sel" data-tag="free" onclick="selectWriteTag(this)">📢 공지</button>
-        <button class="tag-btn" data-tag="notice" onclick="selectWriteTag(this)">🗨️ 자유</button>
+        <button class="tag-btn sel" data-tag="notice" onclick="selectWriteTag(this)">📢 공지</button>
+        <button class="tag-btn" data-tag="free" onclick="selectWriteTag(this)">🗨️ 자유</button>
         <button class="tag-btn" data-tag="monologue" onclick="selectWriteTag(this)">💭 독백</button>
         <button class="tag-btn" data-tag="compliment" onclick="selectWriteTag(this)">💗 댓글 미팅</button>
-        <button class="tag-btn" data-tag="question" onclick="selectWriteTag(this)">🚬 파티 구함</button>
-        <button class="tag-btn" data-tag="secret" onclick="selectWriteTag(this)">🔒 건의</button>
+        <button class="tag-btn" data-tag="party" onclick="selectWriteTag(this)">🚬 파티 구함</button>
+        <button class="tag-btn" data-tag="suggestion" onclick="selectWriteTag(this)">🔒 건의</button>
       </div>
       <label class="pin-toggle">
         <input type="checkbox" id="pinCheck">
@@ -612,12 +616,12 @@ function renderMentions(text){
 
 // 말머리 정의
 const TAG_MAP = {
-  free:       {label:'💬 자유',      cls:'tag-free'},
   notice:     {label:'📢 공지',      cls:'tag-notice'},
-  question:   {label:'❓ 질문',      cls:'tag-question'},
-  secret:     {label:'🔒 비밀',      cls:'tag-secret'},
-  monologue:  {label:'🫧 독백',      cls:'tag-monologue'},
-  compliment: {label:'💗 댓글 미담', cls:'tag-compliment'},
+  free:       {label:'🗨️ 자유',      cls:'tag-free'},
+  monologue:  {label:'💭 독백',      cls:'tag-monologue'},
+  compliment: {label:'💗 댓글 미팅', cls:'tag-compliment'},
+  party:      {label:'🚬 파티 구함', cls:'tag-party'},
+  suggestion: {label:'🔒 건의',      cls:'tag-suggestion'},
 };
 function tagBadge(tag){ const t=TAG_MAP[tag]||TAG_MAP.free; return `<span class="tag-badge ${t.cls}">${t.label}</span>`; }
 
@@ -681,8 +685,8 @@ function openModal(id){
     document.getElementById('postEditor').innerHTML='';
     document.getElementById('postTitle').value='';
     document.getElementById('pinCheck').checked=false;
-    selectedWriteTag='free';
-    document.querySelectorAll('#writeTagRow .tag-btn').forEach(b=>b.classList.toggle('sel',b.dataset.tag==='free'));
+    selectedWriteTag='notice';
+    document.querySelectorAll('#writeTagRow .tag-btn').forEach(b=>b.classList.toggle('sel',b.dataset.tag==='notice'));
   }
 }
 function closeModal(id){
@@ -751,7 +755,7 @@ async function saveNotice(){
 }
 
 // ── 게시판 ────────────────────────────────────────────────
-let selectedWriteTag='free';
+let selectedWriteTag='notice';
 function selectWriteTag(btn){
   selectedWriteTag=btn.dataset.tag;
   document.querySelectorAll('#writeTagRow .tag-btn').forEach(b=>b.classList.toggle('sel',b===btn));
