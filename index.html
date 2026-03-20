@@ -65,16 +65,20 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .ac-btn-white:active{transform:translateY(1px);box-shadow:0 1px 0 var(--cream3)}
 .ac-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);overflow:hidden;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all 0.2s}
 .ac-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 var(--cream3),0 12px 28px var(--shadow)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.gallery-card{cursor:pointer}
-.gallery-img{width:100%;aspect-ratio:4/3;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:50px;overflow:hidden;border-bottom:3px solid var(--cream3)}
-.gallery-img img{width:100%;height:100%;object-fit:cover}
-.gallery-card-body{padding:12px 14px}
-.gallery-author-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+/* ===== MEMO ===== */
+.memo-list{display:flex;flex-direction:column;gap:12px}
+.memo-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);padding:16px 18px;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all 0.2s;position:relative}
+.memo-card:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--cream3),0 10px 24px var(--shadow)}
+.memo-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.memo-avatar{background:var(--green-light);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.memo-author{font-family:var(--font-display);font-size:13px;color:var(--green-dark)}
+.memo-date{font-size:11px;color:var(--text3);margin-left:auto}
+.memo-title{font-family:var(--font-display);font-size:16px;color:var(--text);margin-bottom:6px}
+.memo-body{font-size:14px;color:var(--text2);line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.memo-foot{display:flex;justify-content:flex-end;margin-top:12px;padding-top:10px;border-top:2px dashed var(--cream3)}
+.memo-del-btn{background:none;border:none;color:var(--text3);font-size:12px;font-family:var(--font-display);cursor:pointer;padding:3px 8px;border-radius:8px;transition:all 0.15s}
+.memo-del-btn:hover{background:var(--red);color:white}
 .mini-leaf{background:var(--green-light);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
-.gallery-card-title{font-family:var(--font-display);font-size:15px;color:var(--text);margin-bottom:6px}
-.gallery-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed var(--cream3);padding-top:8px;margin-top:8px}
-.comment-badge{background:var(--cream);border:2px solid var(--cream3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--text2);font-family:var(--font-display);display:flex;align-items:center;gap:4px}
 .video-list{display:flex;flex-direction:column;gap:14px}
 .video-inner{display:flex}
 .video-thumb{width:180px;flex-shrink:0;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;position:relative;overflow:hidden;border-right:3px solid var(--cream3);min-height:110px}
@@ -219,21 +223,20 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 </header>
 
 <nav>
-  <button class="nav-btn active" onclick="switchTab('gallery',this)"><span>🖼️</span> 갤러리</button>
+  <button class="nav-btn active" onclick="switchTab('gallery',this)"><span>📝</span> 메모장</button>
   <button class="nav-btn" onclick="switchTab('player',this)"><span>🎵</span> 플레이어</button>
   <button class="nav-btn" onclick="switchTab('chat',this)"><span>🍃</span> 대화방</button>
 </nav>
 
 <main>
-  <!-- ===== 갤러리 ===== -->
+  <!-- ===== 메모장 ===== -->
   <div id="tab-gallery" class="tab-content active">
     <div class="sec-header">
-      <div class="sec-title">갤러리</div>
+      <div class="sec-title">📝 메모장</div>
       <div class="speech-bubble">친구끼리 착한 말만 하자</div>
-      <button class="ac-btn ac-btn-green" onclick="openModal('addPhotoModal')" style="margin-left:auto">📷 사진 올리기</button>
+      <button class="ac-btn ac-btn-green" onclick="openModal('addMemoModal')" style="margin-left:auto">✏️ 메모 쓰기</button>
     </div>
-    <div id="fbBanner"><strong>⚠️ Firebase 연결 전입니다</strong>지금은 새로고침하면 데이터가 사라져요.</div>
-    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="memo-list" id="memoList"></div>
   </div>
 
   <!-- ===== 플레이어 ===== -->
@@ -297,41 +300,18 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   </div>
 </div>
 
-<div class="modal-overlay" id="addPhotoModal">
+<div class="modal-overlay" id="addMemoModal">
   <div class="modal">
-    <div class="modal-header"><span class="modal-title">📷 사진 올리기</span><button class="modal-close" onclick="closeModal('addPhotoModal')">✕</button></div>
-    <div class="form-group">
-      <label class="form-label">🖼️ 사진 선택</label>
-      <input type="file" id="photoFileInput" accept="image/*" class="form-input" style="cursor:pointer" onchange="previewUpload(event)">
-      <div id="uploadPreview"><img id="uploadPreviewImg" alt=""></div>
-    </div>
-    <div class="form-group"><label class="form-label">✏️ 제목</label><input class="form-input" id="photoTitle" placeholder="제목을 입력하세요"></div>
-    <div class="form-group"><label class="form-label">💭 설명 (선택)</label><textarea class="form-textarea" id="photoDesc" placeholder="이 사진에 대해 설명해주세요..."></textarea></div>
+    <div class="modal-header"><span class="modal-title">✏️ 메모 쓰기</span><button class="modal-close" onclick="closeModal('addMemoModal')">✕</button></div>
+    <div class="form-group"><label class="form-label">🏷️ 제목</label><input class="form-input" id="memoTitle" placeholder="제목을 입력하세요"></div>
+    <div class="form-group"><label class="form-label">📝 내용</label><textarea class="form-textarea" id="memoBody" placeholder="내용을 입력하세요..." style="min-height:120px"></textarea></div>
     <div class="modal-actions">
-      <button class="ac-btn ac-btn-white" onclick="closeModal('addPhotoModal')">취소</button>
-      <button class="ac-btn ac-btn-green" onclick="addPhoto()">🌿 올리기</button>
+      <button class="ac-btn ac-btn-white" onclick="closeModal('addMemoModal')">취소</button>
+      <button class="ac-btn ac-btn-green" onclick="addMemo()">🌿 올리기</button>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="galleryDetailModal">
-  <div class="modal modal-lg">
-    <div class="modal-header"><span class="modal-title" id="detailTitle">제목</span><button class="modal-close" onclick="closeModal('galleryDetailModal')">✕</button></div>
-    <div class="detail-layout">
-      <div class="detail-img-box" id="detailImg"></div>
-      <div class="detail-side">
-        <div class="detail-author" id="detailAuthor"></div>
-        <div class="detail-desc" id="detailDesc"></div>
-        <div class="comments-label">💬 댓글</div>
-        <div class="comments-box" id="detailComments"></div>
-        <div class="cmt-input-row">
-          <input class="cmt-input" id="commentInput" placeholder="댓글을 남겨봐요...">
-          <button class="cmt-send-btn" onclick="addComment()">➤</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="modal-overlay" id="addVideoModal">
   <div class="modal">
@@ -372,30 +352,27 @@ const firebaseConfig = {
 };
 
 const EMOJIS = ['🌸','🍀','🦋','🌊','🌙','⭐','🍄','🐾','🌺','🎵','🌿','🍃'];
-let db, storage, FB = false;
+let db, FB = false;
 
 try {
   if (!firebaseConfig.apiKey.includes('여기에')) {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
-    storage = firebase.storage();
     FB = true;
     document.getElementById('chatStatus').textContent = '🟢 실시간';
   } else {
     throw new Error('설정 필요');
   }
 } catch(e) {
-  document.getElementById('fbBanner').style.display = 'block';
   document.getElementById('chatStatus').textContent = '🟡 로컬';
 }
 
 const local = {
-  photos:[],
+  memos:[],
   videos:[],
   msgs:[{name:'봄이',text:'안녕! 드디어 우리만의 숲이 생겼다 🎉',ts:new Date()}],
   notice:'🌿 공지사항을 등록해주세요!',
 };
-let currentPhotoId = null;
 let profile = JSON.parse(localStorage.getItem('acnh_profile')||'{"name":"닉네임","status":"상태 메시지","pic":null}');
 function saveProfileToLocal(){ localStorage.setItem('acnh_profile', JSON.stringify(profile)); }
 
@@ -459,101 +436,54 @@ async function saveNotice(){
   closeModal('noticeModal'); showToast('공지가 업데이트됐어요 📌');
 }
 
-function renderGallery(photos){
-  const g=document.getElementById('galleryGrid');
-  if(!photos.length){ g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-emoji">📷</div><div class="empty-text">아직 사진이 없어요!<br>첫 번째 사진을 올려봐요 🌿</div></div>`; return; }
-  g.innerHTML=photos.map(p=>`
-    <div class="ac-card gallery-card" onclick="openDetail('${p.id}')">
-      <div class="gallery-img">${p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:52px">${p.emoji||'🖼️'}</span>`}</div>
-      <div class="gallery-card-body">
-        <div class="gallery-author-row">
-          <div class="mini-leaf">${p.emoji||'🌿'}</div>
-          <span style="font-size:12px;color:var(--text3);font-family:var(--font-display)">${esc(p.author)}</span>
-        </div>
-        <div class="gallery-card-title">${esc(p.title)}</div>
-        <div class="gallery-card-foot">
-          <span style="font-size:11px;color:var(--text3)">${fmtDate(p.ts)}</span>
-          <span class="comment-badge">💬 ${(p.comments||[]).length}</span>
-        </div>
+
+// ── MEMO ─────────────────────────────────────────────────
+function renderMemos(memos){
+  const el=document.getElementById('memoList');
+  if(!memos.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-emoji">📝</div><div class="empty-text">아직 메모가 없어요!<br>첫 메모를 남겨봐요 🌿</div></div>`;
+    return;
+  }
+  el.innerHTML=memos.map(m=>`
+    <div class="memo-card">
+      <div class="memo-header">
+        <div class="memo-avatar">🐾</div>
+        <span class="memo-author">${esc(m.author)}</span>
+        <span class="memo-date">${fmtDate(m.ts)}</span>
+      </div>
+      <div class="memo-title">${esc(m.title)}</div>
+      <div class="memo-body">${esc(m.body)}</div>
+      <div class="memo-foot">
+        <button class="memo-del-btn" onclick="deleteMemo('${m.id}')">🗑 삭제</button>
       </div>
     </div>`).join('');
 }
 
-function subscribeGallery(){
-  if(!FB){ renderGallery(local.photos); return; }
-  db.collection('photos').orderBy('ts','desc').onSnapshot(snap=>{
-    renderGallery(snap.docs.map(d=>({id:d.id,...d.data()})));
+function subscribeMemos(){
+  if(!FB){ renderMemos(local.memos); return; }
+  db.collection('memos').orderBy('ts','desc').onSnapshot(snap=>{
+    renderMemos(snap.docs.map(d=>({id:d.id,...d.data()})));
   });
 }
 
-function previewUpload(e){
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader(); r.onload=ev=>{ document.getElementById('uploadPreview').style.display='block'; document.getElementById('uploadPreviewImg').src=ev.target.result; }; r.readAsDataURL(f);
+async function addMemo(){
+  const title=document.getElementById('memoTitle').value.trim();
+  const body=document.getElementById('memoBody').value.trim();
+  if(!title&&!body){ showToast('내용을 입력해주세요!'); return; }
+  const data={title:title||'(제목 없음)',body,author:profile.name,ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+  if(FB) await db.collection('memos').add(data);
+  else{ local.memos.unshift({id:'m'+Date.now(),...data}); renderMemos(local.memos); }
+  closeModal('addMemoModal');
+  document.getElementById('memoTitle').value='';
+  document.getElementById('memoBody').value='';
+  showToast('메모가 올라갔어요 📝');
 }
 
-async function addPhoto(){
-  const title=document.getElementById('photoTitle').value.trim();
-  if(!title){ showToast('제목을 입력해주세요!'); return; }
-  const fi=document.getElementById('photoFileInput');
-  const desc=document.getElementById('photoDesc').value.trim();
-  const emoji=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-  const doAdd=async(imgUrl)=>{
-    const data={title,desc,author:profile.name,emoji,imgUrl:imgUrl||null,comments:[],ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
-    if(FB) await db.collection('photos').add(data);
-    else{ local.photos.unshift({id:'p'+Date.now(),...data}); renderGallery(local.photos); }
-    closeModal('addPhotoModal');
-    ['photoTitle','photoDesc'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('photoFileInput').value='';
-    document.getElementById('uploadPreview').style.display='none';
-    showToast('사진이 올라갔어요 🌸');
-  };
-  if(fi.files[0] && FB){
-    showToast('사진 업로드 중... 🌿');
-    const sRef=storage.ref(`photos/${Date.now()}_${fi.files[0].name}`);
-    await sRef.put(fi.files[0]);
-    await doAdd(await sRef.getDownloadURL());
-  } else if(fi.files[0]){
-    const r=new FileReader(); r.onload=ev=>doAdd(ev.target.result); r.readAsDataURL(fi.files[0]);
-  } else await doAdd(null);
+async function deleteMemo(id){
+  if(FB) await db.collection('memos').doc(id).delete();
+  else{ local.memos=local.memos.filter(x=>x.id!==id); renderMemos(local.memos); }
+  showToast('메모가 삭제됐어요');
 }
-
-async function openDetail(id){
-  currentPhotoId=id;
-  let p;
-  if(FB){ const s=await db.collection('photos').doc(id).get(); p={id:s.id,...s.data()}; }
-  else p=local.photos.find(x=>x.id===id);
-  document.getElementById('detailTitle').textContent = p.title;
-  document.getElementById('detailAuthor').textContent = `${p.emoji||'🌿'} ${p.author} · ${fmtDate(p.ts)}`;
-  document.getElementById('detailDesc').textContent = p.desc||'';
-  document.getElementById('detailImg').innerHTML = p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:80px">${p.emoji||'🖼️'}</span>`;
-  renderComments(p.comments||[]);
-  openModal('galleryDetailModal');
-}
-
-function renderComments(cmts){
-  const el=document.getElementById('detailComments');
-  if(!cmts.length){ el.innerHTML=`<div style="font-size:13px;color:var(--text3);padding:8px">첫 댓글을 남겨봐요!</div>`; return; }
-  el.innerHTML=cmts.map(c=>`<div class="cmt-item"><div class="mini-leaf" style="width:26px;height:26px;font-size:12px;align-self:flex-start;margin-top:3px">😊</div><div class="cmt-bubble"><div class="cmt-name">${esc(c.name)}</div><div class="cmt-text">${esc(c.text)}</div></div></div>`).join('');
-  el.scrollTop=el.scrollHeight;
-}
-
-async function addComment(){
-  const inp=document.getElementById('commentInput');
-  const text=inp.value.trim(); if(!text) return;
-  const cmt={name:profile.name,text};
-  if(FB){
-    const ref=db.collection('photos').doc(currentPhotoId);
-    const snap=await ref.get();
-    const old=snap.data().comments||[];
-    await ref.update({comments:[...old,cmt]});
-    renderComments([...old,cmt]);
-  } else {
-    const p=local.photos.find(x=>x.id===currentPhotoId);
-    p.comments.push(cmt); renderComments(p.comments); renderGallery(local.photos);
-  }
-  inp.value='';
-}
-document.getElementById('commentInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addComment(); });
 
 function extractVid(url){ const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
 
@@ -644,7 +574,7 @@ async function sendMsg(){
 async function boot(){
   updateHeader();
   await loadNotice();
-  subscribeGallery();
+  subscribeMemos();
   subscribeVideos();
   subscribeChat();
   document.getElementById('loadingScreen').style.display='none';
