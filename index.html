@@ -11,7 +11,6 @@
   --brown:#8b5e3c;--brown-dark:#5c3d1e;
   --green:#5aad6b;--green-dark:#3d8c52;--green-light:#8ed4a0;
   --pink:#e8637a;--blue:#5b9bd5;--yellow:#f5c842;--red:#e05555;
-  --orange:#f09020;
   --text:#5c3d1e;--text2:#8b6b4a;--text3:#b8956a;
   --shadow:rgba(92,61,30,0.15);
   --font-display:'Jua',sans-serif;--font-body:'Noto Sans KR',sans-serif;
@@ -21,32 +20,40 @@
 body{font-family:var(--font-body);background:var(--cream);color:var(--text);min-height:100vh;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%235aad6b' fill-opacity='0.06'%3E%3Cellipse cx='20' cy='15' rx='10' ry='13' transform='rotate(-20,20,15)'/%3E%3Cellipse cx='60' cy='45' rx='9' ry='12' transform='rotate(15,60,45)'/%3E%3Cellipse cx='10' cy='60' rx='7' ry='10' transform='rotate(-10,10,60)'/%3E%3Cellipse cx='70' cy='10' rx='8' ry='11' transform='rotate(25,70,10)'/%3E%3Cellipse cx='40' cy='70' rx='9' ry='12' transform='rotate(-15,40,70)'/%3E%3C/g%3E%3C/svg%3E")}
 
-/* LOADING */
 #loadingScreen{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:16px}
 .loading-logo{font-family:var(--font-display);font-size:26px;color:var(--green-dark)}
-.loading-spinner{width:40px;height:40px;border:4px solid var(--cream3);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+.loading-spinner{width:40px;height:40px;border:4px solid var(--cream3);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-family:var(--font-display);font-size:14px;color:var(--text3)}
 
-/* NOTICE */
 #notice-bar{background:var(--brown);padding:10px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 3px 0 var(--brown-dark)}
 .notice-pill{background:var(--yellow);color:var(--brown-dark);font-family:var(--font-display);font-size:12px;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
 #notice-text{font-family:var(--font-display);font-size:13px;color:#f5f0e8;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.notice-edit-btn{background:rgba(255,255,255,0.2);border:none;color:#f5f0e8;padding:4px 12px;border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:12px;white-space:nowrap;transition:all 0.2s}
-.notice-edit-btn:hover{background:rgba(255,255,255,0.35)}
+.notice-edit-btn{background:rgba(255,255,255,.2);border:none;color:#f5f0e8;padding:4px 12px;border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:12px;white-space:nowrap;transition:all .2s}
+.notice-edit-btn:hover{background:rgba(255,255,255,.35)}
 
-/* HEADER */
 header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{display:flex;flex-direction:column;align-items:flex-start}
 .logo-top{font-family:var(--font-display);font-size:14px;color:var(--green-dark);letter-spacing:2px;margin-bottom:4px}
 .logo-blocks{display:flex;gap:4px}
-.logo-block{font-family:var(--font-display);font-size:26px;padding:4px 10px;border-radius:10px;color:white;text-shadow:0 2px 0 rgba(0,0,0,0.2);line-height:1}
-.lb-pink{background:var(--pink);box-shadow:0 4px 0 #b8445e,inset 0 1px 0 rgba(255,255,255,0.3)}
-.lb-blue{background:var(--blue);box-shadow:0 4px 0 #3a72aa,inset 0 1px 0 rgba(255,255,255,0.3)}
-.lb-yellow{background:var(--yellow);color:var(--brown-dark);box-shadow:0 4px 0 #c9a020,inset 0 1px 0 rgba(255,255,255,0.3)}
-.lb-green{background:var(--green-dark);box-shadow:0 4px 0 #2a6038,inset 0 1px 0 rgba(255,255,255,0.3);position:relative}
+.logo-block{font-family:var(--font-display);font-size:26px;padding:4px 10px;border-radius:10px;color:white;text-shadow:0 2px 0 rgba(0,0,0,.2);line-height:1}
+.lb-pink{background:var(--pink);box-shadow:0 4px 0 #b8445e,inset 0 1px 0 rgba(255,255,255,.3)}
+.lb-blue{background:var(--blue);box-shadow:0 4px 0 #3a72aa,inset 0 1px 0 rgba(255,255,255,.3)}
+.lb-yellow{background:var(--yellow);color:var(--brown-dark);box-shadow:0 4px 0 #c9a020,inset 0 1px 0 rgba(255,255,255,.3)}
+.lb-green{background:var(--green-dark);box-shadow:0 4px 0 #2a6038,inset 0 1px 0 rgba(255,255,255,.3);position:relative}
 .lb-green::before{content:'🌴';position:absolute;top:-14px;right:-2px;font-size:16px}
-.profile-btn{display:flex;align-items:center;gap:10px;background:white;border:3px solid var(--cream3);border-radius:40px;padding:6px 16px 6px 6px;cursor:pointer;box-shadow:0 4px 0 var(--cream3),0 6px 12px var(--shadow);transition:all 0.15s;font-family:inherit}
+
+/* 헤더 오른쪽 버튼들 */
+.header-right{display:flex;align-items:center;gap:8px}
+.icon-btn{position:relative;background:white;border:3px solid var(--cream3);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 var(--cream3);transition:all .15s;font-size:18px;flex-shrink:0}
+.icon-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--cream3)}
+.icon-btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--cream3)}
+.notif-dot{position:absolute;top:-2px;right:-2px;background:var(--red);border-radius:50%;width:10px;height:10px;border:2px solid var(--cream);display:none}
+.notif-dot.on{display:block}
+.notif-count{position:absolute;top:-6px;right:-6px;background:var(--red);color:white;border-radius:20px;min-width:18px;height:18px;font-size:10px;font-family:var(--font-display);display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--cream)}
+.notif-count.on{display:flex}
+
+.profile-btn{display:flex;align-items:center;gap:10px;background:white;border:3px solid var(--cream3);border-radius:40px;padding:6px 16px 6px 6px;cursor:pointer;box-shadow:0 4px 0 var(--cream3),0 6px 12px var(--shadow);transition:all .15s;font-family:inherit}
 .profile-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--cream3)}
 .profile-btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--cream3)}
 .p-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3)}
@@ -54,64 +61,91 @@ header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space
 .p-name{font-family:var(--font-display);font-size:14px;color:var(--text);text-align:left}
 .p-status{font-size:11px;color:var(--text3);text-align:left}
 
-/* NAV */
 nav{display:flex;gap:8px;padding:16px 20px 0;overflow-x:auto}
-.nav-btn{background:white;border:3px solid var(--cream3);color:var(--text2);padding:10px 20px;border-radius:16px 16px 0 0;cursor:pointer;font-family:var(--font-display);font-size:14px;display:flex;align-items:center;gap:6px;transition:all 0.15s;box-shadow:0 -2px 0 var(--cream3);white-space:nowrap;border-bottom-color:var(--cream2)}
+.nav-btn{background:white;border:3px solid var(--cream3);color:var(--text2);padding:10px 20px;border-radius:16px 16px 0 0;cursor:pointer;font-family:var(--font-display);font-size:14px;display:flex;align-items:center;gap:6px;transition:all .15s;box-shadow:0 -2px 0 var(--cream3);white-space:nowrap;border-bottom-color:var(--cream2)}
 .nav-btn:hover{color:var(--brown);background:var(--cream2)}
 .nav-btn.active{background:var(--cream2);color:var(--green-dark);border-color:var(--cream3);border-bottom-color:var(--cream2);font-size:15px}
 
-/* MAIN */
 main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh;padding:20px;max-width:1100px;margin:0 auto}
 .tab-content{display:none}
-.tab-content.active{display:block;animation:fadeUp 0.25s ease}
+.tab-content.active{display:block;animation:fadeUp .25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .sec-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .sec-title{font-family:var(--font-display);font-size:20px;color:var(--brown-dark)}
 .speech-bubble{background:white;border:2px solid var(--cream3);border-radius:16px;padding:8px 16px;font-size:13px;color:var(--text2);box-shadow:0 3px 0 var(--cream3);font-family:var(--font-display)}
 
-/* BUTTONS */
-.ac-btn{font-family:var(--font-display);font-size:14px;border:none;padding:10px 20px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;white-space:nowrap}
+.ac-btn{font-family:var(--font-display);font-size:14px;border:none;padding:10px 20px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
 .ac-btn-green{background:var(--green);color:white;box-shadow:0 4px 0 var(--green-dark)}
 .ac-btn-green:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
 .ac-btn-green:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
 .ac-btn-white{background:white;color:var(--text);border:2px solid var(--cream3);box-shadow:0 3px 0 var(--cream3)}
 .ac-btn-white:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--cream3)}
+.ac-btn-red{background:var(--red);color:white;box-shadow:0 4px 0 #b83333}
+.ac-btn-red:hover{transform:translateY(-2px);box-shadow:0 6px 0 #b83333}
+.ac-btn-red:active{transform:translateY(2px);box-shadow:0 2px 0 #b83333}
+
+/* ===== 알림 드롭다운 ===== */
+.notif-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:300px;background:var(--cream);border:3px solid var(--cream3);border-radius:16px;box-shadow:0 8px 0 var(--cream3),0 12px 30px var(--shadow);z-index:300;display:none}
+.notif-dropdown.open{display:block}
+.notif-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:2px solid var(--cream3)}
+.notif-head-title{font-family:var(--font-display);font-size:14px;color:var(--brown-dark)}
+.notif-clear{background:none;border:none;font-size:11px;font-family:var(--font-display);color:var(--text3);cursor:pointer}
+.notif-clear:hover{color:var(--red)}
+.notif-list{max-height:280px;overflow-y:auto;padding:6px 0}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--cream3)}
+.notif-item:hover{background:var(--cream2)}
+.notif-item:last-child{border-bottom:none}
+.notif-item.unread{background:#fffbec}
+.notif-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.notif-text{font-size:13px;color:var(--text2);line-height:1.5;flex:1}
+.notif-text strong{color:var(--text);font-family:var(--font-display);font-size:13px}
+.notif-time{font-size:10px;color:var(--text3);white-space:nowrap}
+.notif-empty{padding:24px;text-align:center;font-family:var(--font-display);font-size:13px;color:var(--text3)}
 
 /* ===== 말머리 뱃지 ===== */
-.tag-badge{display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;padding:2px 9px;border-radius:20px;white-space:nowrap;font-weight:500}
-.tag-important{background:#fff0b3;color:#7a5500;border:1.5px solid #e8b800}
-.tag-notice{background:#e0f0ff;color:#1a4f8c;border:1.5px solid #5b9bd5}
+.tag-badge{display:inline-flex;align-items:center;font-family:var(--font-display);font-size:11px;padding:2px 9px;border-radius:20px;white-space:nowrap}
 .tag-free{background:#e8f5e9;color:#2e7d32;border:1.5px solid #5aad6b}
-.tag-secret{background:#fce4ec;color:#880e4f;border:1.5px solid #e8637a}
+.tag-notice{background:#e0f0ff;color:#1a4f8c;border:1.5px solid #5b9bd5}
 .tag-question{background:#f3e5f5;color:#6a1b9a;border:1.5px solid #9c4dcc}
+.tag-secret{background:#fce4ec;color:#880e4f;border:1.5px solid #e8637a}
+.pin-badge{background:#fff0b3;color:#7a5500;border:1.5px solid #e8b800;font-family:var(--font-display);font-size:11px;padding:2px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:2px}
 
-/* ===== 필터 탭 ===== */
+/* 글쓰기 말머리 + 중요 */
+.write-tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.tag-btn{background:var(--cream);border:2px solid var(--cream3);border-radius:10px;padding:5px 13px;font-size:13px;font-family:var(--font-display);cursor:pointer;color:var(--text2);transition:all .15s}
+.tag-btn:hover{border-color:var(--green);color:var(--green-dark)}
+.tag-btn.sel{background:var(--green);color:white;border-color:var(--green-dark)}
+.pin-toggle{display:flex;align-items:center;gap:8px;margin-top:8px;cursor:pointer;user-select:none}
+.pin-toggle input{width:16px;height:16px;accent-color:var(--yellow);cursor:pointer}
+.pin-toggle-label{font-family:var(--font-display);font-size:13px;color:var(--text2)}
+
+/* 필터 */
 .filter-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.filter-btn{background:white;border:2px solid var(--cream3);border-radius:20px;padding:5px 14px;font-size:12px;font-family:var(--font-display);cursor:pointer;color:var(--text2);transition:all 0.15s}
+.filter-btn{background:white;border:2px solid var(--cream3);border-radius:20px;padding:5px 14px;font-size:12px;font-family:var(--font-display);cursor:pointer;color:var(--text2);transition:all .15s}
 .filter-btn:hover{border-color:var(--green);color:var(--green-dark)}
 .filter-btn.active{background:var(--green);color:white;border-color:var(--green-dark)}
 
 /* ===== BOARD ===== */
 .board-list{display:flex;flex-direction:column;gap:14px}
-.board-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);padding:18px 20px;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all 0.2s}
+.board-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);padding:18px 20px;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all .2s}
 .board-card.pinned{border-color:var(--yellow);box-shadow:0 5px 0 #c9a020,0 8px 20px var(--shadow)}
-.board-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.board-header{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .board-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:13px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3)}
 .board-author{font-family:var(--font-display);font-size:13px;color:var(--green-dark)}
 .board-date{font-size:11px;color:var(--text3);margin-left:auto}
 .board-title{font-family:var(--font-display);font-size:17px;color:var(--text);margin-bottom:8px}
 .board-body{font-size:14px;line-height:1.8;word-break:break-word;margin-bottom:12px}
 .board-foot{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:2px dashed var(--cream3);flex-wrap:wrap}
-.foot-btn{background:none;border:2px solid var(--cream3);color:var(--text2);font-size:12px;font-family:var(--font-display);cursor:pointer;padding:4px 12px;border-radius:10px;transition:all 0.15s}
+.foot-btn{background:none;border:2px solid var(--cream3);color:var(--text2);font-size:12px;font-family:var(--font-display);cursor:pointer;padding:4px 12px;border-radius:10px;transition:all .15s}
 .foot-btn:hover{border-color:var(--green);color:var(--green-dark)}
 .foot-btn.danger:hover{border-color:var(--red);color:var(--red)}
 .ml-auto{margin-left:auto}
 
-/* 게시글 수정 인라인 */
+/* 게시글 수정 */
 .edit-zone{display:none;margin-bottom:10px}
 .edit-zone.open{display:block}
 .edit-toolbar{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;align-items:center}
-.tb-btn{background:white;border:1.5px solid var(--cream3);border-radius:6px;padding:4px 9px;cursor:pointer;font-size:13px;color:var(--text);font-family:inherit;min-width:30px;text-align:center;transition:all 0.15s}
+.tb-btn{background:white;border:1.5px solid var(--cream3);border-radius:6px;padding:4px 9px;cursor:pointer;font-size:13px;color:var(--text);font-family:inherit;min-width:30px;text-align:center;transition:all .15s}
 .tb-btn:hover{border-color:var(--green);color:var(--green-dark)}
 .tb-sep{width:1px;height:20px;background:var(--cream3);flex-shrink:0}
 .tb-select{background:white;border:1.5px solid var(--cream3);border-radius:6px;padding:4px 6px;font-size:12px;font-family:var(--font-display);color:var(--text);cursor:pointer;outline:none}
@@ -119,7 +153,7 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .edit-area{width:100%;background:var(--cream);border:2px solid var(--green);border-radius:10px;padding:10px 14px;min-height:80px;font-size:14px;font-family:var(--font-body);line-height:1.8;outline:none;word-break:break-word}
 .edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
 
-/* ===== 댓글 ===== */
+/* 댓글 */
 .comment-section{margin-top:12px;border-top:2px solid var(--cream3);padding-top:12px;display:none}
 .comment-section.open{display:block}
 .cmt-item{display:flex;gap:8px;margin-bottom:10px}
@@ -129,28 +163,22 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .cmt-text{font-size:13px;color:var(--text2);word-break:break-word;line-height:1.5}
 .mention{color:var(--blue);font-weight:700}
 .cmt-input-row{display:flex;gap:6px;margin-top:10px;position:relative}
-.cmt-input{flex:1;background:white;border:2px solid var(--cream3);border-radius:14px;padding:8px 14px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color 0.2s}
+.cmt-input{flex:1;background:white;border:2px solid var(--cream3);border-radius:14px;padding:8px 14px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s}
 .cmt-input:focus{border-color:var(--green)}
-.cmt-send-btn{background:var(--green);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 var(--green-dark);flex-shrink:0;transition:all 0.15s}
+.cmt-send-btn{background:var(--green);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 var(--green-dark);flex-shrink:0;transition:all .15s}
 .cmt-send-btn:hover{transform:translateY(-1px)}
 
-/* 태그 서제스트 팝업 */
+/* @태그 서제스트 */
 .suggest-box{position:absolute;bottom:calc(100% + 4px);left:0;background:white;border:2px solid var(--green);border-radius:12px;padding:4px 0;min-width:140px;z-index:99;box-shadow:0 4px 14px var(--shadow);display:none}
 .suggest-box.open{display:block}
-.suggest-item{padding:7px 14px;font-size:13px;font-family:var(--font-display);color:var(--green-dark);cursor:pointer;transition:background 0.1s}
-.suggest-item:hover,.suggest-item.hl{background:var(--cream)}
+.suggest-item{padding:7px 14px;font-size:13px;font-family:var(--font-display);color:var(--green-dark);cursor:pointer}
+.suggest-item:hover{background:var(--cream)}
 
-/* ===== 글쓰기 에디터 ===== */
+/* 글쓰기 에디터 */
 .editor-toolbar{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--cream);border:2px solid var(--cream3);border-radius:10px 10px 0 0;border-bottom:none;flex-wrap:wrap}
 .editor-area{border:2px solid var(--cream3);border-radius:0 0 10px 10px;padding:12px 14px;min-height:120px;background:white;outline:none;font-size:14px;font-family:var(--font-body);line-height:1.8;color:var(--text);word-break:break-word}
 .editor-area:focus{border-color:var(--green)}
 .editor-area:empty::before{content:attr(data-placeholder);color:var(--text3);pointer-events:none}
-
-/* 카테고리 */
-.cat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-.cat-btn{background:var(--cream);border:2px solid var(--cream3);border-radius:10px;padding:5px 13px;font-size:13px;font-family:var(--font-display);cursor:pointer;color:var(--text2);transition:all 0.15s}
-.cat-btn:hover{border-color:var(--green);color:var(--green-dark)}
-.cat-btn.sel{background:var(--green);color:white;border-color:var(--green-dark)}
 
 /* ===== PLAYER ===== */
 .video-list{display:flex;flex-direction:column;gap:14px}
@@ -158,20 +186,21 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .video-inner{display:flex}
 .video-thumb{width:180px;flex-shrink:0;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;position:relative;overflow:hidden;border-right:3px solid var(--cream3);min-height:110px}
 .video-thumb img{width:100%;height:100%;object-fit:cover}
-.play-btn-overlay{position:absolute;inset:0;background:rgba(92,61,30,0.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s}
-.play-btn-overlay span{background:white;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
+.play-btn-overlay{position:absolute;inset:0;background:rgba(92,61,30,.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.play-btn-overlay span{background:white;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
 .video-thumb:hover .play-btn-overlay,.video-thumb:active .play-btn-overlay{opacity:1}
 .video-info{padding:14px 16px;flex:1;min-width:0}
 .video-title-t{font-family:var(--font-display);font-size:16px;color:var(--text);margin-bottom:6px;word-break:break-word}
 .video-meta{font-size:12px;color:var(--text3);display:flex;gap:10px;margin-bottom:6px;flex-wrap:wrap}
 .video-desc-t{font-size:13px;color:var(--text2);line-height:1.5}
 .video-actions-col{padding:14px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-left:3px solid var(--cream3);flex-shrink:0}
-/* 영상 댓글 영역 */
 .video-cmts{border-top:2px dashed var(--cream3);padding:12px 16px}
-.vcmt-label{font-family:var(--font-display);font-size:12px;color:var(--text3);margin-bottom:8px}
-.vcmt-toggle{background:none;border:2px solid var(--cream3);color:var(--text2);font-size:12px;font-family:var(--font-display);cursor:pointer;padding:3px 12px;border-radius:10px;transition:all 0.15s}
+.vcmt-label{font-family:var(--font-display);font-size:12px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.vcmt-toggle{background:none;border:2px solid var(--cream3);color:var(--text2);font-size:11px;font-family:var(--font-display);cursor:pointer;padding:2px 10px;border-radius:10px;transition:all .15s}
 .vcmt-toggle:hover{border-color:var(--green);color:var(--green-dark)}
-.vcmt-list{margin-bottom:10px;display:flex;flex-direction:column;gap:8px}
+.vcmt-body{display:none;margin-top:8px}
+.vcmt-body.open{display:block}
+.vcmt-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .vcmt-input-row{display:flex;gap:6px;position:relative}
 .vcmt-input{flex:1;background:var(--cream);border:2px solid var(--cream3);border-radius:14px;padding:7px 13px;font-size:13px;font-family:inherit;color:var(--text);outline:none}
 .vcmt-input:focus{border-color:var(--green)}
@@ -182,8 +211,8 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .chat-top{background:var(--green);padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--green-dark)}
 .chat-top-title{font-family:var(--font-display);font-size:16px;color:white}
 .chat-online{background:var(--yellow);color:var(--brown-dark);font-family:var(--font-display);font-size:11px;padding:2px 10px;border-radius:20px;margin-left:auto}
-.chat-clear-btn{background:rgba(255,255,255,0.2);border:none;color:white;font-family:var(--font-display);font-size:11px;padding:3px 10px;border-radius:10px;cursor:pointer;transition:background 0.2s}
-.chat-clear-btn:hover{background:rgba(232,99,122,0.7)}
+.chat-clear-btn{background:rgba(255,255,255,.2);border:none;color:white;font-family:var(--font-display);font-size:11px;padding:3px 10px;border-radius:10px;cursor:pointer;transition:background .2s}
+.chat-clear-btn:hover{background:rgba(232,99,122,.7)}
 .chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--cream)}
 .chat-msgs::-webkit-scrollbar{width:5px}
 .chat-msgs::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:3px}
@@ -195,31 +224,30 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .mine .msg-name{text-align:right}
 .msg-bubble{background:white;border:2px solid var(--cream3);padding:10px 14px;border-radius:18px 18px 18px 4px;font-size:14px;line-height:1.5;color:var(--text);box-shadow:0 3px 0 var(--cream3);word-break:break-word}
 .mine .msg-bubble{background:var(--green);border-color:var(--green-dark);color:white;box-shadow:0 3px 0 var(--green-dark);border-radius:18px 18px 4px 18px}
-.mention{color:var(--blue);font-weight:700}
 .mine .msg-bubble .mention{color:#c8f0ff}
 .msg-time{font-size:10px;color:var(--text3);margin-top:4px}
 .mine .msg-time{text-align:right}
 .chat-input-row{padding:12px 14px;background:white;border-top:3px solid var(--cream3);display:flex;gap:8px;align-items:flex-end;position:relative}
-.chat-input{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:16px;padding:9px 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;transition:border-color 0.2s}
+.chat-input{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:16px;padding:9px 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;transition:border-color .2s}
 .chat-input:focus{border-color:var(--green)}
 .chat-input::placeholder{color:var(--text3)}
-.send-btn{background:var(--green);border:none;border-radius:14px;padding:10px 16px;color:white;font-family:var(--font-display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);transition:all 0.15s;flex-shrink:0}
+.send-btn{background:var(--green);border:none;border-radius:14px;padding:10px 16px;color:white;font-family:var(--font-display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);transition:all .15s;flex-shrink:0}
 .send-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
 .send-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
 
 /* ===== MODALS ===== */
-.modal-overlay{position:fixed;inset:0;background:rgba(92,61,30,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.modal-overlay{position:fixed;inset:0;background:rgba(92,61,30,.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:500px;box-shadow:0 8px 0 var(--cream3),0 16px 40px rgba(92,61,30,0.25);animation:popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);margin:auto}
+.modal{background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:500px;box-shadow:0 8px 0 var(--cream3),0 16px 40px rgba(92,61,30,.25);animation:popIn .25s cubic-bezier(.34,1.56,.64,1);margin:auto}
 .modal-lg{max-width:640px}
-@keyframes popIn{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+@keyframes popIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
 .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .modal-title{font-family:var(--font-display);font-size:18px;color:var(--brown-dark);display:flex;align-items:center;gap:8px}
 .modal-close{background:var(--cream2);border:2px solid var(--cream3);color:var(--text2);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--cream3)}
 .modal-close:hover{background:var(--pink);color:white;border-color:#b8445e}
 .form-group{margin-bottom:13px}
 .form-label{font-family:var(--font-display);font-size:13px;color:var(--brown);margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.form-input,.form-textarea{width:100%;background:white;border:3px solid var(--cream3);border-radius:12px;padding:9px 13px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color 0.2s}
+.form-input,.form-textarea{width:100%;background:white;border:3px solid var(--cream3);border-radius:12px;padding:9px 13px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s}
 .form-input:focus,.form-textarea:focus{border-color:var(--green)}
 .form-textarea{resize:vertical;min-height:70px}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
@@ -229,15 +257,31 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .profile-pic-big{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:38px;border:4px solid white;box-shadow:0 4px 0 var(--cream3),0 8px 20px var(--shadow);overflow:hidden}
 .profile-pic-big img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .pic-btn-row{display:flex;gap:8px}
-.pic-upload-label{background:white;border:2px dashed var(--green);color:var(--green-dark);padding:5px 14px;border-radius:16px;cursor:pointer;font-family:var(--font-display);font-size:12px;transition:all 0.2s}
+.pic-upload-label{background:white;border:2px dashed var(--green);color:var(--green-dark);padding:5px 14px;border-radius:16px;cursor:pointer;font-family:var(--font-display);font-size:12px;transition:all .2s}
 .pic-upload-label:hover{background:var(--green);color:white;border-style:solid}
 .pic-del-btn{background:white;border:2px solid var(--cream3);color:var(--red);padding:5px 14px;border-radius:16px;cursor:pointer;font-family:var(--font-display);font-size:12px}
 .pic-del-btn:hover{background:var(--red);color:white;border-color:var(--red)}
 
+/* 관리자 */
+.admin-section{margin-bottom:16px}
+.admin-section-title{font-family:var(--font-display);font-size:13px;color:var(--text3);margin-bottom:8px;padding-bottom:6px;border-bottom:2px dashed var(--cream3)}
+.member-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--cream3)}
+.member-row:last-child{border-bottom:none}
+.member-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3)}
+.member-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.member-info{flex:1;min-width:0}
+.member-name{font-family:var(--font-display);font-size:14px;color:var(--text)}
+.member-status{font-size:11px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member-del-btn{background:none;border:2px solid var(--cream3);color:var(--text3);font-size:11px;font-family:var(--font-display);padding:3px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.member-del-btn:hover{border-color:var(--red);color:var(--red)}
+.admin-pw-form{display:flex;gap:8px;margin-bottom:16px}
+.admin-pw-input{flex:1;background:white;border:3px solid var(--cream3);border-radius:12px;padding:9px 13px;font-size:14px;font-family:inherit;color:var(--text);outline:none}
+.admin-pw-input:focus{border-color:var(--green)}
+
 .yt-box{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:3px solid var(--cream3)}
 .yt-box iframe{width:100%;height:100%;border:none}
 
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:white;font-family:var(--font-display);font-size:14px;padding:12px 24px;border-radius:20px;box-shadow:0 5px 0 var(--brown-dark),0 8px 24px rgba(0,0,0,0.2);z-index:9000;opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:white;font-family:var(--font-display);font-size:14px;padding:12px 24px;border-radius:20px;box-shadow:0 5px 0 var(--brown-dark),0 8px 24px rgba(0,0,0,.2);z-index:9000;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .empty-state{text-align:center;padding:50px 20px;color:var(--text3);font-family:var(--font-display)}
 .empty-emoji{font-size:52px;margin-bottom:12px}
@@ -261,6 +305,8 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   .speech-bubble{display:none}
   .sec-header .ac-btn{padding:8px 14px;font-size:13px}
   .editor-toolbar,.edit-toolbar{gap:4px}
+  .notif-dropdown{width:260px}
+  .icon-btn{width:36px;height:36px;font-size:16px}
 }
 </style>
 </head>
@@ -288,13 +334,33 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
       <div class="logo-block lb-green">숲</div>
     </div>
   </div>
-  <button class="profile-btn" onclick="openModal('profileModal')">
-    <div class="p-avatar" id="headerAvatar">🐾</div>
-    <div>
-      <div class="p-name" id="headerName">닉네임</div>
-      <div class="p-status" id="headerStatus">상태 메시지</div>
+  <div class="header-right">
+    <!-- 알림 버튼 -->
+    <div style="position:relative">
+      <button class="icon-btn" id="notifBtn" onclick="toggleNotif()" title="알림">🔔
+        <span class="notif-count" id="notifCount">0</span>
+      </button>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-head">
+          <span class="notif-head-title">🔔 알림</span>
+          <button class="notif-clear" onclick="clearNotifs()">모두 읽음</button>
+        </div>
+        <div class="notif-list" id="notifList">
+          <div class="notif-empty">새 알림이 없어요</div>
+        </div>
+      </div>
     </div>
-  </button>
+    <!-- 관리자 버튼 -->
+    <button class="icon-btn" onclick="openAdmin()" title="관리자">⚙️</button>
+    <!-- 프로필 버튼 -->
+    <button class="profile-btn" onclick="openModal('profileModal')">
+      <div class="p-avatar" id="headerAvatar">🐾</div>
+      <div>
+        <div class="p-name" id="headerName">닉네임</div>
+        <div class="p-status" id="headerStatus">상태 메시지</div>
+      </div>
+    </button>
+  </div>
 </header>
 
 <nav>
@@ -308,17 +374,17 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <div id="tab-board" class="tab-content active">
     <div class="sec-header">
       <div class="sec-title">📋 게시판</div>
-      <div class="speech-bubble">친구끼리 착한 말만 하자</div>
+      <div class="speech-bubble">꺼드럭거리면 무통보 삭제됩니다</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addPostModal')" style="margin-left:auto">✏️ 글쓰기</button>
     </div>
-    <!-- 필터 -->
-    <div class="filter-row" id="filterRow">
+    <div class="filter-row">
       <button class="filter-btn active" onclick="setFilter('all',this)">전체</button>
-      <button class="filter-btn" onclick="setFilter('important',this)">⭐ 중요</button>
-      <button class="filter-btn" onclick="setFilter('notice',this)">📢 공지</button>
-      <button class="filter-btn" onclick="setFilter('free',this)">💬 자유</button>
-      <button class="filter-btn" onclick="setFilter('question',this)">❓ 질문</button>
-      <button class="filter-btn" onclick="setFilter('secret',this)">🔒 비밀</button>
+      <button class="filter-btn" onclick="setFilter('pin',this)">📌 중요</button>
+      <button class="filter-btn" onclick="setFilter('free',this)">📢 공지</button>
+      <button class="filter-btn" onclick="setFilter('notice',this)">🗨️ 자유</button>
+      <button class="filter-btn" onclick="setFilter('question',this)">💭 독백</button>
+      <button class="filter-btn" onclick="setFilter('secret',this)">⁉️ 댓글 미팅</button>
+      <button class="filter-btn" onclick="setFilter('secret',this)">🔒 건의</button>
     </div>
     <div class="board-list" id="boardList"></div>
   </div>
@@ -326,8 +392,8 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <!-- 플레이어 -->
   <div id="tab-player" class="tab-content">
     <div class="sec-header">
-      <div class="sec-title">🎵 디깅룸</div>
-      <div class="speech-bubble">LNGSHOT BOYNEXTDOOR 금지</div>
+      <div class="sec-title">🎵 플레이어</div>
+      <div class="speech-bubble">가구처럼 작용하는 음악 올려 주세요</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addVideoModal')" style="margin-left:auto">▶ 영상 추가</button>
     </div>
     <div class="video-list" id="videoList"></div>
@@ -341,15 +407,15 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     </div>
     <div class="chat-wrap">
       <div class="chat-top">
-        <span>🚬</span>
-        <span class="chat-top-title">흡연 구역</span>
+        <span>🌿</span>
+        <span class="chat-top-title">우리들의 숲 대화방</span>
         <span class="chat-online" id="chatStatus">🟡 로컬</span>
         <button class="chat-clear-btn" onclick="clearChat()">🗑 초기화</button>
       </div>
       <div class="chat-msgs" id="chatMsgs"></div>
       <div class="chat-input-row">
         <div class="suggest-box" id="chatSuggest"></div>
-        <textarea class="chat-input" id="chatInput" placeholder="메시지... @닉네임 으로 태그" rows="1"
+        <textarea class="chat-input" id="chatInput" placeholder="메시지... @닉네임 태그 가능" rows="1"
           oninput="handleSuggest(this,'chatSuggest')"
           onkeydown="onChatKey(event)"></textarea>
         <button class="send-btn" onclick="sendMsg()">➤</button>
@@ -357,6 +423,9 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     </div>
   </div>
 </main>
+
+<!-- 알림 닫기 오버레이 -->
+<div id="notifOverlay" style="display:none;position:fixed;inset:0;z-index:299" onclick="closeNotif()"></div>
 
 <!-- MODALS -->
 <div class="modal-overlay" id="profileModal">
@@ -395,20 +464,23 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     <div class="modal-header"><span class="modal-title">✏️ 글쓰기</span><button class="modal-close" onclick="closeModal('addPostModal')">✕</button></div>
     <div class="form-group">
       <label class="form-label">🏷️ 말머리</label>
-      <div class="cat-row" id="tagRow">
-        <button class="cat-btn sel" data-tag="free" onclick="selectTag(this)">💬 자유</button>
-        <button class="cat-btn" data-tag="important" onclick="selectTag(this)">⭐ 중요</button>
-        <button class="cat-btn" data-tag="notice" onclick="selectTag(this)">💭 댓글 미팅</button>
-        <button class="cat-btn" data-tag="question" onclick="selectTag(this)">⁉️ 건의</button>
-        <button class="cat-btn" data-tag="secret" onclick="selectTag(this)">🔒 비밀</button>
+      <div class="write-tag-row" id="writeTagRow">
+        <button class="tag-btn sel" data-tag="free" onclick="selectWriteTag(this)">💬 자유</button>
+        <button class="tag-btn" data-tag="notice" onclick="selectWriteTag(this)">📢 공지</button>
+        <button class="tag-btn" data-tag="question" onclick="selectWriteTag(this)">❓ 질문</button>
+        <button class="tag-btn" data-tag="secret" onclick="selectWriteTag(this)">🔒 비밀</button>
       </div>
+      <label class="pin-toggle">
+        <input type="checkbox" id="pinCheck">
+        <span class="pin-toggle-label">⭐ 중요 (상단 고정)</span>
+      </label>
     </div>
     <div class="form-group"><label class="form-label">제목</label><input class="form-input" id="postTitle" placeholder="제목을 입력하세요"></div>
     <div class="form-group">
       <label class="form-label">📝 내용</label>
       <div class="editor-toolbar">
-        <button class="tb-btn" onclick="efmt('bold')" title="굵게"><b>B</b></button>
-        <button class="tb-btn" onclick="efmt('italic')" title="기울기"><i>I</i></button>
+        <button class="tb-btn" onclick="efmt('bold')"><b>B</b></button>
+        <button class="tb-btn" onclick="efmt('italic')"><i>I</i></button>
         <div class="tb-sep"></div>
         <select class="tb-select" onchange="efmt('fontSize',this.value);this.selectedIndex=0">
           <option value="">크기</option>
@@ -418,8 +490,8 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
           <option value="7">매우 크게</option>
         </select>
         <div class="tb-sep"></div>
-        <input type="color" class="tb-color" id="postColorPicker" title="글자 색" value="#5c3d1e">
-        <button class="tb-btn" onclick="efmt('foreColor',document.getElementById('postColorPicker').value)" style="font-size:11px">🎨색</button>
+        <input type="color" class="tb-color" id="postColor" value="#5c3d1e">
+        <button class="tb-btn" onclick="efmt('foreColor',document.getElementById('postColor').value)" style="font-size:11px">🎨색</button>
         <button class="tb-btn" onclick="efmt('removeFormat')" style="font-size:11px">✕서식</button>
       </div>
       <div class="editor-area" id="postEditor" contenteditable="true"
@@ -428,6 +500,19 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
     <div class="modal-actions">
       <button class="ac-btn ac-btn-white" onclick="closeModal('addPostModal')">취소</button>
       <button class="ac-btn ac-btn-green" onclick="addPost()">🌿 올리기</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">⚙️ 관리자</span><button class="modal-close" onclick="closeModal('adminModal')">✕</button></div>
+    <div id="adminContent">
+      <div class="admin-pw-form">
+        <input type="password" class="admin-pw-input" id="adminPwInput" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')checkAdminPw()">
+        <button class="ac-btn ac-btn-green" style="padding:9px 18px" onclick="checkAdminPw()">확인</button>
+      </div>
+      <p style="font-size:12px;color:var(--text3);font-family:var(--font-display)">비밀번호를 입력해야 회원 목록을 볼 수 있어요</p>
     </div>
   </div>
 </div>
@@ -457,6 +542,11 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
+// ✏️ ─────────────────────────────────────────────────────
+// 관리자 비밀번호 변경 — 여기 값만 바꾸세요!
+const ADMIN_PASSWORD = 'forest2025';
+// ─────────────────────────────────────────────────────────
+
 // ✏️ Firebase 설정
 const firebaseConfig = {
   apiKey: "AIzaSyAS2ELdjl2WbItetyJ7UEmUSUSSaJlVWQo",
@@ -489,6 +579,8 @@ function saveProfileLocal(){ localStorage.setItem('acnh_profile', JSON.stringify
 
 const picCache = {};
 const knownUsers = new Set();
+let allPosts = [];
+let currentFilter = 'all';
 
 // ── 유틸 ──────────────────────────────────────────────────
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -509,26 +601,67 @@ async function getPic(name){
   catch{ picCache[name]=null; }
   return picCache[name];
 }
-
-// 멘션 @닉네임 → 하이라이트
 function renderMentions(text){
-  return esc(text).replace(/@([^\s@,!?~]+)/g,'<span class="mention">@$1</span>');
+  return esc(text).replace(/@([\w가-힣]+)/g,'<span class="mention">@$1</span>');
 }
 
-// 말머리 뱃지 정의
-const TAG_INFO = {
-  important: { label:'⭐ 중요', cls:'tag-important', pinned:true },
-  notice:    { label:'📢 공지', cls:'tag-notice',    pinned:false },
-  free:      { label:'💬 자유', cls:'tag-free',      pinned:false },
-  question:  { label:'❓ 질문', cls:'tag-question',  pinned:false },
-  secret:    { label:'🔒 비밀', cls:'tag-secret',    pinned:false },
+// 말머리 정의
+const TAG_MAP = {
+  free:     {label:'💬 자유', cls:'tag-free'},
+  notice:   {label:'📢 공지', cls:'tag-notice'},
+  question: {label:'❓ 질문', cls:'tag-question'},
+  secret:   {label:'🔒 비밀', cls:'tag-secret'},
 };
-function tagBadgeHtml(tag){
-  const t=TAG_INFO[tag]||TAG_INFO.free;
-  return `<span class="tag-badge ${t.cls}">${t.label}</span>`;
+function tagBadge(tag){ const t=TAG_MAP[tag]||TAG_MAP.free; return `<span class="tag-badge ${t.cls}">${t.label}</span>`; }
+
+// ── 알림 ──────────────────────────────────────────────────
+let notifications = JSON.parse(localStorage.getItem('acnh_notifs')||'[]');
+let lastSeenPost = localStorage.getItem('acnh_lastpost')||'';
+let lastSeenMsg  = localStorage.getItem('acnh_lastmsg') ||'';
+
+function saveNotifs(){ localStorage.setItem('acnh_notifs', JSON.stringify(notifications.slice(0,50))); }
+function unreadCount(){ return notifications.filter(n=>!n.read).length; }
+
+function updateNotifBadge(){
+  const cnt=unreadCount();
+  const el=document.getElementById('notifCount');
+  el.textContent=cnt;
+  el.classList.toggle('on', cnt>0);
 }
 
-// 모달
+function addNotif(icon,text){
+  notifications.unshift({icon,text,read:false,ts:new Date().toISOString()});
+  saveNotifs();
+  updateNotifBadge();
+}
+
+function renderNotifList(){
+  const el=document.getElementById('notifList');
+  if(!notifications.length){ el.innerHTML='<div class="notif-empty">새 알림이 없어요</div>'; return; }
+  el.innerHTML=notifications.map((n,i)=>`
+    <div class="notif-item${n.read?'':' unread'}" onclick="readNotif(${i})">
+      <div class="notif-icon">${n.icon}</div>
+      <div class="notif-text">${n.text}</div>
+      <div class="notif-time">${fmtTime(new Date(n.ts))}</div>
+    </div>`).join('');
+}
+
+function readNotif(i){ notifications[i].read=true; saveNotifs(); updateNotifBadge(); renderNotifList(); }
+function clearNotifs(){ notifications.forEach(n=>n.read=true); saveNotifs(); updateNotifBadge(); renderNotifList(); }
+
+function toggleNotif(){
+  const dd=document.getElementById('notifDropdown');
+  const ov=document.getElementById('notifOverlay');
+  const open=dd.classList.toggle('open');
+  ov.style.display=open?'block':'none';
+  if(open) renderNotifList();
+}
+function closeNotif(){
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('notifOverlay').style.display='none';
+}
+
+// ── 모달 ──────────────────────────────────────────────────
 function openModal(id){
   document.getElementById(id).classList.add('open');
   if(id==='profileModal'){
@@ -540,13 +673,20 @@ function openModal(id){
   if(id==='addPostModal'){
     document.getElementById('postEditor').innerHTML='';
     document.getElementById('postTitle').value='';
-    selectedTag='free';
-    document.querySelectorAll('#tagRow .cat-btn').forEach(b=>b.classList.toggle('sel',b.dataset.tag==='free'));
+    document.getElementById('pinCheck').checked=false;
+    selectedWriteTag='free';
+    document.querySelectorAll('#writeTagRow .tag-btn').forEach(b=>b.classList.toggle('sel',b.dataset.tag==='free'));
   }
 }
 function closeModal(id){
   document.getElementById(id).classList.remove('open');
   if(id==='videoPlayerModal') document.getElementById('ytBox').innerHTML='';
+  if(id==='adminModal') document.getElementById('adminContent').innerHTML=`
+    <div class="admin-pw-form">
+      <input type="password" class="admin-pw-input" id="adminPwInput" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')checkAdminPw()">
+      <button class="ac-btn ac-btn-green" style="padding:9px 18px" onclick="checkAdminPw()">확인</button>
+    </div>
+    <p style="font-size:12px;color:var(--text3);font-family:var(--font-display)">비밀번호를 입력해야 회원 목록을 볼 수 있어요</p>`;
 }
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
 
@@ -559,14 +699,8 @@ function switchTab(tab,btn){
 }
 
 // ── 서식 ──────────────────────────────────────────────────
-function efmt(cmd,val){
-  document.getElementById('postEditor').focus();
-  document.execCommand(cmd,false,val||null);
-}
-function editFmt(id,cmd,val){
-  document.getElementById('edit-ed-'+id).focus();
-  document.execCommand(cmd,false,val||null);
-}
+function efmt(cmd,val){ document.getElementById('postEditor').focus(); document.execCommand(cmd,false,val||null); }
+function editFmt(pid,cmd,val){ document.getElementById('edit-ed-'+pid).focus(); document.execCommand(cmd,false,val||null); }
 
 // ── 프로필 ────────────────────────────────────────────────
 function previewProfilePic(e){
@@ -576,9 +710,8 @@ function previewProfilePic(e){
     const S=200,c=document.createElement('canvas'),r=Math.min(S/img.width,S/img.height);
     c.width=img.width*r; c.height=img.height*r;
     c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-    const d=c.toDataURL('image/jpeg',0.7);
-    profile.pic=d;
-    document.getElementById('profilePreview').innerHTML=`<img src="${d}">`;
+    const d=c.toDataURL('image/jpeg',.7);
+    profile.pic=d; document.getElementById('profilePreview').innerHTML=`<img src="${d}">`;
     URL.revokeObjectURL(url);
   };
   img.src=url;
@@ -591,12 +724,9 @@ function deleteProfilePic(){
 async function saveProfile(){
   profile.name=document.getElementById('profileName').value||'닉네임';
   profile.status=document.getElementById('profileStatusInput').value||'상태 메시지';
-  saveProfileLocal();
-  picCache[profile.name]=profile.pic;
+  saveProfileLocal(); picCache[profile.name]=profile.pic;
   if(FB){ try{ await db.collection('profiles').doc(profile.name).set({name:profile.name,status:profile.status,pic:profile.pic||null}); }catch(e){} }
-  updateHeader();
-  closeModal('profileModal');
-  showToast('프로필이 저장됐어요 🐾');
+  updateHeader(); closeModal('profileModal'); showToast('프로필이 저장됐어요 🐾');
 }
 
 // ── 공지 ──────────────────────────────────────────────────
@@ -614,23 +744,20 @@ async function saveNotice(){
 }
 
 // ── 게시판 ────────────────────────────────────────────────
-let selectedTag='free';
-let currentFilter='all';
-let allPosts=[];
-
-function selectTag(btn){
-  selectedTag=btn.dataset.tag;
-  document.querySelectorAll('#tagRow .cat-btn').forEach(b=>b.classList.toggle('sel',b===btn));
+let selectedWriteTag='free';
+function selectWriteTag(btn){
+  selectedWriteTag=btn.dataset.tag;
+  document.querySelectorAll('#writeTagRow .tag-btn').forEach(b=>b.classList.toggle('sel',b===btn));
 }
 
-function setFilter(filter,btn){
-  currentFilter=filter;
+function setFilter(f,btn){
+  currentFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderPosts(allPosts);
 }
 
-function cmtListHtml(cmts,postId){
+function cmtListHtml(cmts){
   return (cmts||[]).map(c=>`
     <div class="cmt-item">
       <div class="cmt-avatar">${c.pic?`<img src="${c.pic}">`:'🐾'}</div>
@@ -641,7 +768,7 @@ function cmtListHtml(cmts,postId){
     </div>`).join('');
 }
 
-function editToolbar(pid){
+function editToolbarHtml(pid){
   return `<div class="edit-toolbar">
     <button class="tb-btn" onclick="editFmt('${pid}','bold')"><b>B</b></button>
     <button class="tb-btn" onclick="editFmt('${pid}','italic')"><i>I</i></button>
@@ -658,46 +785,45 @@ function editToolbar(pid){
 
 async function renderPosts(posts){
   allPosts=posts;
+  posts.forEach(p=>knownUsers.add(p.author));
   const el=document.getElementById('boardList');
-  let filtered=currentFilter==='all'?posts:posts.filter(p=>p.tag===currentFilter);
-  // 중요 상단 고정
-  const sorted=[...filtered.filter(p=>TAG_INFO[p.tag]?.pinned),...filtered.filter(p=>!TAG_INFO[p.tag]?.pinned)];
 
-  if(!sorted.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-emoji">📋</div><div class="empty-text">게시글이 없어요!<br>첫 글을 올려봐요 🌿</div></div>`;
-    return;
-  }
+  let filtered=posts;
+  if(currentFilter==='pin')      filtered=posts.filter(p=>p.pinned);
+  else if(currentFilter!=='all') filtered=posts.filter(p=>p.tag===currentFilter);
+
+  // 중요 상단 고정, 나머지 최신순
+  const sorted=[...filtered.filter(p=>p.pinned),...filtered.filter(p=>!p.pinned)];
+
+  if(!sorted.length){ el.innerHTML=`<div class="empty-state"><div class="empty-emoji">📋</div><div class="empty-text">게시글이 없어요!<br>첫 글을 올려봐요 🌿</div></div>`; return; }
 
   const cards=await Promise.all(sorted.map(async p=>{
-    knownUsers.add(p.author);
     const pic=p.pic||await getPic(p.author);
-    return `<div class="board-card${TAG_INFO[p.tag]?.pinned?' pinned':''}" id="card-${p.id}">
+    return `<div class="board-card${p.pinned?' pinned':''}" id="card-${p.id}">
       <div class="board-header">
-        ${tagBadgeHtml(p.tag||'free')}
+        ${p.pinned?'<span class="pin-badge">⭐ 중요</span>':''}
+        ${tagBadge(p.tag||'free')}
         <div class="board-avatar">${avHtml(pic)}</div>
         <span class="board-author">${esc(p.author)}</span>
         <span class="board-date">${fmtDate(p.ts)}</span>
       </div>
       <div class="board-title">${esc(p.title)}</div>
       <div class="board-body" id="bd-${p.id}">${p.body||''}</div>
-
       <div class="edit-zone" id="ez-${p.id}">
-        ${editToolbar(p.id)}
+        ${editToolbarHtml(p.id)}
         <div class="edit-area" id="edit-ed-${p.id}" contenteditable="true"></div>
         <div class="edit-actions">
           <button class="ac-btn ac-btn-white" style="padding:7px 14px;font-size:13px" onclick="cancelEdit('${p.id}')">취소</button>
           <button class="ac-btn ac-btn-green" style="padding:7px 14px;font-size:13px" onclick="saveEdit('${p.id}')">저장</button>
         </div>
       </div>
-
       <div class="board-foot">
         <button class="foot-btn" onclick="toggleCmts('${p.id}')">💬 댓글 <span id="cc-${p.id}">${(p.comments||[]).length}</span></button>
         <button class="foot-btn" onclick="startEdit('${p.id}')">✏️ 수정</button>
         <button class="foot-btn danger ml-auto" onclick="deletePost('${p.id}')">🗑 삭제</button>
       </div>
-
       <div class="comment-section" id="cs-${p.id}">
-        <div id="cl-${p.id}">${cmtListHtml(p.comments,p.id)}</div>
+        <div id="cl-${p.id}">${cmtListHtml(p.comments)}</div>
         <div class="cmt-input-row">
           <div class="suggest-box" id="sg-${p.id}"></div>
           <input class="cmt-input" id="ci-${p.id}" placeholder="댓글... @닉네임 태그 가능"
@@ -713,8 +839,19 @@ async function renderPosts(posts){
 
 function subscribePosts(){
   if(!FB){ renderPosts(local.posts); return; }
+  let firstLoad=true;
   db.collection('posts').orderBy('ts','desc').onSnapshot(snap=>{
-    renderPosts(snap.docs.map(d=>({id:d.id,...d.data()})));
+    const posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!firstLoad && posts.length>0){
+      const newest=posts[0];
+      const newestId=snap.docs[0].id;
+      if(newestId!==lastSeenPost && newest.author!==profile.name){
+        addNotif('📋',`<strong>${esc(newest.author)}</strong>님이 새 글을 올렸어요: <em>${esc(newest.title)}</em>`);
+        lastSeenPost=newestId; localStorage.setItem('acnh_lastpost',lastSeenPost);
+      }
+    }
+    firstLoad=false;
+    renderPosts(posts);
   });
 }
 
@@ -722,11 +859,10 @@ async function addPost(){
   const title=document.getElementById('postTitle').value.trim();
   const body=document.getElementById('postEditor').innerHTML.trim();
   if(!title&&!body){ showToast('내용을 입력해주세요!'); return; }
-  const data={title:title||'(제목 없음)',body,author:profile.name,pic:profile.pic||null,tag:selectedTag,comments:[],ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+  const data={title:title||'(제목 없음)',body,author:profile.name,pic:profile.pic||null,tag:selectedWriteTag,pinned:document.getElementById('pinCheck').checked,comments:[],ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
   if(FB) await db.collection('posts').add(data);
   else{ local.posts.unshift({id:'p'+Date.now(),...data}); renderPosts(local.posts); }
-  closeModal('addPostModal');
-  showToast('글이 올라갔어요 📋');
+  closeModal('addPostModal'); showToast('글이 올라갔어요 📋');
 }
 
 async function deletePost(id){
@@ -736,15 +872,11 @@ async function deletePost(id){
   showToast('삭제됐어요');
 }
 
-function toggleCmts(id){
-  document.getElementById('cs-'+id).classList.toggle('open');
-}
+function toggleCmts(id){ document.getElementById('cs-'+id).classList.toggle('open'); }
 
 function startEdit(id){
-  const body=document.getElementById('bd-'+id).innerHTML;
-  const ez=document.getElementById('ez-'+id);
-  document.getElementById('edit-ed-'+id).innerHTML=body;
-  ez.classList.add('open');
+  document.getElementById('edit-ed-'+id).innerHTML=document.getElementById('bd-'+id).innerHTML;
+  document.getElementById('ez-'+id).classList.add('open');
   document.getElementById('bd-'+id).style.display='none';
 }
 function cancelEdit(id){
@@ -752,12 +884,11 @@ function cancelEdit(id){
   document.getElementById('bd-'+id).style.display='';
 }
 async function saveEdit(id){
-  const newBody=document.getElementById('edit-ed-'+id).innerHTML.trim();
-  if(FB) await db.collection('posts').doc(id).update({body:newBody});
-  else{ const p=local.posts.find(x=>x.id===id); if(p) p.body=newBody; }
-  document.getElementById('bd-'+id).innerHTML=newBody;
-  cancelEdit(id);
-  showToast('수정됐어요 ✏️');
+  const nb=document.getElementById('edit-ed-'+id).innerHTML.trim();
+  if(FB) await db.collection('posts').doc(id).update({body:nb});
+  else{ const p=local.posts.find(x=>x.id===id); if(p) p.body=nb; }
+  document.getElementById('bd-'+id).innerHTML=nb;
+  cancelEdit(id); showToast('수정됐어요 ✏️');
 }
 
 async function addComment(postId){
@@ -769,45 +900,99 @@ async function addComment(postId){
     const snap=await ref.get(); const old=snap.data().comments||[];
     const next=[...old,cmt];
     await ref.update({comments:next});
-    document.getElementById('cl-'+postId).innerHTML=cmtListHtml(next,postId);
+    document.getElementById('cl-'+postId).innerHTML=cmtListHtml(next);
     document.getElementById('cc-'+postId).textContent=next.length;
+    // 댓글 알림 — 글 작성자에게 (내 댓글 아닐 때)
+    const postAuthor=snap.data().author;
+    if(postAuthor!==profile.name){
+      addNotif('💬',`<strong>${esc(profile.name)}</strong>님이 댓글을 달았어요: <em>${esc(text.slice(0,30))}</em>`);
+    }
   } else {
     const p=local.posts.find(x=>x.id===postId);
-    if(p){ p.comments.push(cmt); document.getElementById('cl-'+postId).innerHTML=cmtListHtml(p.comments,postId); document.getElementById('cc-'+postId).textContent=p.comments.length; }
+    if(p){ p.comments.push(cmt); document.getElementById('cl-'+postId).innerHTML=cmtListHtml(p.comments); document.getElementById('cc-'+postId).textContent=p.comments.length; }
   }
-  inp.value='';
-  showToast('댓글이 달렸어요 💬');
+  inp.value=''; showToast('댓글이 달렸어요 💬');
 }
 
 // ── @태그 서제스트 ────────────────────────────────────────
 function handleSuggest(inp,boxId){
   const box=document.getElementById(boxId); if(!box) return;
-  const val=inp.value; const pos=inp.selectionStart;
-  const before=val.slice(0,pos);
-  const m=before.match(/@([^@\s]*)$/);
+  const val=inp.value, pos=inp.selectionStart||val.length;
+  const m=val.slice(0,pos).match(/@([\w가-힣]*)$/);
   if(!m){ box.classList.remove('open'); return; }
-  const query=m[1].toLowerCase();
-  const users=[...knownUsers,profile.name].filter((u,i,a)=>a.indexOf(u)===i&&u.toLowerCase().includes(query)&&u!==profile.name);
+  const q=m[1].toLowerCase();
+  const users=[...knownUsers].filter(u=>u!==profile.name&&u.toLowerCase().includes(q));
   if(!users.length){ box.classList.remove('open'); return; }
-  box.innerHTML=users.map(u=>`<div class="suggest-item" onmousedown="insertTag(event,'${u}','${boxId}',this)">${esc(u)}</div>`).join('');
+  box.innerHTML=users.map(u=>`<div class="suggest-item" onmousedown="insertTag(event,'${esc(u)}','${boxId}',this)">${esc(u)}</div>`).join('');
   box.classList.add('open');
 }
 function insertTag(e,name,boxId,item){
   e.preventDefault();
-  const inp=item.closest('.cmt-input-row,.chat-input-row')?.querySelector('input,textarea');
+  const inp=item.closest('.cmt-input-row,.chat-input-row,.vcmt-input-row')?.querySelector('input,textarea');
   if(!inp) return;
   const val=inp.value, pos=inp.selectionStart;
-  const before=val.slice(0,pos), after=val.slice(pos);
-  const newBefore=before.replace(/@([^@\s]*)$/,'@'+name+' ');
-  inp.value=newBefore+after;
-  inp.focus(); inp.selectionStart=inp.selectionEnd=newBefore.length;
+  const nb=val.slice(0,pos).replace(/@([\w가-힣]*)$/,'@'+name+' ');
+  inp.value=nb+val.slice(pos);
+  inp.focus(); inp.selectionStart=inp.selectionEnd=nb.length;
   document.getElementById(boxId).classList.remove('open');
+}
+
+// ── 관리자 ────────────────────────────────────────────────
+function openAdmin(){ openModal('adminModal'); }
+
+function checkAdminPw(){
+  const pw=document.getElementById('adminPwInput').value;
+  if(pw!==ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
+  loadAdminPanel();
+}
+
+async function loadAdminPanel(){
+  const el=document.getElementById('adminContent');
+  el.innerHTML='<div style="font-family:var(--font-display);font-size:14px;color:var(--text3);padding:10px 0">회원 목록 불러오는 중...</div>';
+  let members=[];
+  if(FB){
+    try{
+      const snap=await db.collection('profiles').get();
+      members=snap.docs.map(d=>({id:d.id,...d.data()}));
+    }catch(e){ el.innerHTML='<p style="color:var(--red);font-size:13px">불러오기 실패: '+esc(e.message)+'</p>'; return; }
+  } else {
+    members=[...knownUsers].map(n=>({id:n,name:n,status:'',pic:null}));
+  }
+  if(!members.length){ el.innerHTML='<p style="font-family:var(--font-display);font-size:13px;color:var(--text3)">등록된 회원이 없어요</p>'; return; }
+  el.innerHTML=`
+    <div class="admin-section">
+      <div class="admin-section-title">👥 회원 목록 (${members.length}명)</div>
+      ${members.map(m=>`
+        <div class="member-row">
+          <div class="member-av">${m.pic?`<img src="${m.pic}">`:'🐾'}</div>
+          <div class="member-info">
+            <div class="member-name">${esc(m.name||m.id)}</div>
+            <div class="member-status">${esc(m.status||'상태 메시지 없음')}</div>
+          </div>
+          <button class="member-del-btn" onclick="deleteMember('${esc(m.id)}')">🗑 삭제</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+async function deleteMember(id){
+  if(!confirm(`"${id}" 회원을 삭제할까요?\n해당 유저의 프로필 정보가 삭제돼요.`)) return;
+  if(FB){
+    try{
+      await db.collection('profiles').doc(id).delete();
+      showToast(`${id} 회원이 삭제됐어요`);
+      loadAdminPanel();
+    }catch(e){ showToast('삭제 실패: '+e.message); }
+  } else {
+    knownUsers.delete(id);
+    showToast(`${id} 회원이 삭제됐어요`);
+    loadAdminPanel();
+  }
 }
 
 // ── 플레이어 ──────────────────────────────────────────────
 function extractVid(url){ const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
 
-function vcmtListHtml(cmts){
+function vcmtHtml(cmts){
   return (cmts||[]).map(c=>`
     <div class="cmt-item">
       <div class="cmt-avatar">${c.pic?`<img src="${c.pic}">`:'🐾'}</div>
@@ -843,24 +1028,21 @@ function renderVideos(vids){
         <div class="vcmt-label">💬 댓글 <span id="vcc-${v.id}">${(v.comments||[]).length}</span>
           <button class="vcmt-toggle" onclick="toggleVcmt('${v.id}')">펼치기</button>
         </div>
-        <div id="vcmts-${v.id}" style="display:none">
-          <div class="vcmt-list" id="vcl-${v.id}">${vcmtListHtml(v.comments)}</div>
+        <div class="vcmt-body" id="vb-${v.id}">
+          <div class="vcmt-list" id="vcl-${v.id}">${vcmtHtml(v.comments)}</div>
           <div class="vcmt-input-row">
             <div class="suggest-box" id="vsg-${v.id}"></div>
             <input class="vcmt-input" id="vci-${v.id}" placeholder="댓글... @태그 가능"
               oninput="handleSuggest(this,'vsg-${v.id}')"
-              onkeydown="if(event.key==='Enter'){event.preventDefault();addVideoComment('${v.id}')}">
-            <button class="vcmt-send" onclick="addVideoComment('${v.id}')">➤</button>
+              onkeydown="if(event.key==='Enter'){event.preventDefault();addVcmt('${v.id}')}">
+            <button class="vcmt-send" onclick="addVcmt('${v.id}')">➤</button>
           </div>
         </div>
       </div>
     </div>`).join('');
 }
 
-function toggleVcmt(id){
-  const el=document.getElementById('vcmts-'+id);
-  el.style.display=el.style.display==='none'?'block':'none';
-}
+function toggleVcmt(id){ document.getElementById('vb-'+id).classList.toggle('open'); }
 
 function subscribeVideos(){
   if(!FB){ renderVideos(local.videos); return; }
@@ -893,7 +1075,7 @@ async function deleteVideo(id){
   else{ local.videos=local.videos.filter(x=>x.id!==id); renderVideos(local.videos); }
   showToast('영상이 삭제됐어요');
 }
-async function addVideoComment(vid){
+async function addVcmt(vid){
   const inp=document.getElementById('vci-'+vid);
   const text=inp.value.trim(); if(!text) return;
   const cmt={name:profile.name,text,pic:profile.pic||null};
@@ -902,24 +1084,22 @@ async function addVideoComment(vid){
     const snap=await ref.get(); const old=snap.data().comments||[];
     const next=[...old,cmt];
     await ref.update({comments:next});
-    document.getElementById('vcl-'+vid).innerHTML=vcmtListHtml(next);
+    document.getElementById('vcl-'+vid).innerHTML=vcmtHtml(next);
     document.getElementById('vcc-'+vid).textContent=next.length;
   } else {
     const v=local.videos.find(x=>x.id===vid);
-    if(v){ if(!v.comments)v.comments=[]; v.comments.push(cmt); document.getElementById('vcl-'+vid).innerHTML=vcmtListHtml(v.comments); document.getElementById('vcc-'+vid).textContent=v.comments.length; }
+    if(v){ if(!v.comments)v.comments=[]; v.comments.push(cmt); document.getElementById('vcl-'+vid).innerHTML=vcmtHtml(v.comments); document.getElementById('vcc-'+vid).textContent=v.comments.length; }
   }
-  inp.value='';
-  showToast('댓글이 달렸어요 💬');
+  inp.value=''; showToast('댓글이 달렸어요 💬');
 }
 
 // ── 채팅 ──────────────────────────────────────────────────
 function appendMsg(m,pic){
   const msgs=document.getElementById('chatMsgs');
   const mine=m.name===profile.name;
-  const av=avHtml(pic);
   const d=document.createElement('div');
   d.className='msg'+(mine?' mine':'');
-  d.innerHTML=`<div class="msg-avatar">${av}</div><div class="msg-body"><div class="msg-name">${esc(m.name)}</div><div class="msg-bubble">${renderMentions(m.text)}</div><div class="msg-time">${fmtTime(m.ts)}</div></div>`;
+  d.innerHTML=`<div class="msg-avatar">${avHtml(pic)}</div><div class="msg-body"><div class="msg-name">${esc(m.name)}</div><div class="msg-bubble">${renderMentions(m.text)}</div><div class="msg-time">${fmtTime(m.ts)}</div></div>`;
   msgs.appendChild(d);
   msgs.scrollTop=msgs.scrollHeight;
 }
@@ -927,16 +1107,27 @@ function appendMsg(m,pic){
 async function renderMsgs(msgs){
   document.getElementById('chatMsgs').innerHTML='';
   for(const m of msgs){
+    knownUsers.add(m.name);
     const pic=m.name===profile.name?profile.pic:(m.pic||await getPic(m.name));
     appendMsg(m,pic);
-    knownUsers.add(m.name);
   }
 }
 
 function subscribeChat(){
   if(!FB){ renderMsgs(local.msgs); return; }
+  let firstChat=true;
   db.collection('messages').orderBy('ts','asc').onSnapshot(async snap=>{
-    await renderMsgs(snap.docs.map(d=>({id:d.id,...d.data()})));
+    const msgs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!firstChat && msgs.length>0){
+      const last=msgs[msgs.length-1];
+      const lastId=snap.docs[snap.docs.length-1].id;
+      if(lastId!==lastSeenMsg && last.name!==profile.name){
+        addNotif('🍃',`<strong>${esc(last.name)}</strong>: ${esc(last.text.slice(0,30))}`);
+        lastSeenMsg=lastId; localStorage.setItem('acnh_lastmsg',lastSeenMsg);
+      }
+    }
+    firstChat=false;
+    await renderMsgs(msgs);
   });
 }
 
@@ -946,13 +1137,8 @@ async function sendMsg(){
   inp.value='';
   document.getElementById('chatSuggest').classList.remove('open');
   const m={name:profile.name,text,pic:null,ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
-  if(FB){
-    try{ await db.collection('messages').add(m); }
-    catch(e){ showToast('전송 실패 😢'); }
-  } else {
-    local.msgs.push(m);
-    appendMsg(m,profile.pic);
-  }
+  if(FB){ try{ await db.collection('messages').add(m); }catch(e){ showToast('전송 실패 😢'); } }
+  else{ local.msgs.push(m); appendMsg(m,profile.pic); }
 }
 
 function onChatKey(e){
@@ -960,36 +1146,20 @@ function onChatKey(e){
 }
 
 async function clearChat(){
-  if(!confirm('채팅을 초기화할까요? 모든 메시지가 삭제돼요.')) return;
+  if(!confirm('채팅을 모두 삭제할까요?')) return;
   if(FB){
     const snap=await db.collection('messages').get();
     const batch=db.batch();
     snap.docs.forEach(d=>batch.delete(d.ref));
     await batch.commit();
-  } else {
-    local.msgs=[];
-    document.getElementById('chatMsgs').innerHTML='';
-  }
+  } else { local.msgs=[]; document.getElementById('chatMsgs').innerHTML=''; }
   showToast('채팅이 초기화됐어요 🗑');
-}
-
-// 채팅 @서제스트 연결
-function handleSuggest(inp,boxId){
-  const box=document.getElementById(boxId); if(!box) return;
-  const val=inp.value, pos=inp.selectionStart||val.length;
-  const before=val.slice(0,pos);
-  const m=before.match(/@([^@\s]*)$/);
-  if(!m){ box.classList.remove('open'); return; }
-  const q=m[1].toLowerCase();
-  const users=[...knownUsers].filter(u=>u!==profile.name&&u.toLowerCase().includes(q));
-  if(!users.length){ box.classList.remove('open'); return; }
-  box.innerHTML=users.map(u=>`<div class="suggest-item" onmousedown="insertTag(event,'${u}','${boxId}',this)">${esc(u)}</div>`).join('');
-  box.classList.add('open');
 }
 
 // ── BOOT ──────────────────────────────────────────────────
 async function boot(){
   updateHeader();
+  updateNotifBadge();
   await loadNotice();
   subscribePosts();
   subscribeVideos();
