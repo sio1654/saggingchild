@@ -209,6 +209,16 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .cmt-edit-cancel{background:white;border:2px solid var(--cream3);color:var(--text2);font-family:var(--font-display);font-size:11px;padding:4px 12px;border-radius:8px;cursor:pointer}
 .cmt-edit-cancel:hover{border-color:var(--text3)}
 
+/* 답댓글 */
+.reply-list{margin-top:8px;padding-left:14px;border-left:3px solid var(--cream3);display:flex;flex-direction:column;gap:8px}
+.reply-input-zone{display:none;margin-top:8px;padding-left:14px;border-left:3px solid var(--green-light)}
+.reply-input-zone.open{display:block}
+.reply-input-row{display:flex;gap:6px;position:relative}
+.reply-input{flex:1;background:white;border:2px solid var(--cream3);border-radius:14px;padding:7px 13px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s}
+.reply-input:focus{border-color:var(--green)}
+.reply-send-btn{background:var(--green);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--green-dark);flex-shrink:0}
+.cmt-act-btn.reply:hover{border-color:var(--blue);color:var(--blue)}
+
 .cmt-input-row{display:flex;gap:6px;margin-top:10px;position:relative}
 .cmt-input{flex:1;background:white;border:2px solid var(--cream3);border-radius:14px;padding:8px 14px;font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s}
 .cmt-input:focus{border-color:var(--green)}
@@ -434,8 +444,8 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <!-- 플레이어 -->
   <div id="tab-player" class="tab-content">
     <div class="sec-header">
-      <div class="sec-title">🎵 플레이어</div>
-      <div class="speech-bubble">디깅 나눔 드가자</div>
+      <div class="sec-title">🎵 디깅 창고</div>
+      <div class="speech-bubble">연락 상대에게 주고 싶은 노래</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addVideoModal')" style="margin-left:auto">▶ 영상 추가</button>
     </div>
     <div class="video-list" id="videoList"></div>
@@ -445,12 +455,12 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <div id="tab-chat" class="tab-content">
     <div class="sec-header">
       <div class="sec-title">🚬 흡연 구역</div>
-      <div class="speech-bubble">꺼드럭거리실 수 있습니다</div>
+      <div class="speech-bubble">꺼드럭 허용 지구</div>
     </div>
     <div class="chat-wrap">
       <div class="chat-top">
-        <span>🌿</span>
-        <span class="chat-top-title">사이버 담타 zone</span>
+        <span>🚬</span>
+        <span class="chat-top-title">사이버 담타 ZONE</span>
         <span class="chat-online" id="chatStatus">🟡 로컬</span>
         <button class="chat-clear-btn" onclick="clearChat()">🗑 초기화</button>
       </div>
@@ -622,6 +632,7 @@ function saveProfileLocal(){ localStorage.setItem('acnh_profile', JSON.stringify
 const picCache = {};
 const knownUsers = new Set();
 let allPosts = [];
+let allVideos = [];
 let currentFilter = 'all';
 
 // ── 유틸 ──────────────────────────────────────────────────
@@ -797,20 +808,45 @@ function setFilter(f,btn){
   renderPosts(allPosts);
 }
 
-// ── 댓글 HTML 생성 (수정/삭제 버튼 포함) ──────────────────
+// ── 댓글 HTML 생성 (수정/삭제/답댓글 버튼 포함) ──────────
+function replyListHtml(replies, postId, cmtIdx, isVideo){
+  const prefix = isVideo ? 'v' : '';
+  if(!replies || !replies.length) return '';
+  return `<div class="reply-list">${replies.map((r,ri)=>{
+    const canAct = (r.name === profile.name || isAdmin);
+    const actBtns = canAct ? `
+      <div class="cmt-actions" style="opacity:1">
+        <button class="cmt-act-btn del" onclick="${prefix}deleteReply('${postId}',${cmtIdx},${ri})">🗑</button>
+      </div>` : '';
+    return `<div class="cmt-item" id="${prefix}reply-${postId}-${cmtIdx}-${ri}">
+      <div class="cmt-avatar" style="width:22px;height:22px;font-size:10px">${r.pic?`<img src="${r.pic}">`:'🐾'}</div>
+      <div class="cmt-bubble" style="background:white">
+        <div class="cmt-name"><span class="cmt-name-text">${esc(r.name)}</span>${actBtns}</div>
+        <div class="cmt-text">${renderMentions(r.text)}</div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
 function cmtListHtml(cmts, postId, isVideo){
   const prefix = isVideo ? 'v' : '';
   return (cmts||[]).map((c,i)=>{
     const canAct = (c.name === profile.name || isAdmin);
+    // 관리자 모드면 항상 보이게, 아니면 hover시
+    const actStyle = isAdmin ? 'style="opacity:1"' : '';
     const actBtns = canAct ? `
-      <div class="cmt-actions">
-        <button class="cmt-act-btn edit" onclick="${prefix}startCmtEdit('${postId}',${i})">✏️ 수정</button>
-        <button class="cmt-act-btn del" onclick="${prefix}deleteCmt('${postId}',${i})">🗑 삭제</button>
-      </div>` : '';
+      <div class="cmt-actions" ${actStyle}>
+        <button class="cmt-act-btn reply" onclick="toggleReplyInput('${prefix}riz-${postId}-${i}','${postId}',${i},'${prefix}')">↩ 답글</button>
+        <button class="cmt-act-btn edit" onclick="${prefix}startCmtEdit('${postId}',${i})">✏️</button>
+        <button class="cmt-act-btn del" onclick="${prefix}deleteCmt('${postId}',${i})">🗑</button>
+      </div>` : `
+      <div class="cmt-actions" ${actStyle}>
+        <button class="cmt-act-btn reply" onclick="toggleReplyInput('${prefix}riz-${postId}-${i}','${postId}',${i},'${prefix}')">↩ 답글</button>
+      </div>`;
     return `
       <div class="cmt-item" id="${prefix}cmt-${postId}-${i}">
         <div class="cmt-avatar">${c.pic?`<img src="${c.pic}">`:'🐾'}</div>
-        <div class="cmt-bubble">
+        <div class="cmt-bubble" style="flex:1">
           <div class="cmt-name">
             <span class="cmt-name-text">${esc(c.name)}</span>
             ${actBtns}
@@ -822,6 +858,17 @@ function cmtListHtml(cmts, postId, isVideo){
             <div class="cmt-edit-actions">
               <button class="cmt-edit-cancel" onclick="${prefix}cancelCmtEdit('${postId}',${i})">취소</button>
               <button class="cmt-edit-save" onclick="${prefix}saveCmtEdit('${postId}',${i})">✅ 저장</button>
+            </div>
+          </div>
+          ${replyListHtml(c.replies, postId, i, isVideo)}
+          <div class="reply-input-zone" id="${prefix}riz-${postId}-${i}">
+            <div class="reply-input-row">
+              <div class="suggest-box" id="${prefix}rsg-${postId}-${i}"></div>
+              <input class="reply-input" id="${prefix}ri-${postId}-${i}"
+                placeholder="답글..."
+                oninput="handleSuggest(this,'${prefix}rsg-${postId}-${i}')"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();${prefix}addReply('${postId}',${i})}">
+              <button class="reply-send-btn" onclick="${prefix}addReply('${postId}',${i})">➤</button>
             </div>
           </div>
         </div>
@@ -1024,7 +1071,62 @@ async function deleteCmt(postId, idx){
   showToast('댓글이 삭제됐어요 🗑');
 }
 
-// ── @태그 서제스트 ────────────────────────────────────────
+// ── 답댓글 토글 ───────────────────────────────────────────
+function toggleReplyInput(zoneId, postId, idx, prefix){
+  const zone = document.getElementById(zoneId);
+  if(!zone) return;
+  const isOpen = zone.classList.toggle('open');
+  if(isOpen){
+    const inp = document.getElementById(`${prefix}ri-${postId}-${idx}`);
+    if(inp) inp.focus();
+  }
+}
+
+// ── 게시판 답댓글 ─────────────────────────────────────────
+async function addReply(postId, cmtIdx){
+  const inp = document.getElementById(`ri-${postId}-${cmtIdx}`);
+  const text = inp.value.trim(); if(!text) return;
+  const reply = {name:profile.name, text, pic:profile.pic||null};
+  if(FB){
+    const ref = db.collection('posts').doc(postId);
+    const snap = await ref.get();
+    const cmts = [...(snap.data().comments||[])];
+    if(!cmts[cmtIdx].replies) cmts[cmtIdx].replies = [];
+    cmts[cmtIdx].replies.push(reply);
+    await ref.update({comments:cmts});
+    document.getElementById('cl-'+postId).innerHTML = cmtListHtml(cmts, postId, false);
+    // 답글 알림
+    const cmtAuthor = cmts[cmtIdx].name;
+    if(cmtAuthor !== profile.name){
+      addNotif('↩',`<strong>${esc(profile.name)}</strong>님이 답글을 달았어요: <em>${esc(text.slice(0,25))}</em>`);
+    }
+  } else {
+    const p = local.posts.find(x=>x.id===postId);
+    if(p && p.comments[cmtIdx]){
+      if(!p.comments[cmtIdx].replies) p.comments[cmtIdx].replies=[];
+      p.comments[cmtIdx].replies.push(reply);
+      document.getElementById('cl-'+postId).innerHTML = cmtListHtml(p.comments, postId, false);
+    }
+  }
+  inp.value='';
+  showToast('답글이 달렸어요 ↩');
+}
+
+async function deleteReply(postId, cmtIdx, replyIdx){
+  if(!confirm('답글을 삭제할까요?')) return;
+  if(FB){
+    const ref = db.collection('posts').doc(postId);
+    const snap = await ref.get();
+    const cmts = [...(snap.data().comments||[])];
+    cmts[cmtIdx].replies.splice(replyIdx,1);
+    await ref.update({comments:cmts});
+    document.getElementById('cl-'+postId).innerHTML = cmtListHtml(cmts, postId, false);
+  } else {
+    const p = local.posts.find(x=>x.id===postId);
+    if(p){ p.comments[cmtIdx].replies.splice(replyIdx,1); document.getElementById('cl-'+postId).innerHTML = cmtListHtml(p.comments, postId, false); }
+  }
+  showToast('답글이 삭제됐어요');
+}
 function handleSuggest(inp,boxId){
   const box=document.getElementById(boxId); if(!box) return;
   const val=inp.value, pos=inp.selectionStart||val.length;
@@ -1090,8 +1192,9 @@ function openAdmin(){
 function toggleAdminOff(){
   isAdmin = false;
   updateAdminBtn();
-  // 게시판·플레이어·댓글 버튼 새로고침
   renderPosts(allPosts);
+  // 현재 videos도 재렌더 (allVideos 캐시 필요)
+  if(typeof allVideos !== 'undefined') renderVideos(allVideos);
   closeModal('adminModal');
   showToast('관리자 모드가 꺼졌어요 🔒');
 }
@@ -1101,6 +1204,9 @@ function checkAdminPw(){
   if(pw !== ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
   isAdmin = true;
   updateAdminBtn();
+  // 게시판·영상 즉시 재렌더해서 수정/삭제 버튼 표시
+  renderPosts(allPosts);
+  renderVideos(allVideos);
   document.getElementById('adminContent').innerHTML = buildAdminContent();
   loadMemberList();
   showToast('관리자 모드 ON 🔑');
@@ -1156,6 +1262,7 @@ async function deleteMember(id){
 function extractVid(url){ const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
 
 function renderVideos(vids){
+  allVideos = vids;
   const vl=document.getElementById('videoList');
   if(!vids.length){ vl.innerHTML=`<div class="empty-state"><div class="empty-emoji">🎵</div><div class="empty-text">공유된 영상이 없어요!<br>첫 영상을 추가해봐요 🌿</div></div>`; return; }
   vids.forEach(v=>knownUsers.add(v.author));
@@ -1234,7 +1341,7 @@ async function deleteVideo(id){
 async function addVcmt(vid){
   const inp=document.getElementById('vci-'+vid);
   const text=inp.value.trim(); if(!text) return;
-  const cmt={name:profile.name,text,pic:profile.pic||null};
+  const cmt={name:profile.name,text,pic:profile.pic||null,replies:[]};
   if(FB){
     const ref=db.collection('videos').doc(vid);
     const snap=await ref.get(); const old=snap.data().comments||[];
@@ -1242,11 +1349,60 @@ async function addVcmt(vid){
     await ref.update({comments:next});
     document.getElementById('vcl-'+vid).innerHTML=cmtListHtml(next, vid, true);
     document.getElementById('vcc-'+vid).textContent=next.length;
+    // 플레이어 댓글 알림
+    const videoAuthor = snap.data().author;
+    if(videoAuthor !== profile.name){
+      addNotif('🎵',`<strong>${esc(profile.name)}</strong>님이 영상에 댓글을 달았어요: <em>${esc(text.slice(0,25))}</em>`);
+    }
   } else {
     const v=local.videos.find(x=>x.id===vid);
     if(v){ if(!v.comments)v.comments=[]; v.comments.push(cmt); document.getElementById('vcl-'+vid).innerHTML=cmtListHtml(v.comments, vid, true); document.getElementById('vcc-'+vid).textContent=v.comments.length; }
   }
   inp.value=''; showToast('댓글이 달렸어요 💬');
+}
+
+// ── 플레이어 답댓글 ───────────────────────────────────────
+async function vaddReply(vidId, cmtIdx){
+  const inp = document.getElementById(`vri-${vidId}-${cmtIdx}`);
+  const text = inp.value.trim(); if(!text) return;
+  const reply = {name:profile.name, text, pic:profile.pic||null};
+  if(FB){
+    const ref = db.collection('videos').doc(vidId);
+    const snap = await ref.get();
+    const cmts = [...(snap.data().comments||[])];
+    if(!cmts[cmtIdx].replies) cmts[cmtIdx].replies = [];
+    cmts[cmtIdx].replies.push(reply);
+    await ref.update({comments:cmts});
+    document.getElementById('vcl-'+vidId).innerHTML = cmtListHtml(cmts, vidId, true);
+    const cmtAuthor = cmts[cmtIdx].name;
+    if(cmtAuthor !== profile.name){
+      addNotif('↩',`<strong>${esc(profile.name)}</strong>님이 답글을 달았어요: <em>${esc(text.slice(0,25))}</em>`);
+    }
+  } else {
+    const v = local.videos.find(x=>x.id===vidId);
+    if(v && v.comments[cmtIdx]){
+      if(!v.comments[cmtIdx].replies) v.comments[cmtIdx].replies=[];
+      v.comments[cmtIdx].replies.push(reply);
+      document.getElementById('vcl-'+vidId).innerHTML = cmtListHtml(v.comments, vidId, true);
+    }
+  }
+  inp.value=''; showToast('답글이 달렸어요 ↩');
+}
+
+async function vdeleteReply(vidId, cmtIdx, replyIdx){
+  if(!confirm('답글을 삭제할까요?')) return;
+  if(FB){
+    const ref = db.collection('videos').doc(vidId);
+    const snap = await ref.get();
+    const cmts = [...(snap.data().comments||[])];
+    cmts[cmtIdx].replies.splice(replyIdx,1);
+    await ref.update({comments:cmts});
+    document.getElementById('vcl-'+vidId).innerHTML = cmtListHtml(cmts, vidId, true);
+  } else {
+    const v = local.videos.find(x=>x.id===vidId);
+    if(v){ v.comments[cmtIdx].replies.splice(replyIdx,1); document.getElementById('vcl-'+vidId).innerHTML = cmtListHtml(v.comments, vidId, true); }
+  }
+  showToast('답글이 삭제됐어요');
 }
 
 // ── 플레이어 댓글 수정 ────────────────────────────────────
