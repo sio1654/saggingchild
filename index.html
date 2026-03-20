@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모여봐요 우리의 숲 🌿</title>
+
+<!--
+  ✏️ 폰트 바꾸고 싶으면 아래 줄을 교체하세요
+  추천 조합:
+  · 지금 (귀여운)   : Jua + Noto Sans KR
+  · 손글씨          : Gaegu + Nanum Gothic
+  · 둥글둥글        : Black Han Sans + Noto Sans KR
+  Google Fonts 더 찾기: fonts.google.com
+-->
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/*
+  ✏️ 색상 바꾸기
+  아래 값만 바꾸면 전체 색이 한번에 바뀌어요!
+  색상 선택기: htmlcolorcodes.com
+*/
+:root {
+  --cream:        #f5f0e8;   /* 메인 배경 */
+  --cream2:       #ede8da;   /* 탭 배경 */
+  --cream3:       #ddd7c4;   /* 테두리/그림자 */
+  --brown:        #8b5e3c;   /* 공지바 */
+  --brown-dark:   #5c3d1e;
+  --brown-light:  #c49a6c;
+  --green:        #5aad6b;   /* ★ 포인트 색 - 여기만 바꿔도 느낌이 확 달라져요! */
+  --green-dark:   #3d8c52;
+  --green-light:  #8ed4a0;
+  --pink:         #e8637a;
+  --blue:         #5b9bd5;
+  --yellow:       #f5c842;
+  --red:          #e05555;
+  --text:         #5c3d1e;
+  --text2:        #8b6b4a;
+  --text3:        #b8956a;
+  --shadow:       rgba(92,61,30,0.15);
+  --font-display: 'Jua', sans-serif;        /* ✏️ 제목 폰트 */
+  --font-body:    'Noto Sans KR', sans-serif; /* ✏️ 본문 폰트 */
+  --radius:       20px;
+  --radius-lg:    28px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font-body);
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%235aad6b' fill-opacity='0.06'%3E%3Cellipse cx='20' cy='15' rx='10' ry='13' transform='rotate(-20,20,15)'/%3E%3Cellipse cx='60' cy='45' rx='9' ry='12' transform='rotate(15,60,45)'/%3E%3Cellipse cx='10' cy='60' rx='7' ry='10' transform='rotate(-10,10,60)'/%3E%3Cellipse cx='70' cy='10' rx='8' ry='11' transform='rotate(25,70,10)'/%3E%3Cellipse cx='40' cy='70' rx='9' ry='12' transform='rotate(-15,40,70)'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ===== LOADING ===== */
+#loadingScreen{
+  position:fixed;inset:0;background:var(--cream);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:9999;gap:16px;
+}
+.loading-logo{font-family:var(--font-display);font-size:26px;color:var(--green-dark)}
+.loading-spinner{width:40px;height:40px;border:4px solid var(--cream3);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-family:var(--font-display);font-size:14px;color:var(--text3)}
+
+/* ===== NOTICE ===== */
+#notice-bar{
+  background:var(--brown);padding:10px 20px;
+  display:flex;align-items:center;gap:10px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 3px 0 var(--brown-dark);
+}
+.notice-pill{
+  background:var(--yellow);color:var(--brown-dark);
+  font-family:var(--font-display);font-size:12px;
+  padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+}
+#notice-text{
+  font-family:var(--font-display);font-size:13px;color:#f5f0e8;
+  flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+.notice-edit-btn{
+  background:rgba(255,255,255,0.2);border:none;color:#f5f0e8;
+  padding:4px 12px;border-radius:12px;cursor:pointer;
+  font-family:var(--font-display);font-size:12px;white-space:nowrap;transition:all 0.2s;
+}
+.notice-edit-btn:hover{background:rgba(255,255,255,0.35)}
+
+/* ===== HEADER ===== */
+header{
+  padding:20px 20px 0;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.logo{display:flex;flex-direction:column;align-items:flex-start}
+.logo-top{font-family:var(--font-display);font-size:14px;color:var(--green-dark);letter-spacing:2px;margin-bottom:4px}
+.logo-blocks{display:flex;gap:4px}
+.logo-block{
+  font-family:var(--font-display);font-size:26px;
+  padding:4px 10px;border-radius:10px;color:white;
+  text-shadow:0 2px 0 rgba(0,0,0,0.2);line-height:1;
+}
+.lb-pink  {background:var(--pink);  box-shadow:0 4px 0 #b8445e,inset 0 1px 0 rgba(255,255,255,0.3)}
+.lb-blue  {background:var(--blue);  box-shadow:0 4px 0 #3a72aa,inset 0 1px 0 rgba(255,255,255,0.3)}
+.lb-yellow{background:var(--yellow);color:var(--brown-dark);box-shadow:0 4px 0 #c9a020,inset 0 1px 0 rgba(255,255,255,0.3)}
+.lb-green {background:var(--green-dark);box-shadow:0 4px 0 #2a6038,inset 0 1px 0 rgba(255,255,255,0.3);position:relative}
+.lb-green::before{content:'🌴';position:absolute;top:-14px;right:-2px;font-size:16px}
+
+.profile-btn{
+  display:flex;align-items:center;gap:10px;background:white;
+  border:3px solid var(--cream3);border-radius:40px;padding:6px 16px 6px 6px;
+  cursor:pointer;box-shadow:0 4px 0 var(--cream3),0 6px 12px var(--shadow);
+  transition:all 0.15s;font-family:inherit;
+}
+.profile-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--cream3),0 8px 16px var(--shadow)}
+.profile-btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--cream3)}
+.p-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green-light),var(--green));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3);
+}
+.p-avatar img{width:100%;height:100%;object-fit:cover}
+.p-name{font-family:var(--font-display);font-size:14px;color:var(--text);text-align:left}
+.p-status{font-size:11px;color:var(--text3);text-align:left}
+
+/* ===== NAV ===== */
+nav{display:flex;gap:8px;padding:16px 20px 0;overflow-x:auto}
+.nav-btn{
+  background:white;border:3px solid var(--cream3);color:var(--text2);
+  padding:10px 20px;border-radius:16px 16px 0 0;cursor:pointer;
+  font-family:var(--font-display);font-size:14px;
+  display:flex;align-items:center;gap:6px;transition:all 0.15s;
+  box-shadow:0 -2px 0 var(--cream3);white-space:nowrap;
+  border-bottom-color:var(--cream2);
+}
+.nav-btn:hover{color:var(--brown);background:var(--cream2)}
+.nav-btn.active{background:var(--cream2);color:var(--green-dark);border-color:var(--cream3);border-bottom-color:var(--cream2);font-size:15px}
+
+/* ===== MAIN ===== */
+main{
+  background:var(--cream2);border-top:3px solid var(--cream3);
+  min-height:70vh;padding:20px;max-width:1100px;margin:0 auto;
+}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fadeUp 0.25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.sec-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sec-title{font-family:var(--font-display);font-size:20px;color:var(--brown-dark);display:flex;align-items:center;gap:8px}
+.speech-bubble{
+  background:white;border:2px solid var(--cream3);border-radius:16px;
+  padding:8px 16px;font-size:13px;color:var(--text2);
+  box-shadow:0 3px 0 var(--cream3);font-family:var(--font-display);
+}
+
+/* ===== BUTTONS ===== */
+.ac-btn{font-family:var(--font-display);font-size:14px;border:none;padding:10px 20px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;white-space:nowrap}
+.ac-btn-green{background:var(--green);color:white;box-shadow:0 4px 0 var(--green-dark);text-shadow:0 1px 0 rgba(0,0,0,0.2)}
+.ac-btn-green:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
+.ac-btn-green:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
+.ac-btn-white{background:white;color:var(--text);border:2px solid var(--cream3);box-shadow:0 3px 0 var(--cream3)}
+.ac-btn-white:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--cream3)}
+.ac-btn-white:active{transform:translateY(1px);box-shadow:0 1px 0 var(--cream3)}
+
+/* ===== CARD ===== */
+.ac-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);overflow:hidden;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all 0.2s}
+.ac-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 var(--cream3),0 12px 28px var(--shadow)}
+
+/* ===== GALLERY ===== */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.gallery-card{cursor:pointer}
+.gallery-img{width:100%;aspect-ratio:4/3;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:50px;overflow:hidden;border-bottom:3px solid var(--cream3)}
+.gallery-img img{width:100%;height:100%;object-fit:cover}
+.gallery-card-body{padding:12px 14px}
+.gallery-author-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.mini-leaf{background:var(--green-light);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.gallery-card-title{font-family:var(--font-display);font-size:15px;color:var(--text);margin-bottom:6px}
+.gallery-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed var(--cream3);padding-top:8px;margin-top:8px}
+.comment-badge{background:var(--cream);border:2px solid var(--cream3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--text2);font-family:var(--font-display);display:flex;align-items:center;gap:4px}
+
+/* ===== PLAYER ===== */
+.video-list{display:flex;flex-direction:column;gap:14px}
+.video-inner{display:flex}
+.video-thumb{width:180px;flex-shrink:0;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;position:relative;overflow:hidden;border-right:3px solid var(--cream3);min-height:110px}
+.video-thumb img{width:100%;height:100%;object-fit:cover}
+.play-btn-overlay{position:absolute;inset:0;background:rgba(92,61,30,0.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s}
+.play-btn-overlay span{background:white;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 10px rgba(0,0,0,0.3)}
+.video-thumb:hover .play-btn-overlay{opacity:1}
+.video-info{padding:14px 16px;flex:1}
+.video-title{font-family:var(--font-display);font-size:16px;color:var(--text);margin-bottom:6px}
+.video-meta{font-size:12px;color:var(--text3);display:flex;gap:10px;margin-bottom:8px}
+.video-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.video-actions-col{padding:14px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-left:3px solid var(--cream3)}
+
+/* ===== CHAT ===== */
+.chat-wrap{background:white;border:3px solid var(--cream3);border-radius:var(--radius);box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:58vh}
+.chat-top{background:var(--green);padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--green-dark)}
+.chat-top-title{font-family:var(--font-display);font-size:16px;color:white;text-shadow:0 1px 0 rgba(0,0,0,0.2)}
+.chat-online{background:var(--yellow);color:var(--brown-dark);font-family:var(--font-display);font-size:11px;padding:2px 10px;border-radius:20px;margin-left:auto}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--cream)}
+.chat-msgs::-webkit-scrollbar{width:5px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:3px}
+.msg{display:flex;gap:8px}
+.msg.mine{flex-direction:row-reverse}
+.msg-avatar{width:34px;height:34px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;align-self:flex-end;border:2px solid var(--cream3);overflow:hidden}
+.msg-avatar img{width:100%;height:100%;object-fit:cover}
+.msg-body{max-width:65%}
+.msg-name{font-family:var(--font-display);font-size:11px;color:var(--text3);margin-bottom:4px}
+.mine .msg-name{text-align:right}
+.msg-bubble{background:white;border:2px solid var(--cream3);padding:10px 14px;border-radius:18px 18px 18px 4px;font-size:14px;line-height:1.5;color:var(--text);box-shadow:0 3px 0 var(--cream3);word-break:break-word}
+.mine .msg-bubble{background:var(--green);border-color:var(--green-dark);color:white;box-shadow:0 3px 0 var(--green-dark);border-radius:18px 18px 4px 18px}
+.msg-time{font-size:10px;color:var(--text3);margin-top:4px}
+.mine .msg-time{text-align:right}
+.chat-input-row{padding:12px 14px;background:white;border-top:3px solid var(--cream3);display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:16px;padding:9px 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;resize:none;transition:border-color 0.2s}
+.chat-input:focus{border-color:var(--green)}
+.chat-input::placeholder{color:var(--text3)}
+.send-btn{background:var(--green);border:none;border-radius:14px;padding:10px 16px;color:white;font-family:var(--font-display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);transition:all 0.15s;flex-shrink:0}
+.send-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
+.send-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
+
+/* ===== MODALS ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(92,61,30,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:460px;box-shadow:0 8px 0 var(--cream3),0 16px 40px rgba(92,61,30,0.25);animation:popIn 0.25s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(0.85)}to{opacity:1;transform:scale(1)}}
+.modal-lg{max-width:680px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:var(--font-display);font-size:20px;color:var(--brown-dark);display:flex;align-items:center;gap:8px}
+.modal-close{background:var(--cream2);border:2px solid var(--cream3);color:var(--text2);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;box-shadow:0 2px 0 var(--cream3)}
+.modal-close:hover{background:var(--pink);color:white;border-color:#b8445e;box-shadow:0 2px 0 #b8445e}
+.form-group{margin-bottom:14px}
+.form-label{font-family:var(--font-display);font-size:13px;color:var(--brown);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.form-input,.form-textarea{width:100%;background:white;border:3px solid var(--cream3);border-radius:12px;padding:10px 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color 0.2s}
+.form-input:focus,.form-textarea:focus{border-color:var(--green)}
+.form-textarea{resize:vertical;min-height:80px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+/* Profile */
+.profile-pic-area{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
+.profile-pic-big{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px;border:4px solid white;box-shadow:0 4px 0 var(--cream3),0 8px 20px var(--shadow);overflow:hidden}
+.profile-pic-big img{width:100%;height:100%;object-fit:cover}
+.pic-upload-label{background:white;border:2px dashed var(--green);color:var(--green-dark);padding:6px 18px;border-radius:20px;cursor:pointer;font-family:var(--font-display);font-size:13px;transition:all 0.2s}
+.pic-upload-label:hover{background:var(--green);color:white;border-style:solid}
+
+/* Gallery detail */
+.detail-layout{display:flex;gap:18px}
+.detail-img-box{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius);min-height:280px;display:flex;align-items:center;justify-content:center;font-size:80px;overflow:hidden}
+.detail-img-box img{width:100%;object-fit:contain}
+.detail-side{width:240px;flex-shrink:0;display:flex;flex-direction:column}
+.detail-title{font-family:var(--font-display);font-size:18px;margin-bottom:4px}
+.detail-author{font-size:12px;color:var(--text3);margin-bottom:12px}
+.detail-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.comments-label{font-family:var(--font-display);font-size:13px;color:var(--text3);margin-bottom:10px}
+.comments-box{flex:1;overflow-y:auto;max-height:180px}
+.cmt-item{display:flex;gap:7px;margin-bottom:10px}
+.cmt-bubble{background:var(--cream);border:2px solid var(--cream3);border-radius:12px;padding:7px 10px;flex:1}
+.cmt-name{font-family:var(--font-display);font-size:11px;color:var(--green-dark);margin-bottom:2px}
+.cmt-text{font-size:13px}
+.cmt-input-row{display:flex;gap:6px;margin-top:10px}
+.cmt-input{flex:1;background:white;border:3px solid var(--cream3);border-radius:20px;padding:7px 14px;font-size:13px;font-family:inherit;color:var(--text);outline:none}
+.cmt-input:focus{border-color:var(--green)}
+.cmt-send-btn{background:var(--green);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 var(--green-dark);flex-shrink:0;transition:all 0.15s}
+.cmt-send-btn:hover{transform:translateY(-1px)}
+
+/* YT */
+.yt-box{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:3px solid var(--cream3)}
+.yt-box iframe{width:100%;height:100%;border:none}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:white;font-family:var(--font-display);font-size:14px;padding:12px 24px;border-radius:20px;box-shadow:0 5px 0 var(--brown-dark),0 8px 24px rgba(0,0,0,0.2);z-index:9000;opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Upload preview */
+#uploadPreview{margin-top:10px;display:none}
+#uploadPreviewImg{width:100%;border-radius:12px;max-height:180px;object-fit:cover;border:3px solid var(--cream3)}
+
+/* Empty */
+.empty-state{text-align:center;padding:50px 20px;color:var(--text3);font-family:var(--font-display)}
+.empty-emoji{font-size:52px;margin-bottom:12px}
+.empty-text{font-size:15px;line-height:1.7}
+
+/* Firebase 배너 */
+#fbBanner{display:none;background:#fff8e1;border:2px solid var(--yellow);border-radius:14px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--brown-dark);line-height:1.7}
+#fbBanner strong{font-family:var(--font-display);display:block;margin-bottom:4px}
+
+@media(max-width:600px){
+  .detail-layout{flex-direction:column}.detail-side{width:100%}
+  .video-inner{flex-direction:column}.video-thumb{width:100%;height:160px}
+  .video-actions-col{flex-direction:row;border-left:none;border-top:3px solid var(--cream3)}
+  .logo-block{font-size:22px;padding:3px 8px}
+}
+</style>
+</head>
+<body>
+
+<div id="loadingScreen">
+  <div class="loading-logo">🌿 모여봐요 우리의 숲</div>
+  <div class="loading-spinner"></div>
+  <div class="loading-text">숲을 불러오는 중...</div>
+</div>
+
+<div id="notice-bar">
+  <span class="notice-pill">📌 공지</span>
+  <span id="notice-text">불러오는 중...</span>
+  <button class="notice-edit-btn" onclick="openModal('noticeModal')">✏️ 수정</button>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-top">모여봐요</div>
+    <div class="logo-blocks">
+      <div class="logo-block lb-pink">우</div>
+      <div class="logo-block lb-blue">리</div>
+      <div class="logo-block lb-yellow">의</div>
+      <div class="logo-block lb-green">숲</div>
+    </div>
+  </div>
+  <button class="profile-btn" onclick="openModal('profileModal')">
+    <div class="p-avatar" id="headerAvatar">🐾</div>
+    <div>
+      <div class="p-name" id="headerName">닉네임</div>
+      <div class="p-status" id="headerStatus">상태 메시지</div>
+    </div>
+  </button>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="switchTab('gallery',this)"><span>🖼️</span> 갤러리</button>
+  <button class="nav-btn" onclick="switchTab('player',this)"><span>🎵</span> 플레이어</button>
+  <button class="nav-btn" onclick="switchTab('chat',this)"><span>🍃</span> 대화방</button>
+</nav>
+
+<main>
+  <div id="tab-gallery" class="tab-content active">
+    <div class="sec-header">
+      <div class="sec-title">🌸 갤러리</div>
+      <div class="speech-bubble">사진을 올리고 댓글을 남겨봐요!</div>
+      <button class="ac-btn ac-btn-green" onclick="openModal('addPhotoModal')" style="margin-left:auto">📷 사진 올리기</button>
+    </div>
+    <div id="fbBanner"><strong>⚠️ Firebase 연결 전입니다</strong>지금은 새로고침하면 데이터가 사라져요. Firebase 설정을 완료하면 친구들과 실시간 공유가 돼요!</div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+
+  <div id="tab-player" class="tab-content">
+    <div class="sec-header">
+      <div class="sec-title">🎵 플레이어</div>
+      <div class="speech-bubble">유튜브 영상을 공유해봐요!</div>
+      <button class="ac-btn ac-btn-green" onclick="openModal('addVideoModal')" style="margin-left:auto">▶ 영상 추가</button>
+    </div>
+    <div class="video-list" id="videoList"></div>
+  </div>
+
+  <div id="tab-chat" class="tab-content">
+    <div class="sec-header">
+      <div class="sec-title">🍃 대화방</div>
+      <div class="speech-bubble">친구들과 이야기해요!</div>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-top">
+        <span>🌿</span>
+        <span class="chat-top-title">우리들의 숲 대화방</span>
+        <span class="chat-online" id="chatStatus">🟡 로컬</span>
+      </div>
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="메시지 입력..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+        <button class="send-btn" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">🐾 프로필 설정</span><button class="modal-close" onclick="closeModal('profileModal')">✕</button></div>
+    <div class="profile-pic-area">
+      <div class="profile-pic-big" id="profilePreview">🐾</div>
+      <label class="pic-upload-label" for="profilePicInput">📷 사진 바꾸기</label>
+      <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="previewProfilePic(event)">
+    </div>
+    <div class="form-group"><label class="form-label">🏷️ 닉네임</label><input class="form-input" id="profileName" placeholder="닉네임"></div>
+    <div class="form-group"><label class="form-label">💬 상태 메시지</label><input class="form-input" id="profileStatusInput" placeholder="상태 메시지"></div>
+    <div class="modal-actions">
+      <button class="ac-btn ac-btn-white" onclick="closeModal('profileModal')">취소</button>
+      <button class="ac-btn ac-btn-green" onclick="saveProfile()">✅ 저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="noticeModal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">📌 공지 수정</span><button class="modal-close" onclick="closeModal('noticeModal')">✕</button></div>
+    <div class="form-group"><label class="form-label">📝 공지 내용</label><textarea class="form-textarea" id="noticeInput" placeholder="공지사항을 입력하세요..."></textarea></div>
+    <div class="modal-actions">
+      <button class="ac-btn ac-btn-white" onclick="closeModal('noticeModal')">취소</button>
+      <button class="ac-btn ac-btn-green" onclick="saveNotice()">✅ 저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addPhotoModal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">📷 사진 올리기</span><button class="modal-close" onclick="closeModal('addPhotoModal')">✕</button></div>
+    <div class="form-group">
+      <label class="form-label">🖼️ 사진 선택</label>
+      <input type="file" id="photoFileInput" accept="image/*" class="form-input" style="cursor:pointer" onchange="previewUpload(event)">
+      <div id="uploadPreview"><img id="uploadPreviewImg" alt=""></div>
+    </div>
+    <div class="form-group"><label class="form-label">✏️ 제목</label><input class="form-input" id="photoTitle" placeholder="제목을 입력하세요"></div>
+    <div class="form-group"><label class="form-label">💭 설명 (선택)</label><textarea class="form-textarea" id="photoDesc" placeholder="이 사진에 대해 설명해주세요..."></textarea></div>
+    <div class="modal-actions">
+      <button class="ac-btn ac-btn-white" onclick="closeModal('addPhotoModal')">취소</button>
+      <button class="ac-btn ac-btn-green" onclick="addPhoto()">🌿 올리기</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="galleryDetailModal">
+  <div class="modal modal-lg">
+    <div class="modal-header"><span class="modal-title" id="detailTitle">제목</span><button class="modal-close" onclick="closeModal('galleryDetailModal')">✕</button></div>
+    <div class="detail-layout">
+      <div class="detail-img-box" id="detailImg"></div>
+      <div class="detail-side">
+        <div class="detail-author" id="detailAuthor"></div>
+        <div class="detail-desc" id="detailDesc"></div>
+        <div class="comments-label">💬 댓글</div>
+        <div class="comments-box" id="detailComments"></div>
+        <div class="cmt-input-row">
+          <input class="cmt-input" id="commentInput" placeholder="댓글을 남겨봐요...">
+          <button class="cmt-send-btn" onclick="addComment()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addVideoModal">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">🎵 영상 추가</span><button class="modal-close" onclick="closeModal('addVideoModal')">✕</button></div>
+    <div class="form-group"><label class="form-label">🔗 유튜브 URL</label><input class="form-input" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..."></div>
+    <div class="form-group"><label class="form-label">✏️ 제목</label><input class="form-input" id="videoTitle" placeholder="영상 제목"></div>
+    <div class="form-group"><label class="form-label">💭 추천 이유 (선택)</label><textarea class="form-textarea" id="videoDesc" placeholder="왜 이 영상을 추천하나요?"></textarea></div>
+    <div class="modal-actions">
+      <button class="ac-btn ac-btn-white" onclick="closeModal('addVideoModal')">취소</button>
+      <button class="ac-btn ac-btn-green" onclick="addVideo()">🌿 추가</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="videoPlayerModal">
+  <div class="modal modal-lg">
+    <div class="modal-header"><span class="modal-title" id="playerTitle">영상 재생</span><button class="modal-close" onclick="closeModal('videoPlayerModal')">✕</button></div>
+    <div class="yt-box" id="ytBox"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ============================================================
+  🔥 Firebase SDK (compat 버전 — 미리보기에서도 정상 동작)
+============================================================ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+<script>
+/* ============================================================
+  🔥 STEP 1: Firebase 설정값을 여기에 붙여넣으세요
+  (Firebase 콘솔 → 프로젝트 설정 → 내 앱 → SDK 설정 및 구성)
+
+  ⚠️ 지금은 샘플값 → 로컬 모드로 동작
+     실제 값을 넣으면 바로 친구들과 실시간 공유 시작!
+============================================================ */
+const firebaseConfig = {
+  apiKey:            "여기에_붙여넣기",
+  authDomain:        "여기에_붙여넣기",
+  projectId:         "여기에_붙여넣기",
+  storageBucket:     "여기에_붙여넣기",
+  messagingSenderId: "여기에_붙여넣기",
+  appId:             "여기에_붙여넣기",
+};
+
+/* ============================================================
+  나머지 코드는 건드리지 않아도 돼요!
+============================================================ */
+const EMOJIS = ['🌸','🍀','🦋','🌊','🌙','⭐','🍄','🐾','🌺','🎵','🌿','🍃'];
+let db, storage, FB = false;
+
+// Firebase 초기화 시도
+try {
+  if (!firebaseConfig.apiKey.includes('여기에')) {
+    firebase.initializeApp(firebaseConfig);
+    db      = firebase.firestore();
+    storage = firebase.storage();
+    FB = true;
+    document.getElementById('chatStatus').textContent = '🟢 실시간';
+    console.log('✅ Firebase 연결!');
+  } else {
+    throw new Error('설정 필요');
+  }
+} catch(e) {
+  document.getElementById('fbBanner').style.display = 'block';
+  document.getElementById('chatStatus').textContent = '🟡 로컬';
+}
+
+// 로컬 데이터 (Firebase 미연결 시 fallback)
+const local = {
+  photos: [
+    {id:'p1',title:'함께한 날 🌸',desc:'소중한 우리의 기억',author:'봄이',emoji:'🌸',imgUrl:null,comments:[{name:'펭귄',text:'너무 예쁘다!'},{name:'달이',text:'또 가고싶다ㅠ'}],ts:new Date()},
+    {id:'p2',title:'우리 카페 ☕',desc:'그날 커피 진짜 맛있었잖아',author:'펭귄',emoji:'☕',imgUrl:null,comments:[{name:'봄이',text:'맞아 또 가자!'}],ts:new Date()},
+  ],
+  videos:[{id:'v1',title:'추천 노래 🎵',desc:'요즘 이 노래 너무 좋아서',vid:'dQw4w9WgXcQ',author:'달이',ts:new Date()}],
+  msgs:[
+    {name:'봄이',text:'안녕! 드디어 우리만의 숲이 생겼다 🎉',ts:new Date()},
+    {name:'펭귄',text:'와~! 너무 귀엽다 ㅋㅋ 사진도 올려봐!',ts:new Date()},
+  ],
+  notice:'🌿 공지사항을 등록해주세요!',
+};
+let currentPhotoId = null;
+
+// 프로필 (기기 로컬 저장)
+let profile = JSON.parse(localStorage.getItem('acnh_profile')||'{"name":"닉네임","status":"상태 메시지","pic":null}');
+function saveProfileToLocal(){ localStorage.setItem('acnh_profile', JSON.stringify(profile)); }
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtTime(ts){ const d=ts?.toDate?ts.toDate():(ts||new Date()); return d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}); }
+function fmtDate(ts){ const d=ts?.toDate?ts.toDate():(ts||new Date()); return d.toLocaleDateString('ko-KR'); }
+
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+
+function updateHeader(){
+  document.getElementById('headerName').textContent   = profile.name;
+  document.getElementById('headerStatus').textContent = profile.status;
+  const a = document.getElementById('headerAvatar');
+  a.innerHTML = profile.pic ? `<img src="${profile.pic}">` : '🐾';
+}
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='profileModal'){
+    document.getElementById('profileName').value       = profile.name;
+    document.getElementById('profileStatusInput').value = profile.status;
+    document.getElementById('profilePreview').innerHTML = profile.pic ? `<img src="${profile.pic}">` : '🐾';
+  }
+  if(id==='noticeModal') document.getElementById('noticeInput').value = document.getElementById('notice-text').textContent;
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  if(id==='videoPlayerModal') document.getElementById('ytBox').innerHTML='';
+}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='chat') setTimeout(()=>{ const m=document.getElementById('chatMsgs'); m.scrollTop=m.scrollHeight; },50);
+}
+
+// ── PROFILE ──────────────────────────────────────────────
+function previewProfilePic(e){
+  const f=e.target.files[0]; if(!f) return;
+  new FileReader().onload=ev=>{ document.getElementById('profilePreview').innerHTML=`<img src="${ev.target.result}">`; profile.pic=ev.target.result; };
+  const r=new FileReader(); r.onload=ev=>{ document.getElementById('profilePreview').innerHTML=`<img src="${ev.target.result}">`; profile.pic=ev.target.result; }; r.readAsDataURL(f);
+}
+function saveProfile(){
+  profile.name   = document.getElementById('profileName').value||'닉네임';
+  profile.status = document.getElementById('profileStatusInput').value||'상태 메시지';
+  saveProfileToLocal(); updateHeader(); closeModal('profileModal'); showToast('프로필이 저장됐어요 🐾');
+}
+
+// ── NOTICE ───────────────────────────────────────────────
+async function loadNotice(){
+  if(!FB){ document.getElementById('notice-text').textContent=local.notice; return; }
+  try{
+    const snap = await db.collection('settings').doc('notice').get();
+    document.getElementById('notice-text').textContent = snap.exists ? snap.data().text : '🌿 공지사항을 등록해주세요!';
+  }catch{ document.getElementById('notice-text').textContent='🌿 공지를 불러올 수 없어요'; }
+}
+async function saveNotice(){
+  const text = document.getElementById('noticeInput').value||'🌿 공지사항이 없습니다.';
+  if(FB) await db.collection('settings').doc('notice').set({text});
+  else { local.notice=text; }
+  document.getElementById('notice-text').textContent=text;
+  closeModal('noticeModal'); showToast('공지가 업데이트됐어요 📌');
+}
+
+// ── GALLERY ──────────────────────────────────────────────
+function renderGallery(photos){
+  const g=document.getElementById('galleryGrid');
+  if(!photos.length){ g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-emoji">📷</div><div class="empty-text">아직 사진이 없어요!<br>첫 번째 사진을 올려봐요 🌿</div></div>`; return; }
+  g.innerHTML=photos.map(p=>`
+    <div class="ac-card gallery-card" onclick="openDetail('${p.id}')">
+      <div class="gallery-img">${p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:52px">${p.emoji||'🖼️'}</span>`}</div>
+      <div class="gallery-card-body">
+        <div class="gallery-author-row">
+          <div class="mini-leaf">${p.emoji||'🌿'}</div>
+          <span style="font-size:12px;color:var(--text3);font-family:var(--font-display)">${esc(p.author)}</span>
+        </div>
+        <div class="gallery-card-title">${esc(p.title)}</div>
+        <div class="gallery-card-foot">
+          <span style="font-size:11px;color:var(--text3)">${fmtDate(p.ts)}</span>
+          <span class="comment-badge">💬 ${(p.comments||[]).length}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function subscribeGallery(){
+  if(!FB){ renderGallery(local.photos); return; }
+  db.collection('photos').orderBy('ts','desc').onSnapshot(snap=>{
+    renderGallery(snap.docs.map(d=>({id:d.id,...d.data()})));
+  });
+}
+
+function previewUpload(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader(); r.onload=ev=>{ document.getElementById('uploadPreview').style.display='block'; document.getElementById('uploadPreviewImg').src=ev.target.result; }; r.readAsDataURL(f);
+}
+
+async function addPhoto(){
+  const title=document.getElementById('photoTitle').value.trim();
+  if(!title){ showToast('제목을 입력해주세요!'); return; }
+  const fi=document.getElementById('photoFileInput');
+  const desc=document.getElementById('photoDesc').value.trim();
+  const emoji=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+
+  const doAdd=async(imgUrl)=>{
+    const data={title,desc,author:profile.name,emoji,imgUrl:imgUrl||null,comments:[],ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+    if(FB) await db.collection('photos').add(data);
+    else{ local.photos.unshift({id:'p'+Date.now(),...data}); renderGallery(local.photos); }
+    closeModal('addPhotoModal');
+    ['photoTitle','photoDesc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('photoFileInput').value='';
+    document.getElementById('uploadPreview').style.display='none';
+    showToast('사진이 올라갔어요 🌸');
+  };
+
+  if(fi.files[0] && FB){
+    showToast('사진 업로드 중... 🌿');
+    const sRef=storage.ref(`photos/${Date.now()}_${fi.files[0].name}`);
+    await sRef.put(fi.files[0]);
+    await doAdd(await sRef.getDownloadURL());
+  } else if(fi.files[0]){
+    const r=new FileReader(); r.onload=ev=>doAdd(ev.target.result); r.readAsDataURL(fi.files[0]);
+  } else await doAdd(null);
+}
+
+async function openDetail(id){
+  currentPhotoId=id;
+  let p;
+  if(FB){ const s=await db.collection('photos').doc(id).get(); p={id:s.id,...s.data()}; }
+  else p=local.photos.find(x=>x.id===id);
+  document.getElementById('detailTitle').textContent  = p.title;
+  document.getElementById('detailAuthor').textContent = `${p.emoji||'🌿'} ${p.author} · ${fmtDate(p.ts)}`;
+  document.getElementById('detailDesc').textContent   = p.desc||'';
+  document.getElementById('detailImg').innerHTML      = p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:80px">${p.emoji||'🖼️'}</span>`;
+  renderComments(p.comments||[]);
+  openModal('galleryDetailModal');
+}
+
+function renderComments(cmts){
+  const el=document.getElementById('detailComments');
+  if(!cmts.length){ el.innerHTML=`<div style="font-size:13px;color:var(--text3);padding:8px">첫 댓글을 남겨봐요!</div>`; return; }
+  el.innerHTML=cmts.map(c=>`<div class="cmt-item"><div class="mini-leaf" style="width:26px;height:26px;font-size:12px;align-self:flex-start;margin-top:3px">😊</div><div class="cmt-bubble"><div class="cmt-name">${esc(c.name)}</div><div class="cmt-text">${esc(c.text)}</div></div></div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+async function addComment(){
+  const inp=document.getElementById('commentInput');
+  const text=inp.value.trim(); if(!text) return;
+  const cmt={name:profile.name,text};
+  if(FB){
+    const ref=db.collection('photos').doc(currentPhotoId);
+    const snap=await ref.get();
+    const old=snap.data().comments||[];
+    await ref.update({comments:[...old,cmt]});
+    renderComments([...old,cmt]);
+  } else {
+    const p=local.photos.find(x=>x.id===currentPhotoId);
+    p.comments.push(cmt); renderComments(p.comments); renderGallery(local.photos);
+  }
+  inp.value='';
+}
+document.getElementById('commentInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addComment(); });
+
+// ── PLAYER ───────────────────────────────────────────────
+function extractVid(url){ const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
+
+function renderVideos(vids){
+  const vl=document.getElementById('videoList');
+  if(!vids.length){ vl.innerHTML=`<div class="empty-state"><div class="empty-emoji">🎵</div><div class="empty-text">공유된 영상이 없어요!<br>첫 영상을 추가해봐요 🌿</div></div>`; return; }
+  vl.innerHTML=vids.map(v=>`
+    <div class="ac-card">
+      <div class="video-inner">
+        <div class="video-thumb" onclick="playVideo('${v.vid}','${esc(v.title)}')">
+          <img src="https://img.youtube.com/vi/${v.vid}/mqdefault.jpg" alt="" onerror="this.style.display='none'">
+          <div class="play-btn-overlay"><span>▶</span></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">${esc(v.title)}</div>
+          <div class="video-meta"><span>🍃 ${esc(v.author)}</span><span>📅 ${fmtDate(v.ts)}</span></div>
+          ${v.desc?`<div class="video-desc">${esc(v.desc)}</div>`:''}
+        </div>
+        <div class="video-actions-col">
+          <button class="ac-btn ac-btn-green" style="font-size:13px;padding:8px 14px" onclick="playVideo('${v.vid}','${esc(v.title)}')">▶ 재생</button>
+          <button class="ac-btn ac-btn-white" style="font-size:12px;padding:7px 12px;color:var(--red)" onclick="deleteVideo('${v.id}')">🗑 삭제</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function subscribeVideos(){
+  if(!FB){ renderVideos(local.videos); return; }
+  db.collection('videos').orderBy('ts','desc').onSnapshot(snap=>renderVideos(snap.docs.map(d=>({id:d.id,...d.data()}))));
+}
+
+async function addVideo(){
+  const url=document.getElementById('videoUrl').value.trim();
+  const title=document.getElementById('videoTitle').value.trim();
+  const desc=document.getElementById('videoDesc').value.trim();
+  if(!url){showToast('URL을 입력해주세요!');return;}
+  if(!title){showToast('제목을 입력해주세요!');return;}
+  const vid=extractVid(url);
+  if(!vid){showToast('올바른 유튜브 URL이 아니에요!');return;}
+  const data={title,desc,vid,author:profile.name,ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+  if(FB) await db.collection('videos').add(data);
+  else{ local.videos.unshift({id:'v'+Date.now(),...data}); renderVideos(local.videos); }
+  closeModal('addVideoModal');
+  ['videoUrl','videoTitle','videoDesc'].forEach(id=>document.getElementById(id).value='');
+  showToast('영상이 추가됐어요 🎵');
+}
+
+function playVideo(vid,title){
+  document.getElementById('playerTitle').textContent=title;
+  document.getElementById('ytBox').innerHTML=`<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" allowfullscreen allow="autoplay"></iframe>`;
+  openModal('videoPlayerModal');
+}
+
+async function deleteVideo(id){
+  if(FB) await db.collection('videos').doc(id).delete();
+  else{ local.videos=local.videos.filter(x=>x.id!==id); renderVideos(local.videos); }
+  showToast('영상이 삭제됐어요');
+}
+
+// ── CHAT ─────────────────────────────────────────────────
+function appendMsg(m){
+  const msgs=document.getElementById('chatMsgs');
+  const mine=m.name===profile.name;
+  const av=mine&&profile.pic?`<img src="${profile.pic}">`:(mine?'🐾':'🌿');
+  const d=document.createElement('div');
+  d.className='msg'+(mine?' mine':'');
+  d.innerHTML=`<div class="msg-avatar">${av}</div><div class="msg-body"><div class="msg-name">${esc(m.name)}</div><div class="msg-bubble">${esc(m.text)}</div><div class="msg-time">${fmtTime(m.ts)}</div></div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function subscribeChat(){
+  if(!FB){ local.msgs.forEach(m=>appendMsg(m)); return; }
+  db.collection('messages').orderBy('ts','asc').onSnapshot(snap=>{
+    document.getElementById('chatMsgs').innerHTML='';
+    snap.docs.forEach(d=>appendMsg({id:d.id,...d.data()}));
+  });
+}
+
+async function sendMsg(){
+  const inp=document.getElementById('chatInput');
+  const text=inp.value.trim(); if(!text) return;
+  const m={name:profile.name,text,ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
+  if(FB) await db.collection('messages').add(m);
+  else{ local.msgs.push(m); appendMsg(m); }
+  inp.value='';
+}
+
+// ── BOOT ─────────────────────────────────────────────────
+async function boot(){
+  updateHeader();
+  await loadNotice();
+  subscribeGallery();
+  subscribeVideos();
+  subscribeChat();
+  document.getElementById('loadingScreen').style.display='none';
+}
+boot();
+</script>
+</body>
+</html>
