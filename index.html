@@ -47,6 +47,8 @@ header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space
 .icon-btn{position:relative;background:white;border:3px solid var(--cream3);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 0 var(--cream3);transition:all .15s;font-size:18px;flex-shrink:0}
 .icon-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--cream3)}
 .icon-btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--cream3)}
+.icon-btn.admin-on{background:var(--red);border-color:#b83333;box-shadow:0 4px 0 #8a1f1f;animation:adminPulse 2s ease-in-out infinite}
+@keyframes adminPulse{0%,100%{box-shadow:0 4px 0 #8a1f1f,0 0 0 0 rgba(224,85,85,.4)}50%{box-shadow:0 4px 0 #8a1f1f,0 0 0 6px rgba(224,85,85,0)}}
 .notif-dot{position:absolute;top:-2px;right:-2px;background:var(--red);border-radius:50%;width:10px;height:10px;border:2px solid var(--cream);display:none}
 .notif-dot.on{display:block}
 .notif-count{position:absolute;top:-6px;right:-6px;background:var(--red);color:white;border-radius:20px;min-width:18px;height:18px;font-size:10px;font-family:var(--font-display);display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--cream)}
@@ -391,7 +393,7 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
         </div>
       </div>
     </div>
-    <button class="icon-btn" onclick="openAdmin()" title="관리자">⚙️</button>
+    <button class="icon-btn" id="adminBtn" onclick="openAdmin()" title="관리자">⚙️</button>
     <button class="profile-btn" onclick="openModal('profileModal')">
       <div class="p-avatar" id="headerAvatar">🐾</div>
       <div>
@@ -413,7 +415,7 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <div id="tab-board" class="tab-content active">
     <div class="sec-header">
       <div class="sec-title">📋 게시판</div>
-      <div class="speech-bubble">싸우지 말고 친하게 지내기</div>
+      <div class="speech-bubble">친구끼리 착한 말만 하자</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addPostModal')" style="margin-left:auto">✏️ 글쓰기</button>
     </div>
     <div class="filter-row">
@@ -433,7 +435,7 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <div id="tab-player" class="tab-content">
     <div class="sec-header">
       <div class="sec-title">🎵 플레이어</div>
-      <div class="speech-bubble">존중하며 삽시다</div>
+      <div class="speech-bubble">디깅 나눔 드가자</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addVideoModal')" style="margin-left:auto">▶ 영상 추가</button>
     </div>
     <div class="video-list" id="videoList"></div>
@@ -442,13 +444,13 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
   <!-- 대화방 -->
   <div id="tab-chat" class="tab-content">
     <div class="sec-header">
-      <div class="sec-title">🍃 흡연 구역</div>
-      <div class="speech-bubble">마음껏 꺼드럭거리세요</div>
+      <div class="sec-title">🚬 흡연 구역</div>
+      <div class="speech-bubble">꺼드럭거리실 수 있습니다</div>
     </div>
     <div class="chat-wrap">
       <div class="chat-top">
         <span>🌿</span>
-        <span class="chat-top-title">사이버 담타존</span>
+        <span class="chat-top-title">사이버 담타 zone</span>
         <span class="chat-online" id="chatStatus">🟡 로컬</span>
         <button class="chat-clear-btn" onclick="clearChat()">🗑 초기화</button>
       </div>
@@ -723,13 +725,8 @@ function closeModal(id){
   document.getElementById(id).classList.remove('open');
   if(id==='videoPlayerModal') document.getElementById('ytBox').innerHTML='';
   if(id==='adminModal'){
-    isAdmin = false;
-    document.getElementById('adminContent').innerHTML=`
-    <div class="admin-pw-form">
-      <input type="password" class="admin-pw-input" id="adminPwInput" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')checkAdminPw()">
-      <button class="ac-btn ac-btn-green" style="padding:9px 18px" onclick="checkAdminPw()">확인</button>
-    </div>
-    <p style="font-size:12px;color:var(--text3);font-family:var(--font-display)">비밀번호를 입력해야 회원 목록을 볼 수 있어요</p>`;
+    // isAdmin 은 모달 닫아도 유지 — 헤더 버튼이나 패널 내 OFF 버튼으로만 해제
+    document.getElementById('adminContent').innerHTML=buildAdminContent();
   }
 }
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); }));
@@ -1051,26 +1048,75 @@ function insertTag(e,name,boxId,item){
 }
 
 // ── 관리자 ────────────────────────────────────────────────
-function openAdmin(){ openModal('adminModal'); }
-
-function checkAdminPw(){
-  const pw=document.getElementById('adminPwInput').value;
-  if(pw!==ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
-  isAdmin = true;
-  loadAdminPanel();
+function buildAdminContent(){
+  if(!isAdmin){
+    return `
+      <div class="admin-pw-form">
+        <input type="password" class="admin-pw-input" id="adminPwInput" placeholder="관리자 비밀번호" onkeydown="if(event.key==='Enter')checkAdminPw()">
+        <button class="ac-btn ac-btn-green" style="padding:9px 18px" onclick="checkAdminPw()">확인</button>
+      </div>
+      <p style="font-size:12px;color:var(--text3);font-family:var(--font-display)">비밀번호를 입력해야 회원 목록을 볼 수 있어요</p>`;
+  }
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:10px 14px;background:#fff0f0;border:2px solid #f5c0c0;border-radius:12px;">
+      <div>
+        <div style="font-family:var(--font-display);font-size:14px;color:var(--red)">🔑 관리자 모드 ON</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">모든 글·댓글·영상 수정/삭제 가능</div>
+      </div>
+      <button class="ac-btn ac-btn-red" style="font-size:12px;padding:7px 14px" onclick="toggleAdminOff()">OFF</button>
+    </div>
+    <div id="adminMemberSection"><div style="font-family:var(--font-display);font-size:13px;color:var(--text3)">회원 목록 불러오는 중...</div></div>`;
 }
 
-async function loadAdminPanel(){
-  const el=document.getElementById('adminContent');
-  el.innerHTML='<div style="font-family:var(--font-display);font-size:14px;color:var(--text3);padding:10px 0">회원 목록 불러오는 중...</div>';
-  let members=[];
+function updateAdminBtn(){
+  const btn = document.getElementById('adminBtn');
+  if(isAdmin){
+    btn.classList.add('admin-on');
+    btn.title = '관리자 모드 ON (클릭해서 패널 열기)';
+    btn.innerHTML = '🔑';
+  } else {
+    btn.classList.remove('admin-on');
+    btn.title = '관리자';
+    btn.innerHTML = '⚙️';
+  }
+}
+
+function openAdmin(){
+  document.getElementById('adminContent').innerHTML = buildAdminContent();
+  openModal('adminModal');
+  if(isAdmin) loadMemberList();
+}
+
+function toggleAdminOff(){
+  isAdmin = false;
+  updateAdminBtn();
+  // 게시판·플레이어·댓글 버튼 새로고침
+  renderPosts(allPosts);
+  closeModal('adminModal');
+  showToast('관리자 모드가 꺼졌어요 🔒');
+}
+
+function checkAdminPw(){
+  const pw = document.getElementById('adminPwInput').value;
+  if(pw !== ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
+  isAdmin = true;
+  updateAdminBtn();
+  document.getElementById('adminContent').innerHTML = buildAdminContent();
+  loadMemberList();
+  showToast('관리자 모드 ON 🔑');
+}
+
+async function loadMemberList(){
+  const el = document.getElementById('adminMemberSection');
+  if(!el) return;
+  let members = [];
   if(FB){
     try{
-      const snap=await db.collection('profiles').get();
-      members=snap.docs.map(d=>({id:d.id,...d.data()}));
+      const snap = await db.collection('profiles').get();
+      members = snap.docs.map(d=>({id:d.id,...d.data()}));
     }catch(e){ el.innerHTML='<p style="color:var(--red);font-size:13px">불러오기 실패: '+esc(e.message)+'</p>'; return; }
   } else {
-    members=[...knownUsers].map(n=>({id:n,name:n,status:'',pic:null}));
+    members = [...knownUsers].map(n=>({id:n,name:n,status:'',pic:null}));
   }
   if(!members.length){ el.innerHTML='<p style="font-family:var(--font-display);font-size:13px;color:var(--text3)">등록된 회원이 없어요</p>'; return; }
   el.innerHTML=`
@@ -1088,18 +1134,21 @@ async function loadAdminPanel(){
     </div>`;
 }
 
+// 구버전 loadAdminPanel 호환 유지
+async function loadAdminPanel(){ loadMemberList(); }
+
 async function deleteMember(id){
   if(!confirm(`"${id}" 회원을 삭제할까요?\n해당 유저의 프로필 정보가 삭제돼요.`)) return;
   if(FB){
     try{
       await db.collection('profiles').doc(id).delete();
       showToast(`${id} 회원이 삭제됐어요`);
-      loadAdminPanel();
+      loadMemberList();
     }catch(e){ showToast('삭제 실패: '+e.message); }
   } else {
     knownUsers.delete(id);
     showToast(`${id} 회원이 삭제됐어요`);
-    loadAdminPanel();
+    loadMemberList();
   }
 }
 
