@@ -4,158 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>모여봐요 폐급의 숲 🌿</title>
-
-<!--
-  ✏️ 폰트 바꾸고 싶으면 아래 줄을 교체하세요
-  추천 조합:
-  · 지금 (귀여운)   : Jua + Noto Sans KR
-  · 손글씨          : Gaegu + Nanum Gothic
-  · 둥글둥글        : Black Han Sans + Noto Sans KR
-  Google Fonts 더 찾기: fonts.google.com
--->
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-
 <style>
-/*
-  ✏️ 색상 바꾸기
-  아래 값만 바꾸면 전체 색이 한번에 바뀌어요!
-  색상 선택기: htmlcolorcodes.com
-*/
 :root {
-  --cream:        #f5f0e8;   /* 메인 배경 */
-  --cream2:       #ede8da;   /* 탭 배경 */
-  --cream3:       #ddd7c4;   /* 테두리/그림자 */
-  --brown:        #8b5e3c;   /* 공지바 */
-  --brown-dark:   #5c3d1e;
-  --brown-light:  #c49a6c;
-  --green:        #5aad6b;   /* ★ 포인트 색 - 여기만 바꿔도 느낌이 확 달라져요! */
-  --green-dark:   #3d8c52;
-  --green-light:  #8ed4a0;
-  --pink:         #e8637a;
-  --blue:         #5b9bd5;
-  --yellow:       #f5c842;
-  --red:          #e05555;
-  --text:         #5c3d1e;
-  --text2:        #8b6b4a;
-  --text3:        #b8956a;
-  --shadow:       rgba(92,61,30,0.15);
-  --font-display: 'Jua', sans-serif;        /* ✏️ 제목 폰트 */
-  --font-body:    'Noto Sans KR', sans-serif; /* ✏️ 본문 폰트 */
-  --radius:       20px;
-  --radius-lg:    28px;
+  --cream:#f5f0e8;--cream2:#ede8da;--cream3:#ddd7c4;
+  --brown:#8b5e3c;--brown-dark:#5c3d1e;--brown-light:#c49a6c;
+  --green:#5aad6b;--green-dark:#3d8c52;--green-light:#8ed4a0;
+  --pink:#e8637a;--blue:#5b9bd5;--yellow:#f5c842;--red:#e05555;
+  --text:#5c3d1e;--text2:#8b6b4a;--text3:#b8956a;
+  --shadow:rgba(92,61,30,0.15);
+  --font-display:'Jua',sans-serif;--font-body:'Noto Sans KR',sans-serif;
+  --radius:20px;--radius-lg:28px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:var(--font-body);
-  background:var(--cream);
-  color:var(--text);
-  min-height:100vh;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%235aad6b' fill-opacity='0.06'%3E%3Cellipse cx='20' cy='15' rx='10' ry='13' transform='rotate(-20,20,15)'/%3E%3Cellipse cx='60' cy='45' rx='9' ry='12' transform='rotate(15,60,45)'/%3E%3Cellipse cx='10' cy='60' rx='7' ry='10' transform='rotate(-10,10,60)'/%3E%3Cellipse cx='70' cy='10' rx='8' ry='11' transform='rotate(25,70,10)'/%3E%3Cellipse cx='40' cy='70' rx='9' ry='12' transform='rotate(-15,40,70)'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* ===== LOADING ===== */
-#loadingScreen{
-  position:fixed;inset:0;background:var(--cream);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:9999;gap:16px;
-}
+body{font-family:var(--font-body);background:var(--cream);color:var(--text);min-height:100vh;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%235aad6b' fill-opacity='0.06'%3E%3Cellipse cx='20' cy='15' rx='10' ry='13' transform='rotate(-20,20,15)'/%3E%3Cellipse cx='60' cy='45' rx='9' ry='12' transform='rotate(15,60,45)'/%3E%3Cellipse cx='10' cy='60' rx='7' ry='10' transform='rotate(-10,10,60)'/%3E%3Cellipse cx='70' cy='10' rx='8' ry='11' transform='rotate(25,70,10)'/%3E%3Cellipse cx='40' cy='70' rx='9' ry='12' transform='rotate(-15,40,70)'/%3E%3C/g%3E%3C/svg%3E")}
+#loadingScreen{position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:16px}
 .loading-logo{font-family:var(--font-display);font-size:26px;color:var(--green-dark)}
 .loading-spinner{width:40px;height:40px;border:4px solid var(--cream3);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-family:var(--font-display);font-size:14px;color:var(--text3)}
-
-/* ===== NOTICE ===== */
-#notice-bar{
-  background:var(--brown);padding:10px 20px;
-  display:flex;align-items:center;gap:10px;
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 3px 0 var(--brown-dark);
-}
-.notice-pill{
-  background:var(--yellow);color:var(--brown-dark);
-  font-family:var(--font-display);font-size:12px;
-  padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
-}
-#notice-text{
-  font-family:var(--font-display);font-size:13px;color:#f5f0e8;
-  flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-}
-.notice-edit-btn{
-  background:rgba(255,255,255,0.2);border:none;color:#f5f0e8;
-  padding:4px 12px;border-radius:12px;cursor:pointer;
-  font-family:var(--font-display);font-size:12px;white-space:nowrap;transition:all 0.2s;
-}
+#notice-bar{background:var(--brown);padding:10px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 3px 0 var(--brown-dark)}
+.notice-pill{background:var(--yellow);color:var(--brown-dark);font-family:var(--font-display);font-size:12px;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+#notice-text{font-family:var(--font-display);font-size:13px;color:#f5f0e8;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.notice-edit-btn{background:rgba(255,255,255,0.2);border:none;color:#f5f0e8;padding:4px 12px;border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:12px;white-space:nowrap;transition:all 0.2s}
 .notice-edit-btn:hover{background:rgba(255,255,255,0.35)}
-
-/* ===== HEADER ===== */
-header{
-  padding:20px 20px 0;display:flex;align-items:center;
-  justify-content:space-between;flex-wrap:wrap;gap:12px;
-}
+header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .logo{display:flex;flex-direction:column;align-items:flex-start}
 .logo-top{font-family:var(--font-display);font-size:14px;color:var(--green-dark);letter-spacing:2px;margin-bottom:4px}
 .logo-blocks{display:flex;gap:4px}
-.logo-block{
-  font-family:var(--font-display);font-size:26px;
-  padding:4px 10px;border-radius:10px;color:white;
-  text-shadow:0 2px 0 rgba(0,0,0,0.2);line-height:1;
-}
-.lb-pink  {background:var(--pink);  box-shadow:0 4px 0 #b8445e,inset 0 1px 0 rgba(255,255,255,0.3)}
-.lb-blue  {background:var(--blue);  box-shadow:0 4px 0 #3a72aa,inset 0 1px 0 rgba(255,255,255,0.3)}
+.logo-block{font-family:var(--font-display);font-size:26px;padding:4px 10px;border-radius:10px;color:white;text-shadow:0 2px 0 rgba(0,0,0,0.2);line-height:1}
+.lb-pink{background:var(--pink);box-shadow:0 4px 0 #b8445e,inset 0 1px 0 rgba(255,255,255,0.3)}
+.lb-blue{background:var(--blue);box-shadow:0 4px 0 #3a72aa,inset 0 1px 0 rgba(255,255,255,0.3)}
 .lb-yellow{background:var(--yellow);color:var(--brown-dark);box-shadow:0 4px 0 #c9a020,inset 0 1px 0 rgba(255,255,255,0.3)}
-.lb-green {background:var(--green-dark);box-shadow:0 4px 0 #2a6038,inset 0 1px 0 rgba(255,255,255,0.3);position:relative}
+.lb-green{background:var(--green-dark);box-shadow:0 4px 0 #2a6038,inset 0 1px 0 rgba(255,255,255,0.3);position:relative}
 .lb-green::before{content:'🌴';position:absolute;top:-14px;right:-2px;font-size:16px}
-
-.profile-btn{
-  display:flex;align-items:center;gap:10px;background:white;
-  border:3px solid var(--cream3);border-radius:40px;padding:6px 16px 6px 6px;
-  cursor:pointer;box-shadow:0 4px 0 var(--cream3),0 6px 12px var(--shadow);
-  transition:all 0.15s;font-family:inherit;
-}
+.profile-btn{display:flex;align-items:center;gap:10px;background:white;border:3px solid var(--cream3);border-radius:40px;padding:6px 16px 6px 6px;cursor:pointer;box-shadow:0 4px 0 var(--cream3),0 6px 12px var(--shadow);transition:all 0.15s;font-family:inherit}
 .profile-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--cream3),0 8px 16px var(--shadow)}
 .profile-btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--cream3)}
-.p-avatar{
-  width:36px;height:36px;border-radius:50%;
-  background:linear-gradient(135deg,var(--green-light),var(--green));
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3);
-}
+.p-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden;flex-shrink:0;border:2px solid var(--cream3)}
 .p-avatar img{width:100%;height:100%;object-fit:cover}
 .p-name{font-family:var(--font-display);font-size:14px;color:var(--text);text-align:left}
 .p-status{font-size:11px;color:var(--text3);text-align:left}
-
-/* ===== NAV ===== */
 nav{display:flex;gap:8px;padding:16px 20px 0;overflow-x:auto}
-.nav-btn{
-  background:white;border:3px solid var(--cream3);color:var(--text2);
-  padding:10px 20px;border-radius:16px 16px 0 0;cursor:pointer;
-  font-family:var(--font-display);font-size:14px;
-  display:flex;align-items:center;gap:6px;transition:all 0.15s;
-  box-shadow:0 -2px 0 var(--cream3);white-space:nowrap;
-  border-bottom-color:var(--cream2);
-}
+.nav-btn{background:white;border:3px solid var(--cream3);color:var(--text2);padding:10px 20px;border-radius:16px 16px 0 0;cursor:pointer;font-family:var(--font-display);font-size:14px;display:flex;align-items:center;gap:6px;transition:all 0.15s;box-shadow:0 -2px 0 var(--cream3);white-space:nowrap;border-bottom-color:var(--cream2)}
 .nav-btn:hover{color:var(--brown);background:var(--cream2)}
 .nav-btn.active{background:var(--cream2);color:var(--green-dark);border-color:var(--cream3);border-bottom-color:var(--cream2);font-size:15px}
-
-/* ===== MAIN ===== */
-main{
-  background:var(--cream2);border-top:3px solid var(--cream3);
-  min-height:70vh;padding:20px;max-width:1100px;margin:0 auto;
-}
+main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh;padding:20px;max-width:1100px;margin:0 auto}
 .tab-content{display:none}
 .tab-content.active{display:block;animation:fadeUp 0.25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
 .sec-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 .sec-title{font-family:var(--font-display);font-size:20px;color:var(--brown-dark);display:flex;align-items:center;gap:8px}
-.speech-bubble{
-  background:white;border:2px solid var(--cream3);border-radius:16px;
-  padding:8px 16px;font-size:13px;color:var(--text2);
-  box-shadow:0 3px 0 var(--cream3);font-family:var(--font-display);
-}
-
-/* ===== BUTTONS ===== */
+.speech-bubble{background:white;border:2px solid var(--cream3);border-radius:16px;padding:8px 16px;font-size:13px;color:var(--text2);box-shadow:0 3px 0 var(--cream3);font-family:var(--font-display)}
 .ac-btn{font-family:var(--font-display);font-size:14px;border:none;padding:10px 20px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;white-space:nowrap}
 .ac-btn-green{background:var(--green);color:white;box-shadow:0 4px 0 var(--green-dark);text-shadow:0 1px 0 rgba(0,0,0,0.2)}
 .ac-btn-green:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
@@ -163,12 +63,8 @@ main{
 .ac-btn-white{background:white;color:var(--text);border:2px solid var(--cream3);box-shadow:0 3px 0 var(--cream3)}
 .ac-btn-white:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--cream3)}
 .ac-btn-white:active{transform:translateY(1px);box-shadow:0 1px 0 var(--cream3)}
-
-/* ===== CARD ===== */
 .ac-card{background:white;border:3px solid var(--cream3);border-radius:var(--radius);overflow:hidden;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);transition:all 0.2s}
 .ac-card:hover{transform:translateY(-4px);box-shadow:0 9px 0 var(--cream3),0 12px 28px var(--shadow)}
-
-/* ===== GALLERY ===== */
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .gallery-card{cursor:pointer}
 .gallery-img{width:100%;aspect-ratio:4/3;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:50px;overflow:hidden;border-bottom:3px solid var(--cream3)}
@@ -179,8 +75,6 @@ main{
 .gallery-card-title{font-family:var(--font-display);font-size:15px;color:var(--text);margin-bottom:6px}
 .gallery-card-foot{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed var(--cream3);padding-top:8px;margin-top:8px}
 .comment-badge{background:var(--cream);border:2px solid var(--cream3);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--text2);font-family:var(--font-display);display:flex;align-items:center;gap:4px}
-
-/* ===== PLAYER ===== */
 .video-list{display:flex;flex-direction:column;gap:14px}
 .video-inner{display:flex}
 .video-thumb{width:180px;flex-shrink:0;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:36px;cursor:pointer;position:relative;overflow:hidden;border-right:3px solid var(--cream3);min-height:110px}
@@ -193,8 +87,6 @@ main{
 .video-meta{font-size:12px;color:var(--text3);display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap}
 .video-desc{font-size:13px;color:var(--text2);line-height:1.5}
 .video-actions-col{padding:14px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-left:3px solid var(--cream3);flex-shrink:0}
-
-/* ===== CHAT ===== */
 .chat-wrap{background:white;border:3px solid var(--cream3);border-radius:var(--radius);box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);overflow:hidden;display:flex;flex-direction:column;height:60vh;min-height:400px}
 .chat-top{background:var(--green);padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:3px solid var(--green-dark)}
 .chat-top-title{font-family:var(--font-display);font-size:16px;color:white;text-shadow:0 1px 0 rgba(0,0,0,0.2)}
@@ -220,8 +112,6 @@ main{
 .send-btn{background:var(--green);border:none;border-radius:14px;padding:10px 16px;color:white;font-family:var(--font-display);font-size:16px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);transition:all 0.15s;flex-shrink:0}
 .send-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
 .send-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
-
-/* ===== MODALS ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(92,61,30,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
 .modal{background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:460px;box-shadow:0 8px 0 var(--cream3),0 16px 40px rgba(92,61,30,0.25);animation:popIn 0.25s cubic-bezier(0.34,1.56,0.64,1)}
@@ -237,15 +127,11 @@ main{
 .form-input:focus,.form-textarea:focus{border-color:var(--green)}
 .form-textarea{resize:vertical;min-height:80px}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
-
-/* Profile */
 .profile-pic-area{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
 .profile-pic-big{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--green-light),var(--green));display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px;border:4px solid white;box-shadow:0 4px 0 var(--cream3),0 8px 20px var(--shadow);overflow:hidden}
 .profile-pic-big img{width:100%;height:100%;object-fit:cover}
 .pic-upload-label{background:white;border:2px dashed var(--green);color:var(--green-dark);padding:6px 18px;border-radius:20px;cursor:pointer;font-family:var(--font-display);font-size:13px;transition:all 0.2s}
 .pic-upload-label:hover{background:var(--green);color:white;border-style:solid}
-
-/* Gallery detail */
 .detail-layout{display:flex;gap:18px}
 .detail-img-box{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:var(--radius);min-height:280px;display:flex;align-items:center;justify-content:center;font-size:80px;overflow:hidden}
 .detail-img-box img{width:100%;object-fit:contain}
@@ -264,58 +150,36 @@ main{
 .cmt-input:focus{border-color:var(--green)}
 .cmt-send-btn{background:var(--green);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 var(--green-dark);flex-shrink:0;transition:all 0.15s}
 .cmt-send-btn:hover{transform:translateY(-1px)}
-
-/* YT */
 .yt-box{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:3px solid var(--cream3)}
 .yt-box iframe{width:100%;height:100%;border:none}
-
-/* Toast */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown);color:white;font-family:var(--font-display);font-size:14px;padding:12px 24px;border-radius:20px;box-shadow:0 5px 0 var(--brown-dark),0 8px 24px rgba(0,0,0,0.2);z-index:9000;opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* Upload preview */
 #uploadPreview{margin-top:10px;display:none}
 #uploadPreviewImg{width:100%;border-radius:12px;max-height:180px;object-fit:cover;border:3px solid var(--cream3)}
-
-/* Empty */
 .empty-state{text-align:center;padding:50px 20px;color:var(--text3);font-family:var(--font-display)}
 .empty-emoji{font-size:52px;margin-bottom:12px}
 .empty-text{font-size:15px;line-height:1.7}
-
-/* Firebase 배너 */
 #fbBanner{display:none;background:#fff8e1;border:2px solid var(--yellow);border-radius:14px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--brown-dark);line-height:1.7}
 #fbBanner strong{font-family:var(--font-display);display:block;margin-bottom:4px}
-
 @media(max-width:600px){
-  /* 갤러리 상세 */
   .detail-layout{flex-direction:column}.detail-side{width:100%}
   .detail-img-box{min-height:200px}
   .comments-box{max-height:140px}
-
-  /* 플레이어 — 세로로 쌓기 + 터치시 재생 버튼 항상 표시 */
   .video-inner{flex-direction:column}
   .video-thumb{width:100%;height:200px;border-right:none;border-bottom:3px solid var(--cream3)}
   .video-thumb .play-btn-overlay{opacity:1}
   .video-actions-col{flex-direction:row;border-left:none;border-top:3px solid var(--cream3);padding:10px 14px;gap:8px}
   .video-actions-col .ac-btn{flex:1;justify-content:center}
-
-  /* 대화방 — dvh로 키보드 올라와도 안 찌그러지게 */
   .chat-wrap{height:calc(100dvh - 280px);min-height:320px}
   .chat-input{font-size:16px}
-
-  /* 모달 */
   .modal{padding:20px 16px}
   .modal-lg{max-width:100%}
-
-  /* 헤더/네비 */
   .logo-block{font-size:22px;padding:3px 8px}
   header{padding:14px 14px 0}
   main{padding:14px}
   nav{padding:12px 14px 0;gap:4px}
   .nav-btn{padding:8px 12px;font-size:13px}
   #notice-bar{padding:8px 14px}
-
-  /* 섹션 헤더 — 말풍선 숨기고 버튼 작게 */
   .speech-bubble{display:none}
   .sec-header .ac-btn{padding:8px 14px;font-size:13px}
 }
@@ -361,13 +225,18 @@ main{
 </nav>
 
 <main>
+  <!-- ===== 갤러리 ===== -->
   <div id="tab-gallery" class="tab-content active">
     <div class="sec-header">
       <div class="sec-title">갤러리</div>
       <div class="speech-bubble">친구끼리 착한 말만 하자</div>
       <button class="ac-btn ac-btn-green" onclick="openModal('addPhotoModal')" style="margin-left:auto">📷 사진 올리기</button>
+    </div>
+    <div id="fbBanner"><strong>⚠️ Firebase 연결 전입니다</strong>지금은 새로고침하면 데이터가 사라져요.</div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
 
-
+  <!-- ===== 플레이어 ===== -->
   <div id="tab-player" class="tab-content">
     <div class="sec-header">
       <div class="sec-title">플레이어</div>
@@ -377,6 +246,7 @@ main{
     <div class="video-list" id="videoList"></div>
   </div>
 
+  <!-- ===== 대화방 ===== -->
   <div id="tab-chat" class="tab-content">
     <div class="sec-header">
       <div class="sec-title">대화방</div>
@@ -485,22 +355,12 @@ main{
 
 <div id="toast"></div>
 
-<!-- ============================================================
-  🔥 Firebase SDK (compat 버전 — 미리보기에서도 정상 동작)
-============================================================ -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <script>
-/* ============================================================
-  🔥 STEP 1: Firebase 설정값을 여기에 붙여넣으세요
-  (Firebase 콘솔 → 프로젝트 설정 → 내 앱 → SDK 설정 및 구성)
-
-  ⚠️ 지금은 샘플값 → 로컬 모드로 동작
-     실제 값을 넣으면 바로 친구들과 실시간 공유 시작!
-============================================================ */
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// ✏️ Firebase 설정값 — 여기만 본인 값으로 교체하세요
 const firebaseConfig = {
   apiKey: "AIzaSyAS2ELdjl2WbItetyJ7UEmUSUSSaJlVWQo",
   authDomain: "saggingchild.firebaseapp.com",
@@ -510,21 +370,17 @@ const firebaseConfig = {
   appId: "1:840442981769:web:83e4f79e8be21a6dd28558",
   measurementId: "G-8TMMCS6CHX"
 };
-/* ============================================================
-  나머지 코드는 건드리지 않아도 돼요!
-============================================================ */
+
 const EMOJIS = ['🌸','🍀','🦋','🌊','🌙','⭐','🍄','🐾','🌺','🎵','🌿','🍃'];
 let db, storage, FB = false;
 
-// Firebase 초기화 시도
 try {
   if (!firebaseConfig.apiKey.includes('여기에')) {
     firebase.initializeApp(firebaseConfig);
-    db      = firebase.firestore();
+    db = firebase.firestore();
     storage = firebase.storage();
     FB = true;
     document.getElementById('chatStatus').textContent = '🟢 실시간';
-    console.log('✅ Firebase 연결!');
   } else {
     throw new Error('설정 필요');
   }
@@ -533,33 +389,23 @@ try {
   document.getElementById('chatStatus').textContent = '🟡 로컬';
 }
 
-// 로컬 데이터 (Firebase 미연결 시 fallback)
 const local = {
-  photos: [
-    {id:'p1',title:'함께한 날 🌸',desc:'소중한 우리의 기억',author:'봄이',emoji:'🌸',imgUrl:null,comments:[{name:'펭귄',text:'너무 예쁘다!'},{name:'달이',text:'또 가고싶다ㅠ'}],ts:new Date()},
-    {id:'p2',title:'우리 카페 ☕',desc:'그날 커피 진짜 맛있었잖아',author:'펭귄',emoji:'☕',imgUrl:null,comments:[{name:'봄이',text:'맞아 또 가자!'}],ts:new Date()},
-  ],
-  videos:[{id:'v1',title:'추천 노래 🎵',desc:'요즘 이 노래 너무 좋아서',vid:'dQw4w9WgXcQ',author:'달이',ts:new Date()}],
-  msgs:[
-    {name:'봄이',text:'안녕! 드디어 우리만의 숲이 생겼다 🎉',ts:new Date()},
-    {name:'펭귄',text:'와~! 너무 귀엽다 ㅋㅋ 사진도 올려봐!',ts:new Date()},
-  ],
+  photos:[],
+  videos:[],
+  msgs:[{name:'봄이',text:'안녕! 드디어 우리만의 숲이 생겼다 🎉',ts:new Date()}],
   notice:'🌿 공지사항을 등록해주세요!',
 };
 let currentPhotoId = null;
-
-// 프로필 (기기 로컬 저장)
 let profile = JSON.parse(localStorage.getItem('acnh_profile')||'{"name":"닉네임","status":"상태 메시지","pic":null}');
 function saveProfileToLocal(){ localStorage.setItem('acnh_profile', JSON.stringify(profile)); }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtTime(ts){ const d=ts?.toDate?ts.toDate():(ts||new Date()); return d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}); }
 function fmtDate(ts){ const d=ts?.toDate?ts.toDate():(ts||new Date()); return d.toLocaleDateString('ko-KR'); }
-
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
 
 function updateHeader(){
-  document.getElementById('headerName').textContent   = profile.name;
+  document.getElementById('headerName').textContent = profile.name;
   document.getElementById('headerStatus').textContent = profile.status;
   const a = document.getElementById('headerAvatar');
   a.innerHTML = profile.pic ? `<img src="${profile.pic}">` : '🐾';
@@ -568,7 +414,7 @@ function updateHeader(){
 function openModal(id){
   document.getElementById(id).classList.add('open');
   if(id==='profileModal'){
-    document.getElementById('profileName').value       = profile.name;
+    document.getElementById('profileName').value = profile.name;
     document.getElementById('profileStatusInput').value = profile.status;
     document.getElementById('profilePreview').innerHTML = profile.pic ? `<img src="${profile.pic}">` : '🐾';
   }
@@ -588,19 +434,16 @@ function switchTab(tab,btn){
   if(tab==='chat') setTimeout(()=>{ const m=document.getElementById('chatMsgs'); m.scrollTop=m.scrollHeight; },50);
 }
 
-// ── PROFILE ──────────────────────────────────────────────
 function previewProfilePic(e){
   const f=e.target.files[0]; if(!f) return;
-  new FileReader().onload=ev=>{ document.getElementById('profilePreview').innerHTML=`<img src="${ev.target.result}">`; profile.pic=ev.target.result; };
   const r=new FileReader(); r.onload=ev=>{ document.getElementById('profilePreview').innerHTML=`<img src="${ev.target.result}">`; profile.pic=ev.target.result; }; r.readAsDataURL(f);
 }
 function saveProfile(){
-  profile.name   = document.getElementById('profileName').value||'닉네임';
+  profile.name = document.getElementById('profileName').value||'닉네임';
   profile.status = document.getElementById('profileStatusInput').value||'상태 메시지';
   saveProfileToLocal(); updateHeader(); closeModal('profileModal'); showToast('프로필이 저장됐어요 🐾');
 }
 
-// ── NOTICE ───────────────────────────────────────────────
 async function loadNotice(){
   if(!FB){ document.getElementById('notice-text').textContent=local.notice; return; }
   try{
@@ -611,12 +454,11 @@ async function loadNotice(){
 async function saveNotice(){
   const text = document.getElementById('noticeInput').value||'🌿 공지사항이 없습니다.';
   if(FB) await db.collection('settings').doc('notice').set({text});
-  else { local.notice=text; }
+  else local.notice=text;
   document.getElementById('notice-text').textContent=text;
   closeModal('noticeModal'); showToast('공지가 업데이트됐어요 📌');
 }
 
-// ── GALLERY ──────────────────────────────────────────────
 function renderGallery(photos){
   const g=document.getElementById('galleryGrid');
   if(!photos.length){ g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-emoji">📷</div><div class="empty-text">아직 사진이 없어요!<br>첫 번째 사진을 올려봐요 🌿</div></div>`; return; }
@@ -655,7 +497,6 @@ async function addPhoto(){
   const fi=document.getElementById('photoFileInput');
   const desc=document.getElementById('photoDesc').value.trim();
   const emoji=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-
   const doAdd=async(imgUrl)=>{
     const data={title,desc,author:profile.name,emoji,imgUrl:imgUrl||null,comments:[],ts:FB?firebase.firestore.FieldValue.serverTimestamp():new Date()};
     if(FB) await db.collection('photos').add(data);
@@ -666,7 +507,6 @@ async function addPhoto(){
     document.getElementById('uploadPreview').style.display='none';
     showToast('사진이 올라갔어요 🌸');
   };
-
   if(fi.files[0] && FB){
     showToast('사진 업로드 중... 🌿');
     const sRef=storage.ref(`photos/${Date.now()}_${fi.files[0].name}`);
@@ -682,10 +522,10 @@ async function openDetail(id){
   let p;
   if(FB){ const s=await db.collection('photos').doc(id).get(); p={id:s.id,...s.data()}; }
   else p=local.photos.find(x=>x.id===id);
-  document.getElementById('detailTitle').textContent  = p.title;
+  document.getElementById('detailTitle').textContent = p.title;
   document.getElementById('detailAuthor').textContent = `${p.emoji||'🌿'} ${p.author} · ${fmtDate(p.ts)}`;
-  document.getElementById('detailDesc').textContent   = p.desc||'';
-  document.getElementById('detailImg').innerHTML      = p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:80px">${p.emoji||'🖼️'}</span>`;
+  document.getElementById('detailDesc').textContent = p.desc||'';
+  document.getElementById('detailImg').innerHTML = p.imgUrl?`<img src="${p.imgUrl}">`:`<span style="font-size:80px">${p.emoji||'🖼️'}</span>`;
   renderComments(p.comments||[]);
   openModal('galleryDetailModal');
 }
@@ -715,7 +555,6 @@ async function addComment(){
 }
 document.getElementById('commentInput').addEventListener('keydown',e=>{ if(e.key==='Enter') addComment(); });
 
-// ── PLAYER ───────────────────────────────────────────────
 function extractVid(url){ const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/); return m?m[1]:null; }
 
 function renderVideos(vids){
@@ -774,7 +613,6 @@ async function deleteVideo(id){
   showToast('영상이 삭제됐어요');
 }
 
-// ── CHAT ─────────────────────────────────────────────────
 function appendMsg(m){
   const msgs=document.getElementById('chatMsgs');
   const mine=m.name===profile.name;
@@ -803,7 +641,6 @@ async function sendMsg(){
   inp.value='';
 }
 
-// ── BOOT ─────────────────────────────────────────────────
 async function boot(){
   updateHeader();
   await loadNotice();
