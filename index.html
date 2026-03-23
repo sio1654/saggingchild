@@ -821,8 +821,12 @@ async function renderPosts(posts){
       </div>
       <div class="board-foot">
         <button class="foot-btn" onclick="toggleCmts('${p.id}')">💬 댓글 <span id="cc-${p.id}">${(p.comments||[]).length}</span></button>
-        <button class="foot-btn" onclick="startEdit('${p.id}')">✏️ 수정</button>
-        <button class="foot-btn danger ml-auto" onclick="deletePost('${p.id}')">🗑 삭제</button>
+        ${p.author===profile.name
+          ? `<button class="foot-btn" onclick="startEdit('${p.id}')">✏️ 수정</button>
+             <button class="foot-btn danger ml-auto" onclick="deletePost('${p.id}')">🗑 삭제</button>`
+          : `<button class="foot-btn" onclick="adminStartEdit('${p.id}')">✏️ 수정</button>
+             <button class="foot-btn danger ml-auto" onclick="adminDeletePost('${p.id}')">🗑 삭제</button>`
+        }
       </div>
       <div class="comment-section" id="cs-${p.id}">
         <div id="cl-${p.id}">${cmtListHtml(p.comments)}</div>
@@ -867,10 +871,36 @@ async function deletePost(id){
   showToast('삭제됐어요');
 }
 
+function adminStartEdit(id){
+  const pw = prompt('관리자 비밀번호를 입력하세요');
+  if(pw === null) return;
+  if(pw !== ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
+  const card = document.getElementById('card-'+id);
+  const tagBtn = card.querySelector('.edit-meta-row .tag-btn.sel');
+  if(tagBtn) editTags[id] = tagBtn.dataset.tag;
+  document.getElementById('edit-ed-'+id).innerHTML = document.getElementById('bd-'+id).innerHTML;
+  document.getElementById('ez-'+id).classList.add('open');
+  document.getElementById('bd-'+id).style.display = 'none';
+}
+
+async function adminDeletePost(id){
+  const pw = prompt('관리자 비밀번호를 입력하세요');
+  if(pw === null) return;
+  if(pw !== ADMIN_PASSWORD){ showToast('비밀번호가 틀렸어요 🔒'); return; }
+  if(!confirm('이 게시글을 삭제할까요?')) return;
+  if(FB) await db.collection('posts').doc(id).delete();
+  else{ local.posts=local.posts.filter(x=>x.id!==id); renderPosts(local.posts); }
+  showToast('삭제됐어요');
+}
+
 function toggleCmts(id){ document.getElementById('cs-'+id).classList.toggle('open'); }
 
 function startEdit(id){
-  // 현재 태그 초기화
+  // 본인 글인지 확인
+  const post = allPosts.find(p=>p.id===id);
+  if(post && post.author !== profile.name){
+    showToast('본인 글만 수정할 수 있어요!'); return;
+  }
   const card = document.getElementById('card-'+id);
   const tagBtn = card.querySelector('.edit-meta-row .tag-btn.sel');
   if(tagBtn) editTags[id] = tagBtn.dataset.tag;
