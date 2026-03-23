@@ -212,6 +212,77 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .vcmt-input:focus{border-color:var(--green)}
 .vcmt-send{background:var(--green);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--green-dark);flex-shrink:0}
 
+/* ===== STICKY 한마디 ===== */
+.sticky-write-box{background:white;border:3px solid var(--cream3);border-radius:var(--radius);padding:18px 20px;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);margin-bottom:24px}
+.sticky-write-title{font-family:var(--font-display);font-size:14px;color:var(--brown);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sticky-input-row{display:flex;gap:10px;align-items:center}
+.sticky-input{flex:1;background:var(--cream);border:3px solid var(--cream3);border-radius:16px;padding:11px 16px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s}
+.sticky-input:focus{border-color:var(--green)}
+.sticky-input::placeholder{color:var(--text3)}
+.sticky-char-count{font-family:var(--font-display);font-size:12px;color:var(--text3);white-space:nowrap}
+.sticky-submit-btn{background:var(--green);border:none;border-radius:14px;padding:11px 20px;color:white;font-family:var(--font-display);font-size:15px;cursor:pointer;box-shadow:0 4px 0 var(--green-dark);transition:all .15s;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.sticky-submit-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--green-dark)}
+.sticky-submit-btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--green-dark)}
+
+.sticky-board{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px;padding:4px 2px}
+.sticky-note{
+  border-radius:3px;
+  padding:14px 12px 12px;
+  box-shadow:2px 3px 0 rgba(0,0,0,.12),4px 6px 14px rgba(92,61,30,.15),inset 0 1px 0 rgba(255,255,255,.5);
+  position:relative;
+  min-height:130px;
+  display:flex;flex-direction:column;gap:6px;
+  transition:transform .2s,box-shadow .2s;
+  transform:rotate(var(--rot));
+}
+.sticky-note:hover{
+  transform:rotate(0deg) translateY(-6px) scale(1.04);
+  box-shadow:3px 6px 0 rgba(0,0,0,.15),6px 12px 24px rgba(92,61,30,.22),inset 0 1px 0 rgba(255,255,255,.5);
+  z-index:10;
+}
+/* 테이프 효과 */
+.sticky-note::before{
+  content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  width:36px;height:16px;
+  background:rgba(255,255,255,.55);
+  border-radius:2px;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+/* 접힌 모서리 */
+.sticky-note::after{
+  content:'';position:absolute;bottom:0;right:0;
+  border-style:solid;border-width:0 0 16px 16px;
+  border-color:transparent transparent rgba(0,0,0,.1) transparent;
+}
+.sticky-note-text{
+  font-family:var(--font-display);font-size:13px;color:rgba(0,0,0,.75);
+  line-height:1.6;flex:1;word-break:break-all;
+  margin-top:6px;
+}
+.sticky-note-author{font-size:11px;color:rgba(0,0,0,.4);font-family:var(--font-display);text-align:right;margin-top:auto}
+.sticky-note-del{
+  position:absolute;top:4px;right:5px;
+  background:none;border:none;font-size:12px;cursor:pointer;
+  color:rgba(0,0,0,.25);padding:2px 4px;border-radius:4px;
+  transition:all .15s;line-height:1;
+}
+.sticky-note-del:hover{color:rgba(180,0,0,.7);background:rgba(255,255,255,.4)}
+
+/* 포스트잇 색상 */
+.sn-yellow{background:#fef08a}
+.sn-pink{background:#fda4af}
+.sn-green{background:#86efac}
+.sn-blue{background:#93c5fd}
+.sn-orange{background:#fdba74}
+.sn-purple{background:#c4b5fd}
+.sn-mint{background:#6ee7b7}
+.sn-peach{background:#fcd34d}
+
+@media(max-width:600px){
+  .sticky-board{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+  .sticky-note{min-height:110px}
+}
+
 /* ===== MODALS ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(92,61,30,.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
@@ -383,10 +454,15 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
       <div class="sec-title">📝 한마디</div>
       <div class="speech-bubble">하고 싶은 말 한 줄씩!</div>
     </div>
-    <div class="sticky-input-row">
-      <input class="sticky-input" id="stickyInput" placeholder="한마디 남기기... (Enter로 등록)" maxlength="60"
-        onkeydown="if(event.key==='Enter')addSticky()">
-      <button class="sticky-submit-btn" onclick="addSticky()">➤</button>
+    <div class="sticky-write-box">
+      <div class="sticky-write-title">✏️ 오늘의 한마디</div>
+      <div class="sticky-input-row">
+        <input class="sticky-input" id="stickyInput" placeholder="한마디 남기기... (60자 이내)" maxlength="60"
+          oninput="document.getElementById('stickyCount').textContent=this.value.length+'/60'"
+          onkeydown="if(event.key==='Enter')addSticky()">
+        <span class="sticky-char-count" id="stickyCount">0/60</span>
+        <button class="sticky-submit-btn" onclick="addSticky()">📌 붙이기</button>
+      </div>
     </div>
     <div class="sticky-board" id="stickyBoard"></div>
   </div>
