@@ -195,6 +195,74 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 .vcmt-input:focus{border-color:var(--green)}
 .vcmt-send{background:var(--green);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--green-dark);flex-shrink:0}
 
+/* ===== 운세 ===== */
+.fortune-wrap{display:flex;flex-direction:column;align-items:center;gap:24px;padding:10px 0 30px}
+.fortune-spin-btn{font-family:var(--font-display);font-size:17px;border:none;padding:14px 32px;border-radius:20px;cursor:pointer;background:var(--green);color:white;box-shadow:0 6px 0 var(--green-dark);transition:all .15s;display:flex;align-items:center;gap:8px}
+.fortune-spin-btn:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--green-dark)}
+.fortune-spin-btn:active{transform:translateY(3px);box-shadow:0 3px 0 var(--green-dark)}
+.fortune-spin-btn:disabled{background:var(--cream3);box-shadow:0 4px 0 #b8a898;color:var(--text3);cursor:not-allowed;transform:none}
+.fortune-remain{font-family:var(--font-display);font-size:13px;color:var(--text3);text-align:center;min-height:20px}
+
+/* 쿠키 섞기 무대 */
+.cookie-stage{position:relative;width:min(320px,88vw);height:200px;margin:0 auto}
+.cookie-ghost{position:absolute;top:50%;left:50%;width:80px;height:80px;margin:-40px 0 0 -40px;background:white;border:3px solid var(--cream3);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 5px 0 var(--cream3),0 8px 18px var(--shadow);transition:none;pointer-events:none;opacity:0}
+.cookie-ghost.visible{opacity:1}
+@keyframes cookieFloat{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-10px) rotate(var(--r,0deg))}}
+
+/* 포춘쿠키 결과 카드 — 쪼개지는 효과 */
+.fortune-cookie-wrap{perspective:900px;display:flex;justify-content:center}
+.fortune-cookie-scene{position:relative;width:min(300px,82vw);height:240px}
+
+/* 위쪽 반 */
+.cookie-half-top{position:absolute;left:0;right:0;top:0;height:120px;overflow:hidden;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  background:white;border:3px solid var(--cream3);border-bottom:none;
+  box-shadow:0 -4px 0 var(--cream3),0 -6px 14px var(--shadow);
+  transform-origin:center bottom;
+  transition:transform .6s cubic-bezier(.34,1.4,.64,1), box-shadow .4s;
+  cursor:pointer}
+.cookie-half-top:hover{filter:brightness(1.03)}
+.cookie-half-top .half-inner{width:100%;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 20px}
+.cookie-half-top-emoji{font-size:52px}
+@keyframes cookieBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.cookie-half-top-emoji.bounce{animation:cookieBounce 1.4s ease-in-out infinite}
+
+/* 아래쪽 반 */
+.cookie-half-bot{position:absolute;left:0;right:0;bottom:0;height:120px;overflow:hidden;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
+  background:white;border:3px solid var(--cream3);border-top:none;
+  box-shadow:0 6px 0 var(--cream3),0 10px 20px var(--shadow);
+  transform-origin:center top;
+  transition:transform .6s cubic-bezier(.34,1.4,.64,1), box-shadow .4s;
+  cursor:pointer}
+.cookie-half-bot .half-inner{width:100%;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 20px;position:absolute;bottom:0}
+
+/* 열린 상태 */
+.fortune-cookie-scene.open .cookie-half-top{transform:translateY(-28px) rotate(-12deg);box-shadow:none}
+.fortune-cookie-scene.open .cookie-half-bot{transform:translateY(28px) rotate(8deg);box-shadow:none}
+
+/* 결과 쪽지 */
+.cookie-slip{position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%) scaleY(0);
+  background:linear-gradient(160deg,#fffde7,#fff9c4);border:3px solid var(--yellow);
+  border-radius:16px;padding:20px 18px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  box-shadow:0 4px 14px rgba(240,180,0,.25);
+  transition:transform .5s cubic-bezier(.34,1.4,.64,1) .35s, opacity .4s ease .35s;
+  opacity:0;z-index:10;pointer-events:none}
+.fortune-cookie-scene.open .cookie-slip{transform:translateY(-50%) scaleY(1);opacity:1;pointer-events:auto}
+
+.cookie-date{font-family:var(--font-display);font-size:11px;color:var(--text3);letter-spacing:.5px}
+.cookie-grade{font-family:var(--font-display);font-size:20px;padding:3px 16px;border-radius:20px;font-weight:700}
+.cookie-grade.대길{background:#fff0b3;color:#7a5500;border:2px solid #e8b800}
+.cookie-grade.길{background:#e8f5e9;color:#2e7d32;border:2px solid #5aad6b}
+.cookie-grade.중길{background:#e0f0ff;color:#1a4f8c;border:2px solid #5b9bd5}
+.cookie-grade.소길{background:#f3e5f5;color:#6a1b9a;border:2px solid #9c4dcc}
+.cookie-grade.흉{background:#fce4ec;color:#880e4f;border:2px solid #e8637a}
+.cookie-emoji-big{font-size:30px}
+.cookie-msg{font-family:var(--font-display);font-size:14px;color:var(--brown-dark);text-align:center;line-height:1.9;word-break:keep-all}
+.cookie-sub{font-size:12px;color:var(--text2);font-family:var(--font-display);text-align:center;line-height:1.6;border-top:1px dashed var(--cream3);padding-top:8px;width:100%}
+.cookie-open-hint{font-family:var(--font-display);font-size:12px;color:var(--text3);margin-top:4px}
+
 /* ===== STICKY 한마디 ===== */
 .sticky-write-box{background:white;border:3px solid var(--cream3);border-radius:var(--radius);padding:18px 20px;box-shadow:0 5px 0 var(--cream3),0 8px 20px var(--shadow);margin-bottom:24px}
 .sticky-write-title{font-family:var(--font-display);font-size:14px;color:var(--brown);margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -385,6 +453,7 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
 <nav>
   <button class="nav-btn active" onclick="switchTab('board',this)"><span>📋</span> 게시판</button>
   <button class="nav-btn" onclick="switchTab('sticky',this)"><span>📝</span> 한마디</button>
+  <button class="nav-btn" onclick="switchTab('fortune',this)"><span>🔮</span> 오늘의 운세</button>
   <button class="nav-btn" onclick="switchTab('player',this)"><span>🎵</span> 플레이어</button>
 </nav>
 
@@ -407,6 +476,36 @@ main{background:var(--cream2);border-top:3px solid var(--cream3);min-height:70vh
       <button class="filter-btn" onclick="setFilter('suggestion',this)">🔒 건의</button>
     </div>
     <div class="board-list" id="boardList"></div>
+  </div>
+
+
+  <!-- 오늘의 운세 -->
+  <div id="tab-fortune" class="tab-content">
+    <div class="sec-header">
+      <div class="sec-title">🔮 오늘의 운세</div>
+      <div class="speech-bubble">하루 한 번만 뽑을 수 있어요!</div>
+    </div>
+    <div class="fortune-wrap">
+      <!-- 쿠키 섞기 무대 -->
+      <div class="cookie-stage" id="cookieStage"></div>
+
+      <button class="fortune-spin-btn" id="fortuneSpinBtn" onclick="startCookieShuffle()">🍪 쿠키 뽑기</button>
+      <div class="fortune-remain" id="fortuneRemain"></div>
+
+      <!-- 결과 카드 (쪼개지는 쿠키) -->
+      <div class="fortune-cookie-wrap" id="fortuneCookieWrap" style="display:none">
+        <div class="fortune-cookie-scene" id="fortuneCookieScene" onclick="openCookie()">
+          <div class="cookie-half-top">
+            <div class="half-inner">
+              <div class="cookie-half-top-emoji bounce" id="cookieTopEmoji">🍪</div>
+            </div>
+          </div>
+          <div class="cookie-half-bot"></div>
+          <div class="cookie-slip" id="cookieSlip"></div>
+        </div>
+        <div class="cookie-open-hint" id="cookieOpenHint">탭해서 운세 확인! 🔮</div>
+      </div>
+    </div>
   </div>
 
   <!-- 플레이어 -->
@@ -1186,6 +1285,241 @@ async function deleteSticky(id){
   showToast('삭제됐어요');
 }
 
+
+// ── 오늘의 운세 (쿠키 셔플) ──────────────────────────────
+/* ============================================================
+   ✏️ 점괘 목록 — 여기에 원하는 만큼 추가하면 돼요!
+   형식: {grade:'등급', emoji:'이모지', msg:'운세 메시지\n줄바꿈 가능', sub:'하단 작은 글씨'}
+   등급 종류: '대길' | '길' | '중길' | '소길' | '흉'
+   ============================================================ */
+const FORTUNE_LIST = [
+  // ★ 대길
+  {grade:'대길',emoji:'🌟',
+   msg:'오늘은 뭐든 할 수 있는 날이에요.\n구하고 싶은 게 있다면 당장 구해 봐요.',
+   sub:'🍔 행운의 음식: 햄버거 / 행운의 숫자: 7'},
+  {grade:'대길',emoji:'🌈',
+   msg:'기다리던 연락 상대가 나타날 수도 있어요.\n아무리 바빠도 구함 산책 나가기.📱',
+   sub:'💛 행운의 색: 노란색 / 행운의 방향: 동쪽'},
+  {grade:'대길',emoji:'☀️',
+   msg:'오늘 하루 태양 그 자체예요.\n자신감 있게 행동하면 다 잘 되는 날!',
+   sub:'🌻 행운의 꽃: 해바라기 / 행운의 시간: 정오'},
+  {grade:'대길',emoji:'🍀',
+   msg:'네잎클로버 찾은 날이에요.\n오늘 지른 것들은 다 맞을 거예요 (레알임)',
+   sub:'🎲 행운의 숫자: 4 / 오늘의 미션: 좋아하는 거 사기'},
+  {grade:'대길',emoji:'🎉',
+   msg:'오늘은 뭔가 좋은 일이 생기는 날\n근데 뭔지는 알려드릴 수 없어요 😇',
+   sub:'🎊 오늘의 조언: 그냥 기대해봐요'},
+  {grade:'대길',emoji:'❤️',
+   msg:'오늘은 연애운 최상!\n친구가 연인이 될 수 있을지도?',
+   sub:'🎊 오늘의 조언: 천천히 다가가 봐요'},
+  {grade:'대길',emoji:'👍',
+   msg:'오늘 하루 뭐든 잘되는 날!\n회사 일도 학교 일도 술술 풀릴 거예요.',
+   sub:'🎊 오늘의 조언: 마음을 편하게 먹어 봅시당'},
+
+  // ★ 길
+  {grade:'길',emoji:'🌸',
+   msg:'봄꽃처럼 소소하게 좋은 하루예요.\n별거 없어도 기분이 괜찮은 날!',
+   sub:'🍓 행운의 음식: 딸기 / 오늘의 키워드: 여유'},
+  {grade:'길',emoji:'🐾',
+   msg:'오늘 만나는 사람이랑 좋은 인연 될 수도.\n먼저 댓글 달아 봐요! 손해 안 볼걸요.',
+   sub:'🐰 행운의 동물: 토끼 / 행운의 색: 초록색'},
+  {grade:'길',emoji:'🎵',
+   msg:'좋아하는 노래 틀고 시작하면\n오늘 하루가 훨씬 잘 풀릴 거예요.',
+   sub:'🎧 오늘의 미션: 플리 하나 만들기'},
+  {grade:'길',emoji:'🍵',
+   msg:'따뜻한 음료 한 잔이 오늘을 구원해줄 거예요.\n카페 가도 되고 집에서 내려 마셔도 좋아요.',
+   sub:'☕ 행운의 음료: 따뜻한 아메리카노'},
+  {grade:'길',emoji:'🌿',
+   msg:'작은 것에 감사하면 더 큰 행운이 와요.\n오늘 하루 여유롭게 즐겨봐요.',
+   sub:'🍃 오늘의 키워드: 감사 / 행운의 시간: 오후 3시'},
+
+  // ★ 중길
+  {grade:'중길',emoji:'🌙',
+   msg:'오늘은 무리하지 말고 쉬엄쉬엄 가요.\n급하게 결정하면 후회할 수 있어요.',
+   sub:'💧 오늘의 조언: 물 많이 마시기'},
+  {grade:'중길',emoji:'🌊',
+   msg:'파도처럼 오르락내리락하는 하루예요.\n흔들려도 괜찮아요, 곧 안정돼요.',
+   sub:'🌊 행운의 숫자: 3 / 행운의 색: 파란색'},
+  {grade:'중길',emoji:'🦋',
+   msg:'변화의 조짐이 보이는 날이에요.\n겁내지 말고 자연스럽게 흘러가 봐요.',
+   sub:'😴 오늘의 조언: 낮잠 한 숨 자기'},
+  {grade:'중길',emoji:'🍄',
+   msg:'오늘은 새로운 시도보다\n익숙한 것에 집중하는 게 나아요.',
+   sub:'🍜 행운의 음식: 집밥 / 오늘의 키워드: 안정'},
+  {grade:'중길',emoji:'🐢',
+   msg:'느리게 가도 괜찮아요.\n오늘만큼은 거북이처럼 천천히!',
+   sub:'🐢 오늘의 키워드: 여유 / 오늘의 미션: 서두르지 않기'},
+
+  // ★ 소길
+  {grade:'소길',emoji:'🌧️',
+   msg:'오늘은 조용히 충전하는 날로 삼아봐요.\n내일은 더 밝은 하루가 기다리고 있어요!',
+   sub:'🍲 오늘의 조언: 좋아하는 것 먹기'},
+  {grade:'소길',emoji:'🌫️',
+   msg:'흐릿하게 시작하지만\n저녁쯤엔 마음이 개일 거예요.',
+   sub:'🫖 행운의 음료: 따뜻한 국물'},
+  {grade:'소길',emoji:'🐌',
+   msg:'서두르면 실수하기 딱 좋은 날이에요.\n천천히, 확인하면서 하나씩!',
+   sub:'🧘 오늘의 조언: 스트레칭 한 번 하기'},
+  {grade:'소길',emoji:'😶‍🌫️',
+   msg:'뭔가 명확하지 않은 하루예요.\n근데 그게 꼭 나쁜 건 아니니까요 🌿',
+   sub:'📱 오늘의 미션: 좋아하는 사람한테 연락하기'},
+
+  // ★ 흉
+  {grade:'흉',emoji:'⚡',
+   msg:'오늘은 진짜 조심해요!\n중요한 결정은 내일로 미루는 게 100 배 나아요.',
+   sub:'😴 오늘의 조언: 일찍 자기'},
+  {grade:'흉',emoji:'🌪️',
+   msg:'좀 혼란스러운 하루가 될 수 있어요.\n그런데 괜찮아요, 다 지나가거든요 🌿',
+   sub:'📱 오늘의 조언: 친구한테 연락해서 하소연하기'},
+  {grade:'흉',emoji:'🫠',
+   msg:'오늘은... 집에 있는 게 낫겠어요.\n나가면 뭔가 하나는 잘못될 수 있음 (경고)',
+   sub:'🛋️ 오늘의 미션: 소파에서 안 일어나기'},
+  {grade:'흉',emoji:'💀',
+   msg:'오늘 운세 뽑은 거 후회하죠?\n걱정 마요, 어차피 다 잘 될 거예요 (아마도)',
+   sub:'🍫 오늘의 조언: 초콜릿 먹으면 좀 나아짐'},
+];
+
+/* 등급별 확률 가중치 (합이 같으면 돼요) */
+const GRADE_WEIGHTS = {대길:15, 길:30, 중길:30, 소길:18, 흉:7};
+
+function getTodayKey(){ return 'acnh_fortune_' + new Date().toISOString().slice(0,10); }
+
+/* 가중치 반영 랜덤 뽑기 */
+function pickFortune(){
+  const weighted = [];
+  FORTUNE_LIST.forEach(f => {
+    const w = GRADE_WEIGHTS[f.grade] || 10;
+    for(let i=0;i<w;i++) weighted.push(f);
+  });
+  return weighted[Math.floor(Math.random() * weighted.length)];
+}
+
+/* 쿠키 섞기 애니메이션 */
+let shuffleTimer = null;
+function startCookieShuffle(){
+  const saved = localStorage.getItem(getTodayKey());
+  if(saved){ showFortune(JSON.parse(saved)); showToast('오늘은 이미 뽑았어요! 내일 또 와요 🌿'); return; }
+
+  const btn = document.getElementById('fortuneSpinBtn');
+  btn.disabled = true;
+  btn.textContent = '쿠키 섞는 중... 🍪';
+  document.getElementById('fortuneRemain').textContent = '';
+
+  const stage = document.getElementById('cookieStage');
+  stage.innerHTML = '';
+
+  // 쿠키 3개 생성
+  const cookies = [];
+  const positions = [
+    {x:-90, y:20}, {x:0,  y:-30}, {x:90, y:20}
+  ];
+  positions.forEach((pos, i) => {
+    const el = document.createElement('div');
+    el.className = 'cookie-ghost visible';
+    el.textContent = '🍪';
+    el.style.cssText = `left:calc(50% + ${pos.x}px - 40px);top:calc(50% + ${pos.y}px - 40px);--r:${(i-1)*15}deg;transform:rotate(${(i-1)*15}deg)`;
+    stage.appendChild(el);
+    cookies.push(el);
+  });
+
+  // 섞기 단계
+  const totalSteps = 14;
+  let step = 0;
+
+  function shuffle(){
+    if(step >= totalSteps){
+      // 하나 강조 → 나머지 숨기기
+      const winner = Math.floor(Math.random() * cookies.length);
+      cookies.forEach((c, i) => {
+        if(i !== winner){
+          c.style.transition = 'opacity .4s, transform .4s';
+          c.style.opacity = '0';
+          c.style.transform += ' scale(0.5)';
+        }
+      });
+      const wc = cookies[winner];
+      wc.style.transition = 'all .5s cubic-bezier(.34,1.56,.64,1)';
+      wc.style.left = 'calc(50% - 40px)';
+      wc.style.top = 'calc(50% - 40px)';
+      wc.style.transform = 'scale(1.3) rotate(0deg)';
+      wc.style.boxShadow = '0 0 0 6px #f5c84260, 0 8px 24px rgba(245,200,66,.4)';
+
+      setTimeout(() => {
+        stage.innerHTML = '';
+        const fortune = pickFortune();
+        localStorage.setItem(getTodayKey(), JSON.stringify(fortune));
+        showFortune(fortune);
+      }, 700);
+      return;
+    }
+
+    // 랜덤 위치로 각 쿠키 이동
+    const spread = 110;
+    cookies.forEach((c, i) => {
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 30 + Math.random() * spread;
+      const nx = Math.cos(angle) * dist;
+      const ny = Math.sin(angle) * dist * 0.5;
+      const rot = (Math.random()-0.5) * 60;
+      const dur = 160 + Math.random() * 120;
+      c.style.transition = `left ${dur}ms ease, top ${dur}ms ease, transform ${dur}ms ease`;
+      c.style.left = `calc(50% + ${nx}px - 40px)`;
+      c.style.top  = `calc(50% + ${ny}px - 40px)`;
+      c.style.transform = `rotate(${rot}deg) scale(${0.85 + Math.random()*0.3})`;
+    });
+
+    step++;
+    setTimeout(shuffle, 180 + Math.random() * 80);
+  }
+
+  setTimeout(shuffle, 100);
+}
+
+function showFortune(fortune){
+  const btn = document.getElementById('fortuneSpinBtn');
+  btn.disabled = true;
+  btn.textContent = '오늘 뽑기 완료! 내일 또 와요 🌿';
+
+  document.getElementById('cookieTopEmoji').textContent = fortune.emoji || '🍪';
+
+  const today = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('cookieSlip').innerHTML = `
+    <div class="cookie-date">${today} 오늘의 운세</div>
+    <div class="cookie-grade ${fortune.grade}">${fortune.grade}</div>
+    <div class="cookie-emoji-big">${fortune.emoji}</div>
+    <div class="cookie-msg">${fortune.msg.replace(/\n/g,'<br>')}</div>
+    <div class="cookie-sub">${fortune.sub}</div>
+  `;
+  document.getElementById('fortuneCookieWrap').style.display = 'flex';
+  document.getElementById('fortuneCookieWrap').style.flexDirection = 'column';
+  document.getElementById('fortuneCookieWrap').style.alignItems = 'center';
+  document.getElementById('fortuneCookieWrap').style.gap = '10px';
+  document.getElementById('fortuneRemain').textContent = '';
+}
+
+function openCookie(){
+  const scene = document.getElementById('fortuneCookieScene');
+  if(scene.classList.contains('open')) return;
+  scene.classList.add('open');
+  document.getElementById('cookieOpenHint').textContent = '';
+}
+
+function initFortune(){
+  const saved = localStorage.getItem(getTodayKey());
+  if(saved){
+    const btn = document.getElementById('fortuneSpinBtn');
+    if(btn){ btn.disabled=true; btn.textContent='오늘 뽑기 완료! 내일 또 와요 🌿'; }
+    showFortune(JSON.parse(saved));
+    // 이미 열려있던 거면 바로 열기
+    setTimeout(()=>{
+      const scene = document.getElementById('fortuneCookieScene');
+      if(scene) scene.classList.add('open');
+      const hint = document.getElementById('cookieOpenHint');
+      if(hint) hint.textContent = '';
+    }, 300);
+  }
+}
+
 // ── BOOT ──────────────────────────────────────────────────
 async function boot(){
   updateHeader();
@@ -1194,6 +1528,7 @@ async function boot(){
   subscribeStickies();
   subscribeVideos();
   document.getElementById('loadingScreen').style.display='none';
+  initFortune();
 }
 boot();
 </script>
